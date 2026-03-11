@@ -130,7 +130,6 @@
             font-weight: bold;
         }
 
-        /* Menu mobilne Hamburger */
         .mobile-menu-btn {
             display: none;
             background: none;
@@ -158,7 +157,7 @@
         }
 
         .hero-content h1 {
-            font-size: clamp(3rem, 8vw, 5.5rem); /* Płynne skalowanie fontu */
+            font-size: clamp(3rem, 8vw, 5.5rem);
             line-height: 1.1;
             margin-bottom: 20px;
             font-weight: 400;
@@ -270,7 +269,7 @@
             margin: auto;
             display: flex;
             flex-direction: column;
-            gap: 160px; /* Dużo przestrzeni między produktami */
+            gap: 160px; /* Przestrzeń między produktami */
         }
 
         .product-item {
@@ -278,6 +277,7 @@
             align-items: center;
             justify-content: space-between;
             position: relative;
+            gap: 10%;
         }
 
         /* Zygzak: parzyste elementy mają zdjęcie po prawej */
@@ -293,20 +293,20 @@
 
         .product-image {
             width: 100%;
-            aspect-ratio: 4/5; /* Nowoczesny, pionowy format */
+            aspect-ratio: 4/5;
             background-size: cover;
             background-position: center;
-            border-radius: 4px;
+            border-radius: 8px;
             filter: grayscale(100%) brightness(0.7);
             transition: all 0.7s cubic-bezier(0.165, 0.84, 0.44, 1);
             box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
 
+        /* Obrazki do produktów - TO BYŁO ZGUBIONE */
         .p1 { background-image: url('https://images.unsplash.com/photo-1559525839-cece31d10e05?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'); }
         .p2 { background-image: url('https://images.unsplash.com/photo-1587734195503-904fca47e0e9?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'); }
         .p3 { background-image: url('https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'); }
 
-        /* Efekt po najechaniu na CAŁY produkt */
         .product-item:hover .product-image {
             filter: grayscale(0%) brightness(1);
             transform: scale(1.03) translateY(-15px);
@@ -316,24 +316,24 @@
         .product-info {
             width: 45%;
             z-index: 2;
+            position: relative;
         }
 
         .product-number {
             position: absolute;
-            font-size: 20rem;
+            font-size: clamp(10rem, 20vw, 20rem);
             font-weight: 700;
             font-family: 'Playfair Display', serif;
             color: rgba(255,255,255,0.03);
-            top: -100px;
-            z-index: 1;
+            top: -20%;
+            z-index: -1;
             line-height: 1;
             pointer-events: none;
             user-select: none;
         }
 
-        /* Pozycjonowanie numerów w tle */
-        .product-item:nth-child(odd) .product-number { left: -80px; }
-        .product-item:nth-child(even) .product-number { right: -80px; }
+        .product-item:nth-child(odd) .product-number { left: -20%; }
+        .product-item:nth-child(even) .product-number { right: -20%; }
 
         .tasting-notes {
             color: var(--accent);
@@ -346,7 +346,7 @@
         }
 
         .product-info h3 {
-            font-size: 3.5rem;
+            font-size: clamp(2.5rem, 5vw, 4rem);
             line-height: 1.1;
             margin-bottom: 30px;
         }
@@ -371,25 +371,6 @@
             font-family: 'Playfair Display', serif;
         }
 
-        /* --- DOPASOWANIE MOBILE DLA NOWEGO UKŁADU --- */
-        @media (max-width: 900px) {
-            .product-item, .product-item:nth-child(even) {
-                flex-direction: column;
-                gap: 50px;
-            }
-            .product-visual, .product-info { width: 100%; }
-            .product-info { text-align: center; }
-            .product-actions { justify-content: center; flex-direction: column; gap: 20px; }
-            .product-number { 
-                font-size: 12rem; 
-                top: -50px; 
-                left: 0 !important; 
-                right: 0 !important; 
-                text-align: center; 
-                width: 100%;
-            }
-            .product-showcase { gap: 120px; }
-        }
         /* --- NEWSLETTER --- */
         .newsletter {
             padding: 100px 5%;
@@ -484,7 +465,7 @@
         .cart-items {
             flex: 1;
             overflow-y: auto;
-            padding-right: 10px; /* Miejsce na scrollbar */
+            padding-right: 10px;
         }
 
         .cart-items::-webkit-scrollbar { width: 6px; }
@@ -536,8 +517,10 @@
             border: none;
             padding: 18px;
             font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
-        .btn-full:hover { background: var(--accent-hover); color: var(--bg-color); box-shadow: none; }
+        .btn-full:hover { background: var(--accent-hover); color: var(--bg-color); }
 
         /* Toast Notification */
         .toast {
@@ -586,7 +569,7 @@
         }
 
         /* --- RESPONSIVE MOBILE --- */
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
             .mobile-menu-btn { display: block; }
             
             .nav-links {
@@ -607,11 +590,28 @@
             .about-image { width: 100%; height: 300px; box-shadow: 10px 10px 0px var(--accent); }
             .about-image:hover { transform: none; }
             
+            /* Dopasowanie produktów do mobile */
+            .product-item, .product-item:nth-child(even) {
+                flex-direction: column;
+                gap: 50px;
+            }
+            .product-visual, .product-info { width: 100%; }
+            .product-info { text-align: center; }
+            .product-actions { justify-content: center; flex-direction: column; gap: 20px; }
+            .product-number { 
+                top: -50px; 
+                left: 0 !important; 
+                right: 0 !important; 
+                text-align: center; 
+                width: 100%;
+            }
+            .product-showcase { gap: 120px; }
+
             .subscribe-form { flex-direction: column; }
             .newsletter-box { padding: 30px 15px; }
             
             .hero-content { text-align: center; margin: 0 auto; }
-            .hero { background-position: 70% center; } /* Lepsze kadrowanie tła na mobile */
+            .hero { background-position: 70% center; }
         }
     </style>
 </head>
@@ -656,38 +656,56 @@
 
     <section id="shop" class="products">
         <div class="section-header reveal">
-            <h2>Świeże wypały</h2>
-            <p>Kawy z najdalszych zakątków świata, wypalone w sercu Polski.</p>
+            <h2>Kolekcja Ziaren</h2>
+            <p>Najlepsze zbiory, potraktowane z szacunkiem, na jaki zasługują.</p>
         </div>
 
-        <div class="grid-container">
-            <div class="product-card reveal">
-                <div class="product-image p1"></div>
-                <h3>Etiopia Yirgacheffe</h3>
-                <p>Nuty smakowe: jaśmin, bergamotka, czarna herbata. Jasne palenie idealne do metod alternatywnych.</p>
-                <div class="product-footer">
-                    <div class="price">65 PLN</div>
-                    <button class="btn-outline" onclick="addToCart(0, 'Etiopia Yirgacheffe', 65)">Dodaj</button>
+        <div class="product-showcase">
+            <div class="product-item reveal">
+                <div class="product-number">01</div>
+                <div class="product-visual">
+                    <div class="product-image p1"></div>
                 </div>
-            </div>
-            
-            <div class="product-card reveal">
-                <div class="product-image p2"></div>
-                <h3>Brazylia Cerrado</h3>
-                <p>Nuty smakowe: czekolada, orzech laskowy, karmel. Średnie palenie, doskonałe espresso.</p>
-                <div class="product-footer">
-                    <div class="price">45 PLN</div>
-                    <button class="btn-outline" onclick="addToCart(1, 'Brazylia Cerrado', 45)">Dodaj</button>
+                <div class="product-info">
+                    <span class="tasting-notes">Jaśmin · Bergamotka · Czarna Herbata</span>
+                    <h3>Etiopia<br>Yirgacheffe</h3>
+                    <p>Prawdziwa klasyka dla fanów alternatywy. Ziarna z regionu Yirgacheffe słyną z niesamowicie czystego profilu, herbacianego body i rześkiej kwasowości. Rozbudź swoje zmysły kwiatowym aromatem.</p>
+                    <div class="product-actions">
+                        <span class="price">65 PLN</span>
+                        <button class="btn-outline" onclick="addToCart(0, 'Etiopia Yirgacheffe', 65)">Dodaj do koszyka</button>
+                    </div>
                 </div>
             </div>
 
-            <div class="product-card reveal">
-                <div class="product-image p3"></div>
-                <h3>Gwatemala Antigua</h3>
-                <p>Nuty smakowe: kakao, wiśnia, czerwone jabłko. Gładkie body i przyjemna kwasowość.</p>
-                <div class="product-footer">
-                    <div class="price">55 PLN</div>
-                    <button class="btn-outline" onclick="addToCart(2, 'Gwatemala Antigua', 55)">Dodaj</button>
+            <div class="product-item reveal">
+                <div class="product-number">02</div>
+                <div class="product-visual">
+                    <div class="product-image p2"></div>
+                </div>
+                <div class="product-info">
+                    <span class="tasting-notes">Czekolada · Orzech Laskowy · Karmel</span>
+                    <h3>Brazylia<br>Cerrado</h3>
+                    <p>Esencja klasycznego, gęstego espresso. Niska kwasowość, potężne body i słodycz, która idealnie przebija się przez mleko. Twoje codzienne, niezawodne źródło energii o poranku.</p>
+                    <div class="product-actions">
+                        <span class="price">45 PLN</span>
+                        <button class="btn-outline" onclick="addToCart(1, 'Brazylia Cerrado', 45)">Dodaj do koszyka</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-item reveal">
+                <div class="product-number">03</div>
+                <div class="product-visual">
+                    <div class="product-image p3"></div>
+                </div>
+                <div class="product-info">
+                    <span class="tasting-notes">Kakao · Wiśnia · Czerwone Jabłko</span>
+                    <h3>Gwatemala<br>Antigua</h3>
+                    <p>Kawa uprawiana na wulkanicznych glebach, co nadaje jej unikalny, lekko dymny charakter. Świetnie zbalansowana, z delikatną, owocową kwasowością wiśni na finiszu.</p>
+                    <div class="product-actions">
+                        <span class="price">55 PLN</span>
+                        <button class="btn-outline" onclick="addToCart(2, 'Gwatemala Antigua', 55)">Dodaj do koszyka</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -742,7 +760,6 @@
         }
 
         function addToCart(id, productName, price) {
-            // Generujemy unikalne ID dla każdego przedmiotu w koszyku
             const cartItemId = Date.now();
             cart.push({ id: cartItemId, name: productName, price: price });
             updateCartUI();
@@ -793,7 +810,7 @@
             }
         }
 
-        // Pokazywanie powiadomienia po dodaniu
+        // Powiadomienie
         function showToast() {
             const toast = document.getElementById('toast');
             toast.classList.add('show');
@@ -802,7 +819,7 @@
             }, 2500);
         }
 
-        // Animacje przy scrollowaniu (Efekt WOW)
+        // Animacje scroll
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
             for (var i = 0; i < reveals.length; i++) {
@@ -815,7 +832,7 @@
             }
         }
         window.addEventListener("scroll", reveal);
-        reveal(); // Odpal raz przy starcie
+        reveal(); // start
 
         // Inicjalizacja
         updateCartUI();
