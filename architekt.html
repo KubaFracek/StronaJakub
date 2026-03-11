@@ -2,17 +2,18 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=1200">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zielona Bryła | Architektura i Natura</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap');
 
         :root {
-            --bg-color: #f4f1ea; /* Ciepły beż */
-            --primary: #2b4535; /* Głęboka leśna zieleń */
-            --secondary: #8ba888; /* Szałwia */
+            --bg-color: #f4f1ea;
+            --primary: #2b4535;
+            --secondary: #8ba888;
             --text-dark: #1a1a1a;
             --text-light: #ffffff;
+            --glass-bg: rgba(244, 241, 234, 0.85);
         }
 
         * {
@@ -22,6 +23,10 @@
             font-family: 'Montserrat', sans-serif;
         }
 
+        html {
+            scroll-behavior: smooth; /* Płynne przewijanie do sekcji */
+        }
+
         body {
             background-color: var(--bg-color);
             color: var(--text-dark);
@@ -29,25 +34,34 @@
             line-height: 1.7;
         }
 
-        /* --- NAWIGACJA --- */
+        /* --- NAWIGACJA (Glassmorphism na scrollu) --- */
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 30px 5%;
-            position: absolute;
+            padding: 25px 5%;
+            position: fixed; /* Zmienione z absolute na fixed */
             width: 100%;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
+            transition: background 0.4s ease, padding 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        nav.scrolled {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            padding: 15px 5%;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
         }
 
         .logo {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 700;
             color: var(--primary);
             text-decoration: none;
             text-transform: uppercase;
             letter-spacing: 2px;
+            z-index: 1001;
         }
 
         .nav-links {
@@ -64,16 +78,17 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             position: relative;
+            padding: 5px 0;
         }
 
         .nav-links a::after {
             content: '';
             position: absolute;
             width: 0;
-            height: 1px;
-            bottom: -5px;
+            height: 2px;
+            bottom: 0;
             left: 0;
-            background-color: var(--primary);
+            background-color: var(--secondary);
             transition: width 0.3s ease;
         }
 
@@ -81,11 +96,27 @@
             width: 100%;
         }
 
-        /* --- HERO SECTION (Split Screen) --- */
+        /* --- HAMBURGER MENU (Dla telefonów) --- */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .hamburger div {
+            width: 25px;
+            height: 2px;
+            background-color: var(--primary);
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+
+        /* --- HERO SECTION --- */
         .hero {
             display: flex;
             height: 100vh;
             min-height: 700px;
+            position: relative;
         }
 
         .hero-text {
@@ -93,12 +124,13 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding: 0 10% 0 5%;
+            padding: 0 5% 0 10%;
             background-color: var(--bg-color);
+            z-index: 2;
         }
 
         .hero-text h1 {
-            font-size: 4rem;
+            font-size: 4.5rem;
             color: var(--primary);
             line-height: 1.1;
             margin-bottom: 30px;
@@ -107,6 +139,7 @@
 
         .hero-text h1 strong {
             font-weight: 700;
+            color: var(--secondary); /* Wyróżnienie słów kluczowych */
         }
 
         .hero-text p {
@@ -126,36 +159,57 @@
             letter-spacing: 2px;
             font-size: 13px;
             font-weight: 500;
-            border: none;
+            border: 1px solid var(--primary);
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.3s ease;
+            transition: all 0.3s ease;
             align-self: flex-start;
+            position: relative;
+            overflow: hidden;
         }
 
         .btn:hover {
-            background-color: #1d3024;
-            transform: translateY(-3px);
+            background-color: transparent;
+            color: var(--primary);
         }
 
         .hero-image {
-            flex: 1;
+            flex: 1.2;
             background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
+            background-attachment: fixed; /* Delikatna paralaksa na desktopie */
             position: relative;
         }
 
-        /* Dekapitalizacja asymetrii */
         .hero-image::before {
             content: '';
             position: absolute;
             top: 0;
-            left: -50px;
-            width: 100px;
+            left: -80px;
+            width: 150px;
             height: 100%;
             background-color: var(--bg-color);
-            transform: skewX(-5deg);
+            transform: skewX(-6deg);
+            z-index: 1;
         }
 
-        /* --- PORTFOLIO (Grid CSS) --- */
+        /* Scroll Down Indicator */
+        .scroll-down {
+            position: absolute;
+            bottom: 40px;
+            left: 10%;
+            animation: bounce 2s infinite;
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 24px;
+            z-index: 10;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-15px); }
+            60% { transform: translateY(-7px); }
+        }
+
+        /* --- PORTFOLIO --- */
         .portfolio {
             padding: 120px 5%;
             background-color: #ffffff;
@@ -167,7 +221,7 @@
         }
 
         .section-title h2 {
-            font-size: 2.5rem;
+            font-size: 3rem;
             color: var(--primary);
             font-weight: 300;
         }
@@ -178,7 +232,7 @@
 
         .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 30px;
             max-width: 1400px;
             margin: auto;
@@ -188,18 +242,20 @@
             position: relative;
             height: 450px;
             overflow: hidden;
+            border-radius: 4px; /* Delikatne zaokrąglenie */
             cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
 
         .gallery-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.6s ease;
+            transition: transform 0.8s cubic-bezier(0.2, 1, 0.3, 1);
         }
 
         .gallery-item:hover img {
-            transform: scale(1.05);
+            transform: scale(1.08);
         }
 
         .gallery-overlay {
@@ -208,16 +264,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(43, 69, 53, 0.85);
+            background: linear-gradient(to top, rgba(43, 69, 53, 0.95), rgba(43, 69, 53, 0.2));
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            justify-content: flex-end;
+            padding: 40px;
             opacity: 0;
-            transition: opacity 0.4s ease;
+            transition: opacity 0.5s ease;
             color: var(--text-light);
-            text-align: center;
-            padding: 20px;
         }
 
         .gallery-item:hover .gallery-overlay {
@@ -225,10 +279,10 @@
         }
 
         .gallery-overlay h3 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
+            font-size: 1.8rem;
+            margin-bottom: 5px;
             transform: translateY(20px);
-            transition: transform 0.4s ease;
+            transition: transform 0.5s ease;
         }
 
         .gallery-overlay p {
@@ -237,7 +291,7 @@
             letter-spacing: 2px;
             color: var(--secondary);
             transform: translateY(20px);
-            transition: transform 0.4s ease;
+            transition: transform 0.5s ease;
             transition-delay: 0.1s;
         }
 
@@ -248,33 +302,104 @@
 
         /* --- FILOZOFIA --- */
         .philosophy {
-            padding: 120px 5%;
+            padding: 150px 5%;
             background-color: var(--primary);
             color: var(--text-light);
             text-align: center;
+            position: relative;
+        }
+
+        .philosophy::before {
+            content: '"';
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 150px;
+            color: rgba(255,255,255,0.05);
+            font-family: serif;
         }
 
         .philosophy-content {
             max-width: 800px;
             margin: auto;
+            position: relative;
+            z-index: 1;
         }
 
         .philosophy h2 {
-            font-size: 2.5rem;
+            font-size: 3rem;
             margin-bottom: 30px;
             font-weight: 300;
+            color: var(--secondary);
         }
 
         .philosophy p {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: #d1dcd5;
             font-weight: 300;
+            line-height: 2;
+        }
+
+        /* --- KONTAKT (Nowa sekcja) --- */
+        .contact {
+            padding: 120px 5%;
+            background-color: var(--bg-color);
+        }
+
+        .contact-container {
+            max-width: 1200px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .contact-info h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+        
+        .contact-info h2 strong {
+            font-weight: 700;
+        }
+
+        .contact-info p {
+            margin-bottom: 40px;
+            color: #555;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ccc;
+            background: transparent;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary);
+        }
+
+        .form-group textarea {
+            height: 150px;
+            resize: none;
         }
 
         /* --- STOPKA --- */
         footer {
-            background-color: #1d3024;
-            color: #8ba888;
+            background-color: #1a291f;
+            color: var(--secondary);
             text-align: center;
             padding: 40px 5%;
             font-size: 0.9rem;
@@ -284,8 +409,8 @@
         /* --- ANIMACJE SCROLLOWANIA --- */
         .fade-up {
             opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
+            transform: translateY(50px);
+            transition: opacity 1s cubic-bezier(0.2, 1, 0.3, 1), transform 1s cubic-bezier(0.2, 1, 0.3, 1);
         }
 
         .fade-up.visible {
@@ -293,39 +418,91 @@
             transform: translateY(0);
         }
 
-        /* --- RESPONSIVE --- */
-        @media (max-width: 900px) {
+        /* --- RESPONSIVE (Telefony i Tablety) --- */
+        @media (max-width: 960px) {
             .hero {
                 flex-direction: column;
                 height: auto;
             }
             .hero-text {
-                padding: 120px 5% 60px 5%;
+                padding: 150px 5% 80px 5%;
+                text-align: center;
+            }
+            .hero-text h1 {
+                font-size: 3rem;
+            }
+            .btn {
+                align-self: center;
             }
             .hero-image {
-                min-height: 500px;
+                min-height: 50vh;
+                background-attachment: scroll; /* Wyłączenie paralaksy na mobile dla wydajności */
             }
             .hero-image::before {
                 display: none;
             }
-            .nav-links {
+            .scroll-down {
                 display: none;
             }
-            .hero-text h1 {
-                font-size: 3rem;
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+            
+            /* Mobile Menu */
+            .nav-links {
+                position: absolute;
+                right: 0px;
+                height: 100vh;
+                top: 0;
+                background-color: var(--bg-color);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                transform: translateX(100%);
+                transition: transform 0.5s ease-in-out;
+            }
+            
+            .nav-links.nav-active {
+                transform: translateX(0%);
+            }
+            
+            .nav-links a {
+                font-size: 20px;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            /* Animacja krzyżyka z hamburgera */
+            .toggle .line1 {
+                transform: rotate(-45deg) translate(-5px, 5px);
+            }
+            .toggle .line2 {
+                opacity: 0;
+            }
+            .toggle .line3 {
+                transform: rotate(45deg) translate(-5px, -5px);
             }
         }
     </style>
 </head>
 <body>
 
-    <nav>
+    <nav id="navbar">
         <a href="#" class="logo">Zielona Bryła</a>
         <ul class="nav-links">
             <li><a href="#projekty">Projekty</a></li>
             <li><a href="#filozofia">Filozofia</a></li>
             <li><a href="#kontakt">Kontakt</a></li>
         </ul>
+        <div class="hamburger">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
     </nav>
 
     <header class="hero">
@@ -333,6 +510,7 @@
             <h1 class="fade-up">Zacieramy granice między <strong>wnętrzem</strong> a <strong>naturą</strong>.</h1>
             <p class="fade-up" style="transition-delay: 0.2s;">Projektujemy przestrzenie, które oddychają. Tworzymy harmonijne środowiska do życia i pracy, wykorzystując naturalne materiały, światło i roślinność.</p>
             <a href="#projekty" class="btn fade-up" style="transition-delay: 0.4s;">Zobacz realizacje</a>
+            <a href="#projekty" class="scroll-down fade-up" style="transition-delay: 0.6s;">&#8595;</a>
         </div>
         <div class="hero-image"></div>
     </header>
@@ -343,21 +521,21 @@
         </div>
         <div class="gallery">
             <div class="gallery-item fade-up">
-                <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Projekt 1">
+                <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Projekt Rezydencja Sosnowa">
                 <div class="gallery-overlay">
                     <h3>Rezydencja Sosnowa</h3>
                     <p>Architektura Wnętrz</p>
                 </div>
             </div>
             <div class="gallery-item fade-up" style="transition-delay: 0.2s;">
-                <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Projekt 2">
+                <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Projekt Biuro Botanika">
                 <div class="gallery-overlay">
                     <h3>Biuro Botanika</h3>
                     <p>Przestrzeń Komercyjna</p>
                 </div>
             </div>
             <div class="gallery-item fade-up" style="transition-delay: 0.4s;">
-                <img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Projekt 3">
+                <img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Projekt Apartament z Ogrodem">
                 <div class="gallery-overlay">
                     <h3>Apartament z Ogrodem</h3>
                     <p>Architektura Krajobrazu</p>
@@ -369,7 +547,30 @@
     <section id="filozofia" class="philosophy">
         <div class="philosophy-content fade-up">
             <h2>Mniej betonu, więcej życia.</h2>
-            <p>Wierzymy, że otoczenie wpływa na nasze samopoczucie. Dlatego w każdym projekcie dążymy do balansu. Łączymy nowoczesny minimalizm z organicznymi formami, tworząc azyle spokoju w zgiełku miasta.</p>
+            <p>Wierzymy, że otoczenie wpływa na nasze samopoczucie. Dlatego w każdym projekcie dążymy do balansu. Łączymy nowoczesny minimalizm z organicznymi formami, tworząc azyle spokoju w zgiełku miasta. Oddajemy naturze to, co zabiera urbanizacja.</p>
+        </div>
+    </section>
+
+    <section id="kontakt" class="contact">
+        <div class="contact-container">
+            <div class="contact-info fade-up">
+                <h2>Zbudujmy coś <strong>razem</strong></h2>
+                <p>Masz pomysł na projekt? Szukasz kogoś, kto zrozumie Twoją wizję przestrzeni? Skontaktuj się z nami, wypijemy kawę i porozmawiamy o detalach.</p>
+                <p><strong>Email:</strong> hello@zielonabryla.pl<br>
+                <strong>Telefon:</strong> +48 123 456 789</p>
+            </div>
+            <form class="contact-form fade-up" style="transition-delay: 0.2s;">
+                <div class="form-group">
+                    <input type="text" placeholder="Twoje Imię i Nazwisko" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" placeholder="Twój adres Email" required>
+                </div>
+                <div class="form-group">
+                    <textarea placeholder="Opowiedz nam o swoim projekcie..." required></textarea>
+                </div>
+                <button type="submit" class="btn">Wyślij wiadomość</button>
+            </form>
         </div>
     </section>
 
@@ -379,6 +580,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // --- SCROLL ANIMATION (Intersection Observer) ---
             const observerOptions = {
                 threshold: 0.1,
                 rootMargin: "0px 0px -50px 0px"
@@ -397,10 +599,40 @@
                 observer.observe(element);
             });
 
-            // Aktywacja animacji dla pierwszej sekcji bez konieczności scrollowania
+            // Aktywacja animacji Hero bez scrolla
             setTimeout(() => {
                 document.querySelectorAll('.hero-text .fade-up').forEach(el => el.classList.add('visible'));
             }, 100);
+
+            // --- MENU MOBILNE ---
+            const hamburger = document.querySelector('.hamburger');
+            const navLinks = document.querySelector('.nav-links');
+            const links = document.querySelectorAll('.nav-links li');
+
+            hamburger.addEventListener('click', () => {
+                // Toggle Menu
+                navLinks.classList.toggle('nav-active');
+                // Animate Links
+                hamburger.classList.toggle('toggle');
+            });
+
+            // Zamykanie menu po kliknięciu w link na telefonie
+            links.forEach(link => {
+                link.addEventListener('click', () => {
+                    navLinks.classList.remove('nav-active');
+                    hamburger.classList.remove('toggle');
+                });
+            });
+
+            // --- GLASSMORPHISM NAVBAR ON SCROLL ---
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
         });
     </script>
 </body>
