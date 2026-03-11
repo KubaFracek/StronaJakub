@@ -33,49 +33,6 @@
             display: none;
         }
 
-        /* --- NOWY PRELOADER (INDUSTRIALNY LICZNIK I POZIOMY ODJAZD) --- */
-        #preloader {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            background-color: var(--text-color);
-            color: var(--bg-color);
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end; /* Wyrównanie do samego dołu */
-            padding: 40px 5vw;
-            z-index: 999999;
-            transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
-        }
-
-        #preloader.hide {
-            transform: translateX(-100%); /* Zjeżdża w lewo, pasując do poziomego przewijania strony! */
-        }
-
-        .loader-content {
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            width: 100%;
-            border-bottom: 1px solid rgba(222, 220, 215, 0.2);
-            padding-bottom: 20px;
-        }
-
-        .loader-title {
-            font-family: 'Syncopate', sans-serif;
-            font-size: clamp(1.5rem, 3vw, 3rem);
-            letter-spacing: 5px;
-            text-transform: uppercase;
-        }
-
-        .loader-percentage {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 300;
-            line-height: 0.8;
-            color: var(--accent-color); /* Czerwony licznik dodaje charakteru */
-        }
-
         /* --- EFEKT SZUMU (GRAIN) --- */
         .noise {
             position: fixed;
@@ -271,13 +228,6 @@
 </head>
 <body>
 
-    <div id="preloader">
-        <div class="loader-content">
-            <span class="loader-title">PUNKT</span>
-            <span class="loader-percentage" id="loader-percentage">0%</span>
-        </div>
-    </div>
-
     <div class="noise"></div>
     <div class="cursor-dot" id="cursor-dot"></div>
     <div class="cursor-ring" id="cursor-ring"></div>
@@ -341,30 +291,6 @@
     </div>
 
     <script>
-        // --- LOGIKA NOWEGO PRELOADERA (LICZNIK) ---
-        const percentageEl = document.getElementById('loader-percentage');
-        const preloaderEl = document.getElementById('preloader');
-        let progress = 0;
-
-        // Skrypt symulujący techniczne, "skaczące" ładowanie procentów
-        const loadingInterval = setInterval(() => {
-            progress += Math.floor(Math.random() * 15) + 5; // Losowy przyrost o 5-20% na "tyknięcie"
-            
-            if (progress >= 100) {
-                progress = 100;
-                percentageEl.innerText = progress + '%';
-                clearInterval(loadingInterval);
-                
-                // Jak dobije do 100%, zdejmujemy preloader w lewo
-                setTimeout(() => {
-                    preloaderEl.classList.add('hide');
-                }, 400); // Małe opóźnienie dla lepszego efektu
-            } else {
-                percentageEl.innerText = progress + '%';
-            }
-        }, 120); // Zmiana cyfer co 120ms
-
-
         // --- OBSŁUGA KURSORA ---
         const cursorDot = document.getElementById('cursor-dot');
         const cursorRing = document.getElementById('cursor-ring');
@@ -396,7 +322,6 @@
             el.addEventListener('mouseleave', () => { cursorRing.classList.remove('hovered'); cursorDot.classList.remove('hovered'); });
         });
 
-
         // --- OBSŁUGA POZIOMEGO SCROLLA ---
         const container = document.getElementById('scroll-container');
         
@@ -413,7 +338,6 @@
         window.addEventListener('scroll', () => requestAnimationFrame(updateScroll));
         window.addEventListener('resize', updateScroll);
         updateScroll();
-
 
         // --- ANIMACJE POJAWIANIA SIĘ ELEMENTÓW ---
         const revealElements = document.querySelectorAll('.reveal');
