@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jakub | Web Developer Portfolio</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+
+        :root {
+            --bg-body: #f3f4f6;       /* Jasnoszare tło strony */
+            --bg-card: #ffffff;       /* Czysta biel kafelków */
+            --text-dark: #111827;     /* Prawie czarny tekst nagłówków */
+            --text-gray: #4b5563;     /* Szary tekst opisów */
+            --accent: #2563eb;        /* Głęboki, czytelny niebieski */
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* --- PRELOADER Z NAPISEM JAKUB (Zatrzymany) --- */
+        .preloader {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #050505;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            /* Po 1.5s animacja odjazdu do góry */
+            animation: slideUpOut 1s cubic-bezier(0.77, 0, 0.175, 1) 1.5s forwards;
+        }
+
+        .preloader h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            letter-spacing: 8px;
+            color: #ffffff;
+            text-transform: uppercase;
+            animation: pulseGlow 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes slideUpOut {
+            to { transform: translateY(-100%); display: none; }
+        }
+
+        @keyframes pulseGlow {
+            from { opacity: 0.6; }
+            to { opacity: 1; }
+        }
+
+        /* --- KONTENER GŁÓWNY --- */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 60px 5%;
+            opacity: 0;
+            /* Pojawia się po odjechaniu preloadera */
+            animation: fadeIn 0.8s ease-out 2s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        /* --- NAGŁÓWEK --- */
+        header {
+            text-align: center;
+            margin-bottom: 80px;
+            margin-top: 20px;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+
+        header h1 span {
+            color: var(--accent);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* --- SIATKA KAFELKÓW (Zwykły, elegancki Grid) --- */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+        }
+
+        /* --- KAFELKI --- */
+        .card {
+            background-color: var(--bg-card);
+            border-radius: 20px;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* Górna część kafelka - zdjęcie */
+        .card-image {
+            width: 100%;
+            height: 220px;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.5s ease;
+        }
+
+        /* Lekki zoom zdjęcia przy najechaniu na kafelek */
+        .card:hover .card-image {
+            transform: scale(1.05);
+        }
+
+        /* Dolna część kafelka - białe tło i tekst */
+        .card-content {
+            padding: 30px;
+            background-color: var(--bg-card);
+            position: relative;
+            z-index: 2; /* Żeby zdjęcie pod spodem nie wchodziło na tekst przy zoomie */
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Kolorowe tagi technologii */
+        .tag {
+            align-self: flex-start;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        /* Różne kolory dla tagów */
+        .tag-blue { background-color: #e0f2fe; color: #0369a1; }
+        .tag-dark { background-color: #f3f4f6; color: #374151; }
+        .tag-green { background-color: #dcfce7; color: #15803d; }
+        .tag-red { background-color: #fee2e2; color: #b91c1c; }
+        .tag-orange { background-color: #ffedd5; color: #c2410c; }
+
+        .card-content h2 {
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .card-content p {
+            font-size: 0.95rem;
+            color: var(--text-gray);
+            line-height: 1.5;
+        }
+
+        /* --- STOPKA --- */
+        footer {
+            margin-top: 80px;
+            padding: 40px 0;
+            text-align: center;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            border-top: 1px solid #e5e7eb;
+            width: 100%;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.5rem; }
+            .portfolio-grid { gap: 25px; }
+            .card-image { height: 200px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="preloader">
+        <h1>JAKUB</h1>
+    </div>
+
+    <div class="container">
+        
+        <header>
+            <h1>Witaj w moim <span>Portfolio</span></h1>
+            <p>Projektuję i koduję strony, które nie tylko świetnie wyglądają, ale są szybkie, intuicyjne i doskonale czytelne.</p>
+        </header>
+
+        <main class="portfolio-grid">
+            
+            <a href="optyk.html" class="card">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1574258495973-f010dfbb5371?auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="card-content">
+                    <span class="tag tag-blue">Medycyna</span>
+                    <h2>STUDIOOPTIC</h2>
+                    <p>Nowoczesna strona dla salonu optycznego wykorzystująca techniki Glassmorphismu.</p>
+                </div>
+            </a>
+
+            <a href="kawa.html" class="card">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1559525839-b184a4d698c7?auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="card-content">
+                    <span class="tag tag-dark">E-commerce</span>
+                    <h2>Czarna Ziarnista</h2>
+                    <p>Minimalistyczny, elegancki sklep internetowy w ciemnym motywie dla palarni kawy.</p>
+                </div>
+            </a>
+
+            <a href="architekt.html" class="card">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="card-content">
+                    <span class="tag tag-green">Architektura</span>
+                    <h2>Zielona Bryła</h2>
+                    <p>Wizytówka pracowni projektowej z asymetrycznym układem i interaktywną galerią.</p>
+                </div>
+            </a>
+
+            <a href="restauracja.html" class="card">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="card-content">
+                    <span class="tag tag-orange">Gastronomia</span>
+                    <h2>Nomen Fine Dining</h2>
+                    <p>Elegancki układ redakcyjny przypominający magazyn dla luksusowej restauracji.</p>
+                </div>
+            </a>
+
+            <a href="galeria.html" class="card">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1541961017774-22349e4a1262?auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="card-content">
+                    <span class="tag tag-dark">Art & Design</span>
+                    <h2>PUNKT Galeria</h2>
+                    <p>Awangardowy projekt wykorzystujący brutalizm i poziome przewijanie (Horizontal Scroll).</p>
+                </div>
+            </a>
+
+            <a href="barber.html" class="card">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="card-content">
+                    <span class="tag tag-dark">Usługi</span>
+                    <h2>Siekiera & Brzytwa</h2>
+                    <p>Surowy, plakatowy design w stylu vintage stworzony dla klasycznego Barber Shopu.</p>
+                </div>
+            </a>
+
+            <a href="detailing.html" class="card">
+                <div class="card-image" style="background-image: url('https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="card-content">
+                    <span class="tag tag-red">Motoryzacja</span>
+                    <h2>APEX Detailing</h2>
+                    <p>Dynamiczna wizytówka studia detailingowego z interaktywnymi, zmieniającymi się tłami.</p>
+                </div>
+            </a>
+
+        </main>
+
+        <footer>
+            <p>&copy; 2026 Jakub. Zbudowane z naciskiem na jakość i czytelność.</p>
+        </footer>
+        
+    </div>
+
+</body>
+</html>
