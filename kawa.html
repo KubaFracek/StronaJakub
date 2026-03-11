@@ -9,13 +9,13 @@
 
         :root {
             --bg: #0a0a0a;
+            --card-bg: #111;
             --accent: #c48b47;
             --text: #ffffff;
             --text-dim: #888;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
         body { 
             background: var(--bg); 
             color: var(--text); 
@@ -28,7 +28,7 @@
         header {
             position: fixed;
             top: 0; width: 100%;
-            padding: 25px 8%;
+            padding: 25px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -46,70 +46,57 @@
             display: flex;
             align-items: center;
             padding: 0 8%;
-            background: linear-gradient(to right, rgba(10,10,10,1), rgba(10,10,10,0.2)), 
-                        url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1920') center/cover;
+            background: linear-gradient(to right, rgba(10,10,10,1), rgba(10,10,10,0.2)), url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1920') center/cover;
         }
         .hero h1 { font-family: 'Playfair Display'; font-size: clamp(3.5rem, 10vw, 7rem); line-height: 1; margin-bottom: 20px; font-weight: 900; }
         .hero h1 i { color: var(--accent); -webkit-text-stroke: 1px var(--accent); -webkit-text-fill-color: transparent; }
 
-        /* --- TICKER --- */
-        .ticker-wrap { background: var(--accent); color: var(--bg); padding: 10px 0; overflow: hidden; }
-        .ticker { display: inline-block; white-space: nowrap; animation: ticker 40s linear infinite; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; }
-        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-
-        /* --- SHOP SECTION --- */
+        /* --- PRODUCTS SECTION --- */
         .shop { padding: 150px 8%; }
         .product-row {
             display: grid;
             grid-template-columns: 1.2fr 1fr;
             gap: 100px;
-            margin-bottom: 250px;
+            margin-bottom: 200px;
             align-items: center;
             position: relative;
         }
         .product-row:nth-child(even) { grid-template-columns: 1fr 1.2fr; direction: rtl; }
         .product-row:nth-child(even) .product-text { direction: ltr; }
 
-        /* --- LICZBY KONTUROWE --- */
+        /* --- DUŻE LICZBY (FIXED) --- */
         .big-num {
             position: absolute;
-            top: -80px;
+            top: -60px;
             left: -40px;
             font-family: 'Playfair Display';
-            font-size: clamp(10rem, 18vw, 18rem);
+            font-size: 15rem;
             font-weight: 900;
             line-height: 1;
             color: transparent;
-            -webkit-text-stroke: 2px rgba(196, 139, 71, 0.25);
+            -webkit-text-stroke: 2px rgba(196, 139, 71, 0.3);
             z-index: 10;
             pointer-events: none;
-            transition: 0.5s;
         }
         .product-row:nth-child(even) .big-num { left: auto; right: -40px; }
 
-        /* --- STANDARYZACJA ZDJĘĆ --- */
-        .img-cont { 
-            position: relative; 
-            overflow: hidden; 
-            border-radius: 8px; 
-            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
-            background: #111; /* Kolor tła zanim wczyta się obrazek */
-        }
+        /* --- ZDJĘCIA --- */
+        .img-cont { position: relative; overflow: hidden; border-radius: 2px; }
         .img-cont img { 
             width: 100%; 
             display: block; 
-            /* USTANDARYZOWANA ROZDZIELCZOŚĆ (ASPECT RATIO) */
-            aspect-ratio: 4 / 5; 
+            aspect-ratio: 4/5; 
             object-fit: cover; 
             filter: grayscale(1) brightness(0.6); 
-            transition: 1.2s cubic-bezier(0.2, 1, 0.3, 1);
+            transition: 0.8s cubic-bezier(0.2, 1, 0.3, 1);
         }
         .product-row:hover img { filter: grayscale(0) brightness(1); transform: scale(1.05); }
 
-        /* --- TEKST I PRZYCISKI --- */
+        /* --- TEKST I PRZYCISK (NEW DESIGN) --- */
+        .product-text { position: relative; z-index: 20; }
         .tag { color: var(--accent); text-transform: uppercase; letter-spacing: 5px; font-size: 0.75rem; font-weight: 700; display: block; margin-bottom: 20px; }
-        .product-text h2 { font-family: 'Playfair Display'; font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1.1; margin-bottom: 30px; }
-        .product-text p { color: var(--text-dim); font-size: 1.1rem; margin-bottom: 40px; max-width: 480px; }
+        .product-text h2 { font-family: 'Playfair Display'; font-size: 4rem; line-height: 1; margin-bottom: 30px; }
+        .product-text p { color: var(--text-dim); font-size: 1.1rem; margin-bottom: 40px; max-width: 450px; }
 
         .price-wrap { display: flex; align-items: center; gap: 40px; }
         .price { font-family: 'Playfair Display'; font-size: 2.5rem; font-weight: 700; }
@@ -118,7 +105,7 @@
             background: transparent;
             border: 1px solid var(--accent);
             color: var(--accent);
-            padding: 20px 40px;
+            padding: 18px 35px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -126,29 +113,27 @@
             position: relative;
             z-index: 1;
             transition: 0.4s;
-            font-size: 0.85rem;
-            overflow: hidden;
+            font-size: 0.8rem;
         }
         .add-btn::before {
             content: '';
             position: absolute;
-            top: 0; left: -100%; width: 100%; height: 100%;
+            top: 0; left: 0; width: 0; height: 100%;
             background: var(--accent);
             z-index: -1;
             transition: 0.4s;
         }
         .add-btn:hover { color: var(--bg); }
-        .add-btn:hover::before { left: 0; }
+        .add-btn:hover::before { width: 100%; }
 
         /* --- RESPONSIVE --- */
         @media (max-width: 1024px) {
-            .product-row, .product-row:nth-child(even) { grid-template-columns: 1fr; gap: 60px; margin-bottom: 150px; }
+            .product-row, .product-row:nth-child(even) { grid-template-columns: 1fr; gap: 50px; }
             .big-num { font-size: 10rem; top: -40px; left: 0; }
             .product-text h2 { font-size: 3rem; }
-            .shop { padding: 100px 5%; }
         }
 
-        .reveal { opacity: 0; transform: translateY(60px); transition: 1.2s ease; }
+        .reveal { opacity: 0; transform: translateY(50px); transition: 1s ease; }
         .reveal.active { opacity: 1; transform: translateY(0); }
     </style>
 </head>
@@ -156,10 +141,7 @@
 
     <header>
         <a href="#" class="logo">Czarna<span>Ziarnista</span></a>
-        <div style="display: flex; align-items: center; gap: 30px;">
-            <a href="#shop" style="color: white; text-decoration: none; font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;">Sklep</a>
-            <button class="add-btn" style="padding: 10px 20px; border-width: 1px;">Koszyk (0)</button>
-        </div>
+        <button class="add-btn" style="padding: 10px 20px; border-width: 1px;">Koszyk (0)</button>
     </header>
 
     <section class="hero">
@@ -169,25 +151,19 @@
         </div>
     </section>
 
-    <div class="ticker-wrap">
-        <div class="ticker">
-            Darmowa dostawa od 150 PLN • Świeże palenie w każdy wtorek • 100% Arabica Specialty • Darmowa dostawa od 150 PLN • Świeże palenie w każdy wtorek • 100% Arabica Specialty • 
-        </div>
-    </div>
-
-    <main class="shop" id="shop">
+    <main class="shop">
         <div class="product-row reveal">
             <span class="big-num">01</span>
             <div class="img-cont">
-                <img src="https://images.unsplash.com/photo-1527018263374-5adb6a54f01e?q=80&w=800&auto=format&fit=crop" alt="Etiopia">
+                <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?q=80&w=800" alt="Etiopia">
             </div>
             <div class="product-text">
                 <span class="tag">Cytrusy • Jaśmin • Herbata</span>
                 <h2>Etiopia<br>Yirgacheffe</h2>
-                <p>Wyżynna kawa o niezwykle lekkim i kwiatowym profilu. Idealna dla tych, którzy w kawie szukają orzeźwienia.</p>
+                <p>Wyżynna kawa o niezwykle lekkim i kwiatowym profilu. Idealna dla tych, którzy w kawie szukają orzeźwienia, a nie goryczy.</p>
                 <div class="price-wrap">
                     <span class="price">65 PLN</span>
-                    <button class="add-btn" onclick="alert('Dodano!')">Dodaj do koszyka</button>
+                    <button class="add-btn" onclick="alert('Dodano do koszyka!')">Dodaj do koszyka</button>
                 </div>
             </div>
         </div>
@@ -200,33 +176,17 @@
             <div class="product-text">
                 <span class="tag">Orzech • Czekolada • Karmel</span>
                 <h2>Brazylia<br>Cerrado</h2>
-                <p>Esencja klasycznego espresso. Gęsta, słodka i niesamowicie stabilna.</p>
+                <p>Esencja klasycznego espresso. Gęsta, słodka i niesamowicie stabilna. Najlepszy wybór do mlecznych kaw o poranku.</p>
                 <div class="price-wrap">
                     <span class="price">45 PLN</span>
-                    <button class="add-btn" onclick="alert('Dodano!')">Dodaj do koszyka</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="product-row reveal">
-            <span class="big-num">03</span>
-            <div class="img-cont">
-                <img src="https://images.unsplash.com/photo-1498804103079-a6351b050096?q=80&w=800" alt="Gwatemala">
-            </div>
-            <div class="product-text">
-                <span class="tag">Wiśnia • Kakao • Jabłko</span>
-                <h2>Gwatemala<br>Antigua</h2>
-                <p>Kawa z wulkanicznych gleb. Posiada idealny balans między owocową świeżością a dymnym posmakiem.</p>
-                <div class="price-wrap">
-                    <span class="price">55 PLN</span>
-                    <button class="add-btn" onclick="alert('Dodano!')">Dodaj do koszyka</button>
+                    <button class="add-btn" onclick="alert('Dodano do koszyka!')">Dodaj do koszyka</button>
                 </div>
             </div>
         </div>
     </main>
 
     <footer style="padding: 100px 8%; border-top: 1px solid #222; text-align: center; color: #555;">
-        <p>&copy; 2026 Czarna Ziarnista.</p>
+        <p>&copy; 2026 Czarna Ziarnista. Design for Connoisseurs.</p>
     </footer>
 
     <script>
@@ -235,7 +195,7 @@
             reveals.forEach(el => {
                 let windowHeight = window.innerHeight;
                 let elementTop = el.getBoundingClientRect().top;
-                if (elementTop < windowHeight - 150) el.classList.add("active");
+                if (elementTop < windowHeight - 100) el.classList.add("active");
             });
         }
         window.addEventListener("scroll", reveal);
