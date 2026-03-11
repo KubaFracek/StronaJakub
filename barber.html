@@ -2,15 +2,21 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=1200">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Siekiera & Brzytwa | Prawdziwy Barber</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400&display=swap');
 
         :root {
-            --bg-paper: #f4f1ea; /* Kolor starego papieru */
-            --ink: #1a1a1a;      /* Wyblakła czerń */
-            --gold: #b08d57;     /* Mosiądz/Złoto */
+            --bg-paper: #f4f1ea; 
+            --ink: #1a1a1a;      
+            --gold: #b08d57;     
+            --gold-hover: #c4a16b;
+        }
+
+        /* Dodajemy gładkie przewijanie */
+        html {
+            scroll-behavior: smooth;
         }
 
         * {
@@ -19,28 +25,37 @@
             box-sizing: border-box;
         }
 
-        /* Efekt plakatu - gruba ramka dookoła całej strony */
+        /* Generowanie efektu starego papieru (szum w tle) */
         body {
             background-color: var(--bg-paper);
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
             color: var(--ink);
             font-family: 'Lora', serif;
-            padding: 20px;
+            padding: 2vw; /* Zmiana na viewport width, żeby ramka dopasowywała się dynamicznie */
             min-height: 100vh;
+        }
+
+        /* Animacja wejścia */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .poster-frame {
             border: 8px solid var(--ink);
-            min-height: calc(100vh - 40px);
+            min-height: calc(100vh - 4vw);
             display: flex;
             flex-direction: column;
             position: relative;
+            background-color: rgba(244, 241, 234, 0.85); /* Lekkie przebicie tła */
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15); /* Cień pod całym plakatem */
+            animation: fadeUp 1s ease-out forwards;
         }
 
-        /* Wewnętrzna, cienka ramka ozdobna */
         .poster-frame::before {
             content: '';
             position: absolute;
-            top: 5px; left: 5px; right: 5px; bottom: 5px;
+            top: 6px; left: 6px; right: 6px; bottom: 6px;
             border: 1px solid var(--ink);
             pointer-events: none;
             z-index: 10;
@@ -51,37 +66,40 @@
             text-transform: uppercase;
         }
 
-        /* --- NAGŁÓWEK GAZETOWY --- */
+        /* --- NAGŁÓWEK --- */
         header {
             text-align: center;
-            padding: 40px 20px;
+            padding: 50px 20px;
             border-bottom: 4px solid var(--ink);
             position: relative;
         }
 
         .est {
-            font-size: 1rem;
-            letter-spacing: 4px;
-            margin-bottom: 10px;
+            font-size: 1.1rem;
+            letter-spacing: 6px;
+            margin-bottom: 15px;
             font-weight: bold;
+            color: var(--gold);
         }
 
         header h1 {
-            font-size: 6rem;
+            font-size: clamp(3rem, 8vw, 6.5rem); /* Dynamiczny rozmiar tekstu */
             line-height: 1;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             margin: 0;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.1); /* Efekt stempla */
         }
 
         header p {
             font-family: 'Oswald', sans-serif;
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 2vw, 1.3rem);
             letter-spacing: 5px;
-            margin-top: 15px;
+            margin-top: 20px;
             text-transform: uppercase;
+            color: #444;
         }
 
-        /* --- SEKCJA GŁÓWNA (Podział kolumnowy) --- */
+        /* --- SEKCJA GŁÓWNA --- */
         .content-split {
             display: flex;
             flex: 1;
@@ -89,103 +107,124 @@
 
         .text-column {
             flex: 1;
-            padding: 50px;
-            border-right: 2px solid var(--ink);
+            padding: 5%;
+            border-right: 4px solid var(--ink);
             display: flex;
             flex-direction: column;
             justify-content: center;
         }
 
+        /* Winieta i lepszy kontrast dla zdjęcia */
         .image-column {
-            flex: 1;
+            flex: 1.2;
             background: url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80') center/cover;
             filter: grayscale(100%) contrast(120%);
+            box-shadow: inset 0 0 80px rgba(0,0,0,0.8); /* Mroczny efekt brzegów */
         }
 
         .text-column h2 {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 25px;
             line-height: 1.1;
         }
 
         .text-column p {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             line-height: 1.8;
             margin-bottom: 30px;
+            color: #333;
         }
 
+        /* Ulepszony przycisk z efektem WOW */
         .btn-solid {
             display: inline-block;
             background-color: var(--ink);
             color: var(--bg-paper);
-            padding: 15px 40px;
+            padding: 18px 45px;
             font-family: 'Oswald', sans-serif;
             font-size: 1.2rem;
             text-decoration: none;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             align-self: flex-start;
-            transition: background-color 0.3s;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 2px solid var(--ink);
+            cursor: pointer;
         }
 
         .btn-solid:hover {
             background-color: var(--gold);
+            color: var(--ink);
+            transform: translate(-4px, -4px); /* Lekkie uniesienie */
+            box-shadow: 6px 6px 0px var(--ink); /* Twardy cień w stylu retro */
         }
 
-        /* --- CENNIK (Zamiast kafelków) --- */
+        /* --- CENNIK --- */
         .price-list-section {
-            padding: 60px 50px;
+            padding: 80px 5%;
             border-top: 4px solid var(--ink);
-            background-color: #eeeae0;
+            background-color: rgba(238, 234, 224, 0.9);
+            position: relative;
         }
 
         .price-list-section h2 {
             text-align: center;
-            font-size: 3rem;
-            margin-bottom: 50px;
-            letter-spacing: 2px;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            margin-bottom: 60px;
+            letter-spacing: 3px;
         }
 
         .menu-container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
+        }
+
+        .menu-item-wrapper {
+            transition: transform 0.2s ease;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .menu-item-wrapper:hover {
+            transform: translateX(10px); /* Delikatne przesunięcie przy najechaniu */
+            background-color: rgba(0,0,0,0.03);
         }
 
         .service-item {
             display: flex;
             align-items: baseline;
-            margin-bottom: 25px;
+            margin-bottom: 5px;
         }
 
         .service-name {
             font-family: 'Oswald', sans-serif;
-            font-size: 1.5rem;
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
             font-weight: 700;
             white-space: nowrap;
         }
 
-        /* Kropki łączące nazwę z ceną */
         .service-dots {
             flex-grow: 1;
-            border-bottom: 2px dotted var(--ink);
+            border-bottom: 3px dotted var(--ink);
             margin: 0 15px;
             position: relative;
             top: -6px;
+            opacity: 0.5;
         }
 
         .service-price {
             font-family: 'Oswald', sans-serif;
-            font-size: 1.5rem;
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
             font-weight: 700;
             color: var(--gold);
         }
 
         .service-desc {
-            font-size: 0.95rem;
+            font-size: 1.05rem;
             font-style: italic;
-            margin-top: -5px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             color: #555;
+            padding-right: 50px;
         }
 
         /* --- STOPKA --- */
@@ -193,21 +232,39 @@
             border-top: 4px solid var(--ink);
             display: flex;
             justify-content: space-between;
-            padding: 30px 50px;
+            align-items: center;
+            padding: 30px 5%;
             font-family: 'Oswald', sans-serif;
             text-transform: uppercase;
             font-size: 1.1rem;
-            background-color: var(--bg-paper);
+            background-color: var(--ink); /* Odwrócone kolory w stopce */
+            color: var(--bg-paper);
+            letter-spacing: 1px;
         }
 
-        /* --- RESPONSIVE --- */
-        @media (max-width: 900px) {
-            header h1 { font-size: 3.5rem; }
+        footer div {
+            padding: 10px 0;
+        }
+
+        /* --- RESPONSIVE (Telefony i Tablety) --- */
+        @media (max-width: 950px) {
+            body { padding: 10px; }
+            .poster-frame { border-width: 4px; }
+            .poster-frame::before { top: 3px; left: 3px; right: 3px; bottom: 3px; }
+            
             .content-split { flex-direction: column; }
-            .text-column { border-right: none; border-bottom: 4px solid var(--ink); padding: 30px; }
-            .image-column { min-height: 400px; }
-            .price-list-section { padding: 40px 20px; }
-            footer { flex-direction: column; text-align: center; gap: 15px; }
+            .text-column { border-right: none; border-bottom: 4px solid var(--ink); padding: 40px 20px; text-align: center; align-items: center; }
+            
+            .image-column { min-height: 50vh; }
+            
+            .btn-solid { align-self: center; }
+            
+            .service-item { flex-wrap: wrap; }
+            .service-dots { display: none; } /* Na małych ekranach ukrywamy kropki i wyrównujemy cenę */
+            .service-price { margin-left: auto; padding-left: 15px; }
+            .service-desc { padding-right: 0; }
+            
+            footer { flex-direction: column; text-align: center; gap: 5px; padding: 30px 20px; }
         }
     </style>
 </head>
@@ -231,38 +288,46 @@
             <div class="image-column"></div>
         </div>
 
-        <div class="price-list-section">
+        <div class="price-list-section" id="rezerwacja">
             <h2>NASZE USŁUGI</h2>
             
             <div class="menu-container">
                 
-                <div class="service-item">
-                    <span class="service-name">STRZYŻENIE KLASYCZNE</span>
-                    <span class="service-dots"></span>
-                    <span class="service-price">80 PLN</span>
+                <div class="menu-item-wrapper">
+                    <div class="service-item">
+                        <span class="service-name">STRZYŻENIE KLASYCZNE</span>
+                        <span class="service-dots"></span>
+                        <span class="service-price">80 PLN</span>
+                    </div>
+                    <p class="service-desc">Mycie, strzyżenie nożyczkami i maszynką, modelowanie z użyciem pomady.</p>
                 </div>
-                <p class="service-desc">Mycie, strzyżenie nożyczkami i maszynką, modelowanie z użyciem pomady.</p>
 
-                <div class="service-item">
-                    <span class="service-name">KRÓLEWSKIE GOLENIE BRZYTWĄ</span>
-                    <span class="service-dots"></span>
-                    <span class="service-price">70 PLN</span>
+                <div class="menu-item-wrapper">
+                    <div class="service-item">
+                        <span class="service-name">KRÓLEWSKIE GOLENIE BRZYTWĄ</span>
+                        <span class="service-dots"></span>
+                        <span class="service-price">70 PLN</span>
+                    </div>
+                    <p class="service-desc">Gorący ręcznik, wyrównanie linii zarostu, golenie na gładko z pianą i balsam po goleniu.</p>
                 </div>
-                <p class="service-desc">Gorący ręcznik, wyrównanie linii zarostu, golenie na gładko z pianą i balsam po goleniu.</p>
 
-                <div class="service-item">
-                    <span class="service-name">COMBO: WŁOSY + BRODA</span>
-                    <span class="service-dots"></span>
-                    <span class="service-price">130 PLN</span>
+                <div class="menu-item-wrapper">
+                    <div class="service-item">
+                        <span class="service-name">COMBO: WŁOSY + BRODA</span>
+                        <span class="service-dots"></span>
+                        <span class="service-price">130 PLN</span>
+                    </div>
+                    <p class="service-desc">Pełen pakiet. Ponad godzina w fotelu, z której wyjdziesz jak nowy człowiek.</p>
                 </div>
-                <p class="service-desc">Pełen pakiet. Ponad godzina w fotelu, z której wyjdziesz jak nowy człowiek.</p>
 
-                <div class="service-item">
-                    <span class="service-name">TUSZOWANIE SIWIZNY</span>
-                    <span class="service-dots"></span>
-                    <span class="service-price">50 PLN</span>
+                <div class="menu-item-wrapper">
+                    <div class="service-item">
+                        <span class="service-name">TUSZOWANIE SIWIZNY</span>
+                        <span class="service-dots"></span>
+                        <span class="service-price">50 PLN</span>
+                    </div>
+                    <p class="service-desc">Dyskretne, naturalne pokrycie siwych włosów i brody.</p>
                 </div>
-                <p class="service-desc">Dyskretne, naturalne pokrycie siwych włosów i brody.</p>
 
             </div>
         </div>
