@@ -116,7 +116,7 @@
 
         @keyframes fadeUp { to { transform: translateY(0); opacity: 1; } }
 
-        /* --- ZMIENIONA SEKCJA: KOLEKCJE (Układ magazynowy / Editorial) --- */
+        /* --- KOLEKCJE (Układ magazynowy) --- */
         .collections { padding: 120px 5%; max-width: 1400px; margin: auto; }
         .section-header { margin-bottom: 80px; text-align: center; }
         .section-title { font-size: 3rem; color: var(--primary); margin-bottom: 10px; }
@@ -126,7 +126,7 @@
         .editorial-row:last-child { margin-bottom: 0; }
         .editorial-row.reverse { flex-direction: row-reverse; }
         
-        .ed-image-wrap { flex: 1; position: relative; height: 550px; overflow: hidden; }
+        .ed-image-wrap { flex: 1; position: relative; height: 550px; overflow: hidden; background: #e2e8f0; }
         .ed-image-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; }
         .ed-image-wrap:hover img { transform: scale(1.03); }
         
@@ -134,14 +134,30 @@
         .ed-text-wrap h3 { font-size: 2.5rem; color: var(--primary); margin-bottom: 25px; line-height: 1.2; }
         .ed-text-wrap p { color: var(--text-dark); font-size: 1.1rem; line-height: 1.8; margin-bottom: 35px; font-weight: 300; }
 
-        /* --- USŁUGI OPTYCZNE (Lista) --- */
+        /* --- USŁUGI OPTYCZNE (Poprawiony układ Grid) --- */
         .services { padding: 40px 5% 120px; max-width: 1000px; margin: auto; }
-        .service-item { display: flex; padding: 40px 0; border-bottom: 1px solid #e2e8f0; transition: all 0.3s ease; }
+        
+        .service-item { 
+            display: grid; 
+            grid-template-columns: 220px 1fr; /* Sztywna kolumna z lewej na tag, reszta dla tekstu */
+            gap: 40px; 
+            padding: 50px 0; 
+            border-bottom: 1px solid #e2e8f0; 
+            transition: all 0.3s ease; 
+            align-items: flex-start; /* Wyrównanie do góry */
+        }
         .service-item:first-child { border-top: 1px solid #e2e8f0; }
         
-        .service-tag { width: 150px; font-weight: 600; color: var(--accent); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; padding-top: 10px; flex-shrink: 0; }
-        .service-text h3 { font-size: 2rem; color: var(--primary); margin-bottom: 15px; }
-        .service-text p { line-height: 1.7; color: var(--text-dark); }
+        .service-tag { 
+            font-weight: 600; 
+            color: var(--accent); 
+            text-transform: uppercase; 
+            font-size: 0.85rem; 
+            letter-spacing: 2px; 
+            margin-top: 8px; /* Idealne zgranie w linii z nagłówkiem H3 */
+        }
+        .service-text h3 { font-size: 2.2rem; color: var(--primary); margin-bottom: 15px; line-height: 1.2; }
+        .service-text p { line-height: 1.7; color: var(--text-dark); font-size: 1.05rem; }
 
         .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease; }
         .reveal.active { opacity: 1; transform: translateY(0); }
@@ -167,6 +183,7 @@
             .editorial-row, .editorial-row.reverse { gap: 40px; }
             .ed-text-wrap { padding: 0 20px; }
             .ed-image-wrap { height: 450px; }
+            .service-item { grid-template-columns: 180px 1fr; gap: 30px; }
         }
 
         @media (max-width: 992px) {
@@ -174,13 +191,9 @@
             .hero { background: linear-gradient(rgba(248, 250, 252, 0.9), rgba(248, 250, 252, 0.9)), url('https://images.unsplash.com/photo-1574258495973-f010dfbb5371?auto=format&fit=crop&w=1920&q=80') center/cover; justify-content: center; text-align: center; }
             .hero-content { margin-left: 0; }
             
-            /* Przełamanie układu zig-zag na telefonach i małych tabletach */
             .editorial-row, .editorial-row.reverse { flex-direction: column; margin-bottom: 80px; }
             .ed-image-wrap { width: 100%; height: 400px; margin-bottom: 20px; }
             .ed-text-wrap { padding: 0; text-align: center; }
-            
-            .service-item { flex-direction: column; }
-            .service-tag { margin-bottom: 15px; }
         }
 
         @media (max-width: 768px) {
@@ -189,6 +202,10 @@
             .nav-links.active { left: 0; }
             .focus-text { font-size: 3rem; }
             .ed-image-wrap { height: 300px; }
+            
+            /* Gabinet na telefonach kładzie się w jedną kolumnę */
+            .service-item { grid-template-columns: 1fr; gap: 10px; padding: 40px 0; }
+            .service-tag { margin-top: 0; margin-bottom: 5px; }
         }
     </style>
 </head>
@@ -230,7 +247,7 @@
 
         <div class="editorial-row reveal">
             <div class="ed-image-wrap">
-                <img src="https://images.unsplash.com/photo-1509695507497-903c140c43b0?auto=format&fit=crop&w=1000&q=80" alt="Okulary korekcyjne">
+                <img src="https://images.unsplash.com/photo-1509695507497-903c140c43b0?auto=format&fit=crop&w=1000&q=80" alt="Oprawki korekcyjne">
             </div>
             <div class="ed-text-wrap">
                 <h3>Oprawki Korekcyjne</h3>
@@ -252,7 +269,7 @@
 
         <div class="editorial-row reveal">
             <div class="ed-image-wrap">
-                <img src="https://images.unsplash.com/photo-1527022136453-625d970e5a97?auto=format&fit=crop&w=1000&q=80" alt="Soczewki i akcesoria">
+                <img src="https://images.unsplash.com/photo-1577401140938-166299d91834?auto=format&fit=crop&w=1000&q=80" alt="Soczewki i akcesoria">
             </div>
             <div class="ed-text-wrap">
                 <h3>Soczewki i Akcesoria</h3>
@@ -304,7 +321,7 @@
                 </div>
             </div>
             <div class="map-box">
-                <iframe src="http://googleusercontent.com/maps.google.com/5" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                <iframe src="http://googleusercontent.com/maps.google.com/6" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </div>
         </div>
     </section>
