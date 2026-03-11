@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APEX Detailing | Perfekcja Lakieru</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;1,400&family=Manrope:wght@300;400;700&display=swap');
+
+        :root {
+            --bg-dark: #070707;
+            --text-light: #f0f0f0;
+            --text-dim: #888888;
+            --accent: #d91c1c; /* Wyścigowa czerwień */
+            --border: #222222;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: 'Manrope', sans-serif;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .brand {
+            font-family: 'Barlow Condensed', sans-serif;
+            text-transform: uppercase;
+        }
+
+        /* --- NAWIGACJA --- */
+        nav {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            padding: 30px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .brand {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-light);
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+
+        .brand span {
+            color: var(--accent);
+        }
+
+        .contact-btn {
+            border: 2px solid var(--accent);
+            color: var(--text-light);
+            padding: 10px 30px;
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-btn:hover {
+            background-color: var(--accent);
+        }
+
+        /* --- HERO SECTION (Kąty ostre) --- */
+        .hero {
+            height: 100vh;
+            min-height: 700px;
+            background: linear-gradient(to right, rgba(7,7,7,0.9) 0%, rgba(7,7,7,0.4) 100%), url('https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') center/cover;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            /* Magia CSS: ścinamy prawy dolny róg sekcji */
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 7rem;
+            line-height: 0.9;
+            margin-bottom: 20px;
+            letter-spacing: -2px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-dim);
+            margin-bottom: 40px;
+            max-width: 500px;
+        }
+
+        /* --- USŁUGI (Interaktywna lista na pełną szerokość) --- */
+        .services-wrapper {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            background-color: var(--bg-dark);
+            margin-top: -10vh; /* Wsuwamy pod uciętą krawędź hero */
+            padding-top: 20vh;
+            padding-bottom: 10vh;
+            z-index: 1;
+        }
+
+        /* Kontenery na dynamiczne tła */
+        .bg-layer {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            z-index: 1;
+        }
+
+        /* Domyślne tło */
+        .bg-default {
+            background-image: url('https://images.unsplash.com/photo-1552930294-6b595f4c2974?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+            opacity: 0.2;
+        }
+
+        /* Tła przypisane do usług */
+        .bg-1 { background-image: url('https://images.unsplash.com/photo-1601362840469-51e4d8d58785?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80'); }
+        .bg-2 { background-image: url('https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80'); }
+        .bg-3 { background-image: url('https://images.unsplash.com/photo-1623053676839-444498871ab4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80'); }
+        
+        .bg-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(7, 7, 7, 0.85);
+            z-index: 2;
+        }
+
+        .services-content {
+            position: relative;
+            z-index: 3;
+            padding: 0 5%;
+        }
+
+        .section-label {
+            color: var(--accent);
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 50px;
+            display: block;
+        }
+
+        .service-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 0;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: padding-left 0.4s ease;
+        }
+
+        .service-row:hover {
+            padding-left: 20px;
+            border-bottom-color: var(--accent);
+        }
+
+        .service-row h2 {
+            font-size: 4rem;
+            color: var(--text-dim);
+            transition: color 0.4s ease;
+        }
+
+        .service-row:hover h2 {
+            color: var(--text-light);
+        }
+
+        .service-desc {
+            width: 40%;
+            color: var(--text-dim);
+            font-size: 1.1rem;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.4s ease;
+        }
+
+        .service-row:hover .service-desc {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* --- PROCES (Zamiast kafelków - wielka typografia) --- */
+        .process {
+            padding: 120px 5%;
+            background-color: var(--bg-dark);
+        }
+
+        .process-grid {
+            display: flex;
+            gap: 50px;
+            margin-top: 60px;
+        }
+
+        .process-step {
+            flex: 1;
+        }
+
+        .step-number {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 6rem;
+            color: var(--border);
+            line-height: 1;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .process-step h3 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--text-light);
+        }
+
+        .process-step p {
+            color: var(--text-dim);
+        }
+
+        /* --- STOPKA --- */
+        footer {
+            padding: 60px 5%;
+            background-color: #030303;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid var(--border);
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 900px) {
+            .hero h1 { font-size: 4rem; }
+            .hero { clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%); }
+            .service-row { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .service-desc { width: 100%; opacity: 1; transform: none; font-size: 1rem; }
+            .service-row h2 { font-size: 2.5rem; color: var(--text-light); }
+            .process-grid { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="brand">APEX<span>.</span></a>
+        <a href="#" class="contact-btn">Umów wycenę</a>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Przywracamy<br>Salonowy Blask.</h1>
+            <p>Specjalizujemy się w wieloetapowej korekcie lakieru i aplikacji certyfikowanych powłok ceramicznych. Zabezpiecz swoją inwestycję na lata.</p>
+        </div>
+    </header>
+
+    <section class="services-wrapper">
+        
+        <div class="bg-layer bg-default" style="opacity: 0.3;"></div>
+        <div class="bg-layer bg-1" id="bg-1"></div>
+        <div class="bg-layer bg-2" id="bg-2"></div>
+        <div class="bg-layer bg-3" id="bg-3"></div>
+        <div class="bg-overlay"></div>
+
+        <div class="services-content">
+            <span class="section-label">01 // Panel Usług</span>
+            
+            <div class="service-row" data-bg="bg-1">
+                <h2>Korekta Lakieru</h2>
+                <div class="service-desc">Usuwamy do 95% zarysowań, zmatowień i hologramów. Wieloetapowy proces polerowania przywracający idealną głębię koloru i lustrzane odbicie.</div>
+            </div>
+
+            <div class="service-row" data-bg="bg-2">
+                <h2>Powłoki Ceramiczne</h2>
+                <div class="service-desc">Aplikacja powłok elastomerowych i ceramicznych o twardości 9H. Ochrona przed chemią drogową, mikrozarysowaniami i promieniowaniem UV nawet do 5 lat.</div>
+            </div>
+
+            <div class="service-row" data-bg="bg-3">
+                <h2>Detailing Wnętrza</h2>
+                <div class="service-desc">Pranie ekstrakcyjne tapicerki, czyszczenie i impregnacja skór, ozonowanie oraz zabezpieczenie tworzyw sztucznych antystatycznymi dressingami.</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="process">
+        <span class="section-label">02 // Jak pracujemy</span>
+        
+        <div class="process-grid">
+            <div class="process-step">
+                <div class="step-number">01</div>
+                <h3>Inspekcja</h3>
+                <p>Sprawdzamy grubość powłoki lakierniczej miernikiem, oceniamy stopień uszkodzeń i dobieramy odpowiednie pady oraz pasty polerskie.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">02</div>
+                <h3>Dekontaminacja</h3>
+                <p>Chemiczne i mechaniczne oczyszczenie lakieru z opiłków metalu, smoły i żywicy przy użyciu aktywnej piany i glinki.</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">03</div>
+                <h3>Zabezpieczenie</h3>
+                <p>Po procesie cięcia i polerowania, lakier zostaje odtłuszczony, a następnie aplikowana jest wybrana powłoka ochronna w kontrolowanych warunkach.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="brand">APEX<span>.</span></div>
+        <div style="color: var(--text-dim);">Swarzędz, ul. Motoryzacyjna 8<br>T: +48 111 222 333</div>
+    </footer>
+
+    <script>
+        const rows = document.querySelectorAll('.service-row');
+        const backgrounds = document.querySelectorAll('.bg-layer');
+
+        rows.forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                // Pobierz ID tła z atrybutu data-bg najechanego wiersza
+                const targetBgId = row.getAttribute('data-bg');
+                
+                // Ukryj wszystkie tła
+                backgrounds.forEach(bg => {
+                    if(!bg.classList.contains('bg-default')) {
+                        bg.style.opacity = '0';
+                    }
+                });
+
+                // Pokaż odpowiednie tło
+                const targetBg = document.getElementById(targetBgId);
+                if (targetBg) {
+                    targetBg.style.opacity = '0.5'; // Półprzezroczystość, żeby tekst był czytelny
+                }
+            });
+
+            row.addEventListener('mouseleave', () => {
+                // Po zjechaniu myszką, wygaszamy tła
+                backgrounds.forEach(bg => {
+                    if(!bg.classList.contains('bg-default')) {
+                        bg.style.opacity = '0';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
