@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=1200">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PUNKT | Galeria Sztuki Współczesnej</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Space+Grotesk:wght@300;400;700&display=swap');
@@ -10,23 +10,57 @@
         :root {
             --bg-color: #dedcd7;
             --text-color: #111111;
-            --accent-color: #ff3300; /* Neonowa czerwień */
+            --accent-color: #ff3300;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            /* Ukrywamy domyślny kursor na desktopie */
+            cursor: none; 
         }
 
-        /* Ustawiamy wysokość body tak, aby umożliwić scrollowanie w dół,
-           które za pomocą JS zamienimy na ruch poziomy */
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
             font-family: 'Space Grotesk', sans-serif;
-            height: 400vh; /* 4 sekcje = 400vh do przewinięcia */
+            height: 400vh;
             overflow-x: hidden;
+            /* Ukrywamy pionowy pasek przewijania dla estetyki */
+            scrollbar-width: none;
+        }
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* --- EFEKT SZUMU (GRAIN) --- */
+        .noise {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.04;
+            background: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+        }
+
+        /* --- CUSTOM KURSOR --- */
+        .cursor {
+            position: fixed;
+            top: 0; left: 0;
+            width: 20px; height: 20px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            mix-blend-mode: difference;
+            pointer-events: none;
+            z-index: 10000;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+        /* Efekt hover na linkach dla kursora */
+        a:hover ~ .cursor, .art-image:hover ~ .cursor {
+            width: 50px; height: 50px;
+            background-color: #fff;
         }
 
         h1, h2, h3, .logo {
@@ -34,19 +68,17 @@
             text-transform: uppercase;
         }
 
-        /* Stała nawigacja niezależna od przewijania */
         nav {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
+            top: 0; left: 0; width: 100%;
             padding: 40px 5vw;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
-            mix-blend-mode: difference; /* Tekst dopasowuje się do tła */
+            mix-blend-mode: difference;
             color: #ffffff;
+            pointer-events: none; /* Żeby kursor przenikał */
         }
 
         .logo {
@@ -60,28 +92,22 @@
             letter-spacing: 2px;
         }
 
-        /* Główny kontener trzymający widok w miejscu */
         .sticky-wrapper {
             position: sticky;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
             overflow: hidden;
         }
 
-        /* Kontener poruszający się w poziomie */
         .horizontal-container {
             display: flex;
-            width: 400vw; /* 4 sekcje po 100vw */
+            width: 400vw;
             height: 100%;
             will-change: transform;
         }
 
-        /* Pojedynczy panel (sekcja) */
         .panel {
-            width: 100vw;
-            height: 100vh;
+            width: 100vw; height: 100vh;
             flex-shrink: 0;
             display: flex;
             align-items: center;
@@ -89,30 +115,36 @@
             position: relative;
         }
 
-        /* --- PANEL 1: TYTUŁOWY --- */
-        .panel-1 {
-            justify-content: center;
-            text-align: center;
+        /* --- ANIMACJE POJAWIANIA SIĘ (FADE-IN) --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
 
+        /* PANEL 1 */
+        .panel-1 { justify-content: center; text-align: center; }
         .panel-1 h1 {
-            font-size: 8vw;
+            font-size: clamp(3rem, 8vw, 10rem); /* Dynamiczna wielkość fontu */
             line-height: 0.9;
             letter-spacing: -5px;
             margin-bottom: 20px;
         }
-
         .panel-1 p {
-            font-size: 1.5rem;
+            font-size: clamp(1rem, 1.5vw, 2rem);
             max-width: 600px;
             margin: 0 auto;
             color: #555;
         }
 
+        /* Wskaźnik scrolla z animacją */
         .scroll-indicator {
             position: absolute;
-            bottom: 50px;
-            left: 50%;
+            bottom: 50px; left: 50%;
             transform: translateX(-50%);
             display: flex;
             align-items: center;
@@ -121,126 +153,129 @@
             letter-spacing: 3px;
             text-transform: uppercase;
         }
-
         .scroll-line {
-            width: 50px;
-            height: 1px;
+            width: 50px; height: 1px;
             background-color: var(--text-color);
+            animation: stretch 2s infinite ease-in-out;
+            transform-origin: left;
+        }
+        @keyframes stretch {
+            0% { transform: scaleX(0.2); }
+            50% { transform: scaleX(1); }
+            100% { transform: scaleX(0.2); }
         }
 
-        /* --- PANEL 2 & 3: EKSPOZYCJA --- */
+        /* PANELE 2 & 3 */
         .exhibition-layout {
             display: flex;
             gap: 5vw;
             align-items: center;
             width: 100%;
         }
-
         .art-image {
-            width: 45vw;
-            height: 70vh;
+            width: 45vw; height: 70vh;
             object-fit: cover;
-            filter: grayscale(100%);
-            transition: filter 0.5s ease;
+            filter: grayscale(100%) contrast(1.2);
+            transition: all 0.7s ease;
+            cursor: none;
         }
-
         .art-image:hover {
-            filter: grayscale(0%);
+            filter: grayscale(0%) contrast(1);
+            transform: scale(1.02);
         }
-
-        .art-info {
-            max-width: 400px;
-        }
-
+        .art-info { max-width: 400px; }
         .art-info h2 {
-            font-size: 3rem;
+            font-size: clamp(2rem, 4vw, 4rem);
             margin-bottom: 20px;
             word-wrap: break-word;
         }
-
         .art-info .artist {
             color: var(--accent-color);
             font-weight: 700;
             margin-bottom: 30px;
-            display: block;
+            display: inline-block;
             letter-spacing: 2px;
+            padding: 5px 10px;
+            border: 1px solid var(--accent-color);
         }
+        .art-info p { line-height: 1.8; color: #444; }
 
-        .art-info p {
-            line-height: 1.8;
-            color: #444;
-        }
-
-        /* --- PANEL 4: KONTAKT --- */
+        /* PANEL 4 */
         .panel-4 {
             background-color: var(--text-color);
             color: var(--bg-color);
-            justify-content: space-between;
         }
-
         .contact-content {
-            width: 100%;
-            display: flex;
+            width: 100%; display: flex;
             justify-content: space-between;
             align-items: flex-end;
         }
-
         .contact-text h2 {
-            font-size: 6vw;
-            line-height: 1;
-            margin-bottom: 40px;
+            font-size: clamp(3rem, 8vw, 8rem);
+            line-height: 1; margin-bottom: 40px;
             color: var(--bg-color);
         }
-
         .contact-details p {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem; margin-bottom: 10px;
         }
-
         .contact-details a {
             color: var(--accent-color);
             text-decoration: none;
-            font-size: 2rem;
+            font-size: clamp(1.5rem, 3vw, 3rem);
             font-weight: 700;
+            position: relative;
+            cursor: none;
         }
+        .contact-details a::after {
+            content: ''; position: absolute;
+            bottom: -5px; left: 0;
+            width: 0%; height: 2px;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+        .contact-details a:hover::after { width: 100%; }
 
-        /* --- RESPONSIVE --- */
+        /* --- RESPONSIVE DLA TELEFONÓW --- */
         @media (max-width: 768px) {
-            .horizontal-container {
-                width: 100vw;
-                flex-direction: column;
-            }
+            * { cursor: auto; } /* Przywracamy kursor na mobilkach (dla dotyku) */
+            .cursor { display: none; }
+            
             body {
-                height: auto;
-                overflow-x: hidden;
+                height: auto; 
                 overflow-y: auto;
             }
+            nav { mix-blend-mode: normal; color: var(--text-color); background: rgba(222, 220, 215, 0.9); padding: 20px; }
             .sticky-wrapper {
                 position: relative;
                 height: auto;
             }
+            .horizontal-container {
+                width: 100vw;
+                flex-direction: column;
+                transform: none !important; /* Wyłączamy poziome przesuwanie z JS */
+            }
             .panel {
-                padding: 100px 5vw;
+                padding: 120px 5vw 50px; /* Większy padding u góry ze względu na nav */
                 height: auto;
                 min-height: 100vh;
+                justify-content: center;
             }
-            .exhibition-layout {
-                flex-direction: column;
-            }
+            .exhibition-layout { flex-direction: column; }
             .art-image {
-                width: 100%;
-                height: 50vh;
+                width: 100%; height: 50vh; margin-bottom: 30px;
             }
+            .art-info { text-align: left !important; max-width: 100%; }
+            .scroll-indicator { display: none; } /* Ukrywamy "Przewiń" na końcu pierwszego ekranu, bo na telefonie przewija się naturalnie */
             .contact-content {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 50px;
+                flex-direction: column; align-items: flex-start; gap: 30px;
             }
         }
     </style>
 </head>
 <body>
+
+    <div class="noise"></div>
+    <div class="cursor" id="custom-cursor"></div>
 
     <nav>
         <div class="logo">PUNKT</div>
@@ -251,7 +286,7 @@
         <div class="horizontal-container" id="scroll-container">
             
             <section class="panel panel-1">
-                <div>
+                <div class="reveal">
                     <h1>Forma<br>Pusta</h1>
                     <p>Nowa perspektywa przestrzeni w sztuce postindustrialnej. Kolekcja wiosna-lato.</p>
                 </div>
@@ -262,8 +297,8 @@
 
             <section class="panel panel-2">
                 <div class="exhibition-layout">
-                    <img src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Instalacja 1" class="art-image">
-                    <div class="art-info">
+                    <img src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Instalacja 1" class="art-image reveal">
+                    <div class="art-info reveal">
                         <h2>Deformacja 01</h2>
                         <span class="artist">ANNA NOWAK</span>
                         <p>Analiza wpływu cyfryzacji na postrzeganie fizycznej materii. Rzeźba wykonana z recyklingowanego poliwęglanu i betonu architektonicznego, grająca z załamaniem światła i perspektywą widza.</p>
@@ -273,17 +308,17 @@
 
             <section class="panel panel-3">
                 <div class="exhibition-layout">
-                    <div class="art-info" style="text-align: right;">
+                    <div class="art-info reveal" style="text-align: right;">
                         <h2>Struktura<br>Złożona</h2>
                         <span class="artist">JAN KOWALSKI</span>
                         <p>Wielkoformatowe płótno badające granice ludzkiej percepcji w chaosie informacyjnym. Minimalizm formy kontrastujący z agresywną fakturą nakładanych warstwowo farb akrylowych i pyłu wulkanicznego.</p>
                     </div>
-                    <img src="https://images.unsplash.com/photo-1557672172-298e090bd0f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Obraz 2" class="art-image">
+                    <img src="https://images.unsplash.com/photo-1557672172-298e090bd0f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Obraz 2" class="art-image reveal">
                 </div>
             </section>
 
             <section class="panel panel-4">
-                <div class="contact-content">
+                <div class="contact-content reveal">
                     <div class="contact-text">
                         <h2>Odwiedź<br>Nas</h2>
                     </div>
@@ -302,35 +337,68 @@
 
     <script>
         const container = document.getElementById('scroll-container');
+        const customCursor = document.getElementById('custom-cursor');
         
-        // Funkcja przeliczająca pozycję scrolla
+        // --- OBSŁUGA POZIOMEGO SCROLLA ---
         function updateScroll() {
-            // Obliczamy maksymalną wartość scrolla w pionie
+            // Sprawdzamy czy jesteśmy na urządzeniu mobilnym (jeśli tak, wyłączamy JS-owy scroll)
+            if (window.innerWidth <= 768) {
+                container.style.transform = 'none';
+                return;
+            }
+
             const maxScroll = document.body.scrollHeight - window.innerHeight;
-            
-            // Pobieramy obecną pozycję scrolla
             const currentScroll = window.scrollY;
-            
-            // Obliczamy procent przewinięcia strony (od 0 do 1)
             const scrollPercentage = currentScroll / maxScroll;
             
-            // Mamy 4 panele, czyli cała szerokość to 400%. 
-            // Aby zobaczyć ostatni panel, musimy przesunąć kontener o 300% w lewo (czyli 75% z 400%)
-            // Używamy ułamka -75% jako maksymalnego przesunięcia w CSS (translateX)
-            const moveAmount = scrollPercentage * -75;
+            // Limitujemy procent od 0 do 1, żeby uniknąć błędów przy "odbijaniu" scrolla w macOS
+            const clampedPercentage = Math.min(Math.max(scrollPercentage, 0), 1);
+            const moveAmount = clampedPercentage * -75;
             
-            // Aplikujemy transformację
             container.style.transform = `translateX(${moveAmount}%)`;
         }
 
-        // Podpinamy funkcję pod zdarzenie przewijania okna
         window.addEventListener('scroll', () => {
-            // Używamy requestAnimationFrame dla lepszej wydajności i płynności animacji
             requestAnimationFrame(updateScroll);
         });
+        window.addEventListener('resize', updateScroll);
+        updateScroll(); // Inicjalizacja
 
-        // Wywołujemy raz przy starcie, aby upewnić się, że pozycja jest poprawna przy odświeżeniu
-        updateScroll();
+        // --- CUSTOM KURSOR ---
+        window.addEventListener('mousemove', (e) => {
+            // Ukrywamy custom kursor na małych ekranach
+            if (window.innerWidth > 768) {
+                customCursor.style.left = e.clientX + 'px';
+                customCursor.style.top = e.clientY + 'px';
+            }
+        });
+
+        // Duży kursor po najechaniu na interaktywne elementy
+        const hoverElements = document.querySelectorAll('a, .art-image');
+        hoverElements.forEach(el => {
+            el.addEventListener('mouseenter', () => customCursor.style.transform = 'translate(-50%, -50%) scale(2)');
+            el.addEventListener('mouseleave', () => customCursor.style.transform = 'translate(-50%, -50%) scale(1)');
+        });
+
+        // --- ANIMACJE POJAWIANIA SIĘ (Intersection Observer) ---
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const revealOptions = {
+            threshold: 0.2, // Element pojawia się, gdy 20% jest widoczne na ekranie
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target); // Animacja odpala się tylko raz
+            });
+        }, revealOptions);
+
+        revealElements.forEach(el => {
+            revealOnScroll.observe(el);
+        });
     </script>
 </body>
 </html>
