@@ -2,17 +2,17 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jakub | Web Developer Portfolio</title>
+    <meta name="viewport" content="width=1200">
+    <title>Jakub Frąckiewicz | Web Developer Portfolio</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&display=swap');
 
         :root {
             --bg-color: #050505;
             --text-main: #ffffff;
-            --text-muted: #a1a1aa; /* Bardziej czytelny szary dla opisów na kafelkach */
-            --accent: #00e5ff; /* Nowy kolor: Electric Cyan (Elektryczny Błękit) */
-            --accent-glow: rgba(0, 229, 255, 0.4);
+            --text-muted: #a1a1aa; 
+            --accent: #d1d5db; /* Elegancki popielaty/srebrny */
+            --accent-glow: rgba(209, 213, 219, 0.3);
         }
 
         * {
@@ -43,11 +43,12 @@
         }
 
         .preloader h1 {
-            font-size: 4rem;
+            font-size: 4.5rem; /* Stała wielkość do widoku 1200px */
             font-weight: 800;
             letter-spacing: 5px;
             text-transform: uppercase;
-            background: linear-gradient(to right, #fff, #555);
+            white-space: nowrap; /* ZABEZPIECZENIE: Zmusza tekst do jednej linii! */
+            background: linear-gradient(to right, #fff, #666);
             -webkit-background-clip: text;
             color: transparent;
             animation: pulseGlow 1.5s ease-in-out infinite alternate;
@@ -62,7 +63,7 @@
             to { opacity: 1; filter: blur(0px); }
         }
 
-        /* --- TŁO AMBIENT (Świecące kule dopasowane do nowego koloru) --- */
+        /* --- TŁO AMBIENT --- */
         .ambient-bg {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -75,18 +76,18 @@
             position: absolute;
             border-radius: 50%;
             filter: blur(80px);
-            opacity: 0.4;
+            opacity: 0.3;
             animation: float 20s infinite ease-in-out alternate;
         }
 
         .blob-1 {
             top: -10%; left: -10%; width: 50vw; height: 50vw;
-            background: rgba(0, 229, 255, 0.15); /* Cyjan */
+            background: rgba(255, 255, 255, 0.08);
         }
 
         .blob-2 {
             bottom: -10%; right: -10%; width: 40vw; height: 40vw;
-            background: rgba(0, 102, 255, 0.1); /* Głęboki niebieski */
+            background: rgba(200, 200, 200, 0.05);
             animation-delay: -10s;
         }
 
@@ -119,7 +120,7 @@
         header h1 {
             font-size: 4rem;
             font-weight: 800;
-            letter-spacing: -2px;
+            letter-spacing: -1px;
             margin-bottom: 15px;
         }
 
@@ -137,7 +138,7 @@
         /* --- IDEALNA SIATKA BENTO (4 Kolumny) --- */
         .bento-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr); /* 4 równe kolumny */
+            grid-template-columns: repeat(4, 1fr); 
             grid-auto-rows: 250px;
             gap: 20px;
             width: 100%;
@@ -163,12 +164,12 @@
 
         .card:hover {
             transform: translateY(-8px) scale(1.02);
-            border-color: rgba(0, 229, 255, 0.4);
+            border-color: rgba(209, 213, 219, 0.3);
             z-index: 10;
             box-shadow: 0 20px 40px rgba(0,0,0,0.6);
         }
 
-        /* Efekt podświetlenia za kursorem (Cyjan) */
+        /* Efekt podświetlenia za kursorem */
         .card::before {
             content: "";
             position: absolute;
@@ -177,7 +178,7 @@
             transform: translate(-50%, -50%);
             width: 400px;
             height: 400px;
-            background: radial-gradient(circle, rgba(0, 229, 255, 0.15) 0%, transparent 60%);
+            background: radial-gradient(circle, rgba(209, 213, 219, 0.1) 0%, transparent 60%);
             opacity: 0;
             transition: opacity 0.3s ease;
             pointer-events: none;
@@ -188,7 +189,6 @@
             opacity: 1;
         }
 
-        /* Zdjęcie w tle karty */
         .card-bg {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -204,7 +204,6 @@
             transform: scale(1.05);
         }
 
-        /* Tła projektów */
         .c-art .card-bg { background-image: url('https://images.unsplash.com/photo-1541961017774-22349e4a1262?auto=format&fit=crop&w=1000&q=80'); filter: grayscale(100%); }
         .c-barber .card-bg { background-image: url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=800&q=80'); filter: grayscale(100%); }
         .c-arch .card-bg { background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80'); }
@@ -225,7 +224,7 @@
 
         .card h2 {
             font-size: 1.6rem;
-            color: var(--text-main); /* Czysta biel */
+            color: var(--text-main); 
             margin-bottom: 5px;
             font-weight: 600;
             letter-spacing: 0.5px;
@@ -233,51 +232,35 @@
         }
 
         .card p {
-            font-size: 0.9rem;
-            color: var(--text-muted); /* Elegancki szary */
+            font-size: 0.85rem;
+            color: var(--accent);
             font-weight: 500;
             text-transform: uppercase;
             letter-spacing: 1.5px;
         }
 
-        /* --- UKŁAD KAFELKÓW (Idealny prostokąt 4x3) --- */
-        .card:nth-child(1) { grid-column: span 2; grid-row: span 2; } /* 1. Galeria (Duży kwadrat) */
+        /* Układ Desktop */
+        .card:nth-child(1) { grid-column: span 2; grid-row: span 2; } 
         .card:nth-child(1) h2 { font-size: 2.5rem; }
-        .card:nth-child(2) { grid-column: span 1; grid-row: span 1; } /* 2. Barber */
-        .card:nth-child(3) { grid-column: span 1; grid-row: span 1; } /* 3. Architektura */
-        .card:nth-child(4) { grid-column: span 1; grid-row: span 1; } /* 4. Kawa */
-        .card:nth-child(5) { grid-column: span 1; grid-row: span 1; } /* 5. Detailing */
-        .card:nth-child(6) { grid-column: span 2; grid-row: span 1; } /* 6. Optyk (Szeroki) */
-        .card:nth-child(7) { grid-column: span 2; grid-row: span 1; } /* 7. Restauracja (Szeroki) */
+        .card:nth-child(2) { grid-column: span 1; grid-row: span 1; } 
+        .card:nth-child(3) { grid-column: span 1; grid-row: span 1; } 
+        .card:nth-child(4) { grid-column: span 1; grid-row: span 1; } 
+        .card:nth-child(5) { grid-column: span 1; grid-row: span 1; } 
+        .card:nth-child(6) { grid-column: span 2; grid-row: span 1; } 
+        .card:nth-child(7) { grid-column: span 2; grid-row: span 1; } 
 
-        /* --- STOPKA --- */
         footer {
             margin-top: 80px;
             color: var(--text-muted);
             font-size: 0.9rem;
             text-align: center;
         }
-
-        /* --- RESPONSIVE --- */
-        @media (max-width: 900px) {
-            .bento-grid { grid-template-columns: repeat(2, 1fr); }
-            /* Na tabletach układamy je w bloki po 2 kolumny */
-            .card:nth-child(1) { grid-column: span 2; grid-row: span 2; }
-            .card:nth-child(2), .card:nth-child(3), .card:nth-child(4), .card:nth-child(5) { grid-column: span 1; }
-            .card:nth-child(6), .card:nth-child(7) { grid-column: span 2; }
-        }
-
-        @media (max-width: 600px) {
-            .bento-grid { grid-template-columns: 1fr; grid-auto-rows: 250px; }
-            .card { grid-column: span 1 !important; grid-row: span 1 !important; }
-            header h1 { font-size: 2.5rem; }
-        }
     </style>
 </head>
 <body>
 
     <div class="preloader">
-        <h1>JAKUB</h1>
+        <h1>JAKUB FRĄCKIEWICZ</h1>
     </div>
 
     <div class="ambient-bg">
@@ -287,8 +270,8 @@
 
     <div class="container">
         <header>
-            <h1>Cześć, jestem <span>Jakub</span></h1>
-            <p>Projektuję i koduję nowoczesne, interaktywne doświadczenia w sieci. Poniżej znajdziesz moje najnowsze realizacje.</p>
+            <h1>Jakub <span>Frąckiewicz</span></h1>
+            <p>Projektuję i koduję profesjonalne, nowoczesne doświadczenia w sieci. Poniżej znajdziesz moje najnowsze realizacje.</p>
         </header>
 
         <main class="bento-grid">
@@ -352,7 +335,7 @@
         </main>
 
         <footer>
-            <p>&copy; 2026 Jakub. Zbudowane za pomocą HTML, CSS & JavaScript.</p>
+            <p>&copy; 2026 Jakub Frąckiewicz. Zbudowane za pomocą HTML, CSS & JavaScript.</p>
         </footer>
     </div>
 
