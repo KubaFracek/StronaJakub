@@ -11,8 +11,8 @@
 
     <style>
         :root {
-            --primary: #111827; /* Mocny, głęboki grafit */
-            --accent: #b45309;  /* Bursztynowy/Szylkretowy - klasyczny kolor oprawek */
+            --primary: #111827; 
+            --accent: #b45309;  
             --bg-color: #f8fafc;
             --text-dark: #334155;
             --text-light: #ffffff;
@@ -34,7 +34,7 @@
             overflow-x: hidden;
         }
 
-        /* --- PRELOADER (Motyw soczewek) --- */
+        /* --- PRELOADER --- */
         #preloader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg-color);
@@ -43,10 +43,7 @@
             transition: opacity 0.6s ease, visibility 0.6s;
         }
 
-        .lens-loader {
-            position: relative;
-            width: 80px; height: 40px;
-        }
+        .lens-loader { position: relative; width: 80px; height: 40px; }
         .lens-loader::before, .lens-loader::after {
             content: ''; position: absolute; top: 0;
             width: 40px; height: 40px; border-radius: 50%;
@@ -78,7 +75,6 @@
             padding: 0 5%; max-width: 1400px; margin: auto;
         }
 
-        /* Zmiana logo - wyraźny dopisek OPTYK */
         .logo { font-size: 26px; font-weight: 700; color: var(--primary); text-decoration: none; letter-spacing: 1px; display: flex; flex-direction: column; line-height: 1; }
         .logo span { font-family: 'Montserrat', sans-serif; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 4px; color: var(--accent); font-weight: 600; margin-top: 4px; }
 
@@ -90,7 +86,7 @@
         .hamburger { display: none; cursor: pointer; border: none; background: none; }
         .hamburger span { display: block; width: 30px; height: 2px; background-color: var(--primary); margin: 6px 0; transition: 0.4s; }
 
-        /* --- HERO Z EFEKTEM WYSTRZENIA (FOCUS) --- */
+        /* --- HERO --- */
         .hero { 
             position: relative; height: 100vh; display: flex; align-items: center; padding: 0 5%;
             background: linear-gradient(to right, rgba(248, 250, 252, 0.95) 40%, rgba(248, 250, 252, 0.3)), 
@@ -98,48 +94,48 @@
         }
 
         .hero-content { max-width: 600px; z-index: 2; margin-left: 5%; }
-        
         .hero-subtitle { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 4px; color: var(--accent); font-weight: 600; margin-bottom: 20px; display: block; }
 
-        /* Efekt ostrości tekstu */
         .focus-text {
             font-size: 4.5rem; color: var(--primary); font-weight: 700; line-height: 1.1; margin-bottom: 25px;
-            filter: blur(10px); /* Zaczyna się rozmazane */
-            opacity: 0;
+            filter: blur(10px); opacity: 0;
             animation: bringIntoFocus 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.8s;
         }
 
-        @keyframes bringIntoFocus {
-            100% { filter: blur(0); opacity: 1; }
-        }
+        @keyframes bringIntoFocus { 100% { filter: blur(0); opacity: 1; } }
 
         .hero p { font-size: 1.1rem; color: var(--text-dark); margin-bottom: 40px; line-height: 1.8; opacity: 0; animation: fadeUp 1s forwards 1.5s; }
 
         .btn {
-            padding: 16px 40px; background: var(--primary); color: var(--text-light); text-decoration: none; font-size: 0.9rem; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease; display: inline-block; opacity: 0; animation: fadeUp 1s forwards 1.7s;
+            padding: 16px 40px; background: var(--primary); color: var(--text-light); text-decoration: none; font-size: 0.9rem; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease; display: inline-block; opacity: 0; animation: fadeUp 1s forwards 1.7s; border: 1px solid var(--primary);
         }
-        .btn:hover { background: var(--accent); }
+        .btn:hover { background: transparent; color: var(--primary); }
+        
+        .btn-outline { background: transparent; color: var(--primary); border: 1px solid var(--primary); }
+        .btn-outline:hover { background: var(--primary); color: var(--text-light); }
 
         @keyframes fadeUp { to { transform: translateY(0); opacity: 1; } }
 
-        /* --- NOWA SEKCJA: KOLEKCJE (Jasny przekaz co sprzedajemy) --- */
-        .collections { padding: 100px 5%; max-width: 1400px; margin: auto; }
-        .section-header { margin-bottom: 60px; text-align: center; }
-        .section-title { font-size: 2.8rem; color: var(--primary); margin-bottom: 10px; }
+        /* --- ZMIENIONA SEKCJA: KOLEKCJE (Układ magazynowy / Editorial) --- */
+        .collections { padding: 120px 5%; max-width: 1400px; margin: auto; }
+        .section-header { margin-bottom: 80px; text-align: center; }
+        .section-title { font-size: 3rem; color: var(--primary); margin-bottom: 10px; }
         .section-desc { color: var(--accent); text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem; font-weight: 600; }
 
-        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .editorial-row { display: flex; align-items: center; gap: 80px; margin-bottom: 100px; }
+        .editorial-row:last-child { margin-bottom: 0; }
+        .editorial-row.reverse { flex-direction: row-reverse; }
         
-        .collection-card { position: relative; overflow: hidden; height: 400px; background-color: #eee; cursor: pointer; }
-        .collection-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s ease; }
-        .collection-card:hover .collection-img { transform: scale(1.05); }
+        .ed-image-wrap { flex: 1; position: relative; height: 550px; overflow: hidden; }
+        .ed-image-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; }
+        .ed-image-wrap:hover img { transform: scale(1.03); }
         
-        .collection-info { position: absolute; bottom: 0; left: 0; width: 100%; padding: 30px; background: linear-gradient(transparent, rgba(17, 24, 39, 0.9)); color: white; display: flex; justify-content: space-between; align-items: flex-end; }
-        .collection-info h3 { font-size: 1.5rem; font-family: 'Montserrat', sans-serif; font-weight: 600; }
-        .collection-info span { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); }
+        .ed-text-wrap { flex: 1; padding: 0 40px; }
+        .ed-text-wrap h3 { font-size: 2.5rem; color: var(--primary); margin-bottom: 25px; line-height: 1.2; }
+        .ed-text-wrap p { color: var(--text-dark); font-size: 1.1rem; line-height: 1.8; margin-bottom: 35px; font-weight: 300; }
 
         /* --- USŁUGI OPTYCZNE (Lista) --- */
-        .services { padding: 80px 5% 120px; max-width: 1000px; margin: auto; }
+        .services { padding: 40px 5% 120px; max-width: 1000px; margin: auto; }
         .service-item { display: flex; padding: 40px 0; border-bottom: 1px solid #e2e8f0; transition: all 0.3s ease; }
         .service-item:first-child { border-top: 1px solid #e2e8f0; }
         
@@ -147,7 +143,7 @@
         .service-text h3 { font-size: 2rem; color: var(--primary); margin-bottom: 15px; }
         .service-text p { line-height: 1.7; color: var(--text-dark); }
 
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
         /* --- KONTAKT --- */
@@ -167,10 +163,22 @@
         footer span { color: white; font-weight: 600; }
 
         /* --- RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .editorial-row, .editorial-row.reverse { gap: 40px; }
+            .ed-text-wrap { padding: 0 20px; }
+            .ed-image-wrap { height: 450px; }
+        }
+
         @media (max-width: 992px) {
             .contact-wrap { grid-template-columns: 1fr; }
             .hero { background: linear-gradient(rgba(248, 250, 252, 0.9), rgba(248, 250, 252, 0.9)), url('https://images.unsplash.com/photo-1574258495973-f010dfbb5371?auto=format&fit=crop&w=1920&q=80') center/cover; justify-content: center; text-align: center; }
             .hero-content { margin-left: 0; }
+            
+            /* Przełamanie układu zig-zag na telefonach i małych tabletach */
+            .editorial-row, .editorial-row.reverse { flex-direction: column; margin-bottom: 80px; }
+            .ed-image-wrap { width: 100%; height: 400px; margin-bottom: 20px; }
+            .ed-text-wrap { padding: 0; text-align: center; }
+            
             .service-item { flex-direction: column; }
             .service-tag { margin-bottom: 15px; }
         }
@@ -180,7 +188,7 @@
             .nav-links { position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: var(--glass-bg); flex-direction: column; justify-content: center; align-items: center; transition: 0.4s; }
             .nav-links.active { left: 0; }
             .focus-text { font-size: 3rem; }
-            .collection-card { height: 300px; }
+            .ed-image-wrap { height: 300px; }
         }
     </style>
 </head>
@@ -195,8 +203,8 @@
             <a href="#" class="logo">LUMEN <span>Salon Optyczny</span></a>
             <ul class="nav-links">
                 <li><a href="#home">Strona Główna</a></li>
-                <li><a href="#kolekcje">Oprawki</a></li>
-                <li><a href="#uslugi">Badanie & Soczewki</a></li>
+                <li><a href="#kolekcje">Kolekcje</a></li>
+                <li><a href="#uslugi">Gabinet</a></li>
                 <li><a href="#kontakt">Kontakt</a></li>
             </ul>
             <button class="hamburger">
@@ -219,27 +227,37 @@
             <span class="section-desc">Nasza Oferta</span>
             <h2 class="section-title">Odkryj Kolekcje</h2>
         </div>
-        <div class="grid-3">
-            <div class="collection-card reveal" style="transition-delay: 0.1s;">
-                <img src="https://images.unsplash.com/photo-1509695507497-903c140c43b0?auto=format&fit=crop&w=800&q=80" alt="Okulary korekcyjne" class="collection-img">
-                <div class="collection-info">
-                    <h3>Korekcyjne</h3>
-                    <span>Zobacz</span>
-                </div>
+
+        <div class="editorial-row reveal">
+            <div class="ed-image-wrap">
+                <img src="https://images.unsplash.com/photo-1509695507497-903c140c43b0?auto=format&fit=crop&w=1000&q=80" alt="Okulary korekcyjne">
             </div>
-            <div class="collection-card reveal" style="transition-delay: 0.2s;">
-                <img src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=800&q=80" alt="Okulary przeciwsłoneczne" class="collection-img">
-                <div class="collection-info">
-                    <h3>Przeciwsłoneczne</h3>
-                    <span>Zobacz</span>
-                </div>
+            <div class="ed-text-wrap">
+                <h3>Oprawki Korekcyjne</h3>
+                <p>Niezależnie od tego, czy szukasz klasycznej elegancji, czy odważnego, awangardowego designu, nasza selekcja oprawek korekcyjnych zaspokoi najbardziej wymagające gusta. Pracujemy z najwyższej jakości materiałami i soczewkami renomowanych producentów.</p>
+                <a href="#kontakt" class="btn btn-outline" style="opacity: 1; animation: none;">Dopasuj oprawki</a>
             </div>
-            <div class="collection-card reveal" style="transition-delay: 0.3s;">
-                <img src="https://images.unsplash.com/photo-1527022136453-625d970e5a97?auto=format&fit=crop&w=800&q=80" alt="Akcesoria optyczne" class="collection-img">
-                <div class="collection-info">
-                    <h3>Akcesoria & Soczewki</h3>
-                    <span>Zobacz</span>
-                </div>
+        </div>
+
+        <div class="editorial-row reverse reveal">
+            <div class="ed-image-wrap">
+                <img src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=1000&q=80" alt="Okulary przeciwsłoneczne">
+            </div>
+            <div class="ed-text-wrap">
+                <h3>Okulary Przeciwsłoneczne</h3>
+                <p>Pełna ochrona przed promieniowaniem UV połączona z najnowszymi trendami ze światowych wybiegów. Oferujemy modele z polaryzacją, powłokami antyrefleksyjnymi oraz możliwością wprawienia szkieł przeciwsłonecznych z Twoją korekcją.</p>
+                <a href="#kontakt" class="btn btn-outline" style="opacity: 1; animation: none;">Zobacz nowości</a>
+            </div>
+        </div>
+
+        <div class="editorial-row reveal">
+            <div class="ed-image-wrap">
+                <img src="https://images.unsplash.com/photo-1527022136453-625d970e5a97?auto=format&fit=crop&w=1000&q=80" alt="Soczewki i akcesoria">
+            </div>
+            <div class="ed-text-wrap">
+                <h3>Soczewki i Akcesoria</h3>
+                <p>Alternatywa, która daje pełną swobodę. Specjalizujemy się w aplikacji nowoczesnych soczewek kontaktowych – sferycznych, torycznych i multifokalnych. Zapewniamy również pełne wsparcie i akcesoria do ich bezpiecznej pielęgnacji.</p>
+                <a href="#kontakt" class="btn btn-outline" style="opacity: 1; animation: none;">Dowiedz się więcej</a>
             </div>
         </div>
     </section>
@@ -286,7 +304,7 @@
                 </div>
             </div>
             <div class="map-box">
-                <iframe src="https://maps.google.com/maps?q=Swarzędz&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                <iframe src="http://googleusercontent.com/maps.google.com/5" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </div>
         </div>
     </section>
