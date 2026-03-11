@@ -10,15 +10,13 @@
         :root {
             --bg-color: #dedcd7;
             --text-color: #111111;
-            --accent-color: #ff3300; /* Neonowa czerwień */
+            --accent-color: #ff3300;
         }
 
-        /* --- NOWY MINIMALISTYCZNY KURSOR --- */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none; /* Ukrywamy domyślny kursor na PC */
         }
 
         body {
@@ -34,7 +32,7 @@
             display: none;
         }
 
-        /* Tło z delikatnym szumem */
+        /* --- EFEKT SZUMU (GRAIN) --- */
         .noise {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -42,42 +40,6 @@
             z-index: 9999;
             opacity: 0.04;
             background: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
-        }
-
-        /* Wygląd nowej kropki */
-        .cursor-dot {
-            position: fixed;
-            top: 0; left: 0;
-            width: 6px; height: 6px;
-            background-color: var(--text-color);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 10000;
-            transform: translate(-50%, -50%);
-            transition: opacity 0.2s ease;
-        }
-
-        /* Wygląd nowego podążającego okręgu */
-        .cursor-ring {
-            position: fixed;
-            top: 0; left: 0;
-            width: 36px; height: 36px;
-            border: 1px solid rgba(17, 17, 17, 0.4);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9998;
-            transform: translate(-50%, -50%);
-            transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
-        }
-
-        /* Animacja kursora po najechaniu */
-        .cursor-ring.hovered {
-            width: 80px; height: 80px;
-            border-color: var(--accent-color);
-            background-color: rgba(255, 51, 0, 0.05);
-        }
-        .cursor-dot.hovered {
-            opacity: 0;
         }
 
         h1, h2, h3, .logo {
@@ -182,6 +144,7 @@
             object-fit: cover;
             filter: grayscale(100%) contrast(1.2);
             transition: all 0.7s ease;
+            cursor: crosshair; /* Surowy kursor celownika nad sztuką */
         }
         .art-image:hover {
             filter: grayscale(0%) contrast(1);
@@ -230,9 +193,6 @@
 
         /* --- RESPONSIVE DLA TELEFONÓW --- */
         @media (max-width: 768px) {
-            * { cursor: auto; }
-            .cursor-dot, .cursor-ring { display: none; }
-            
             body { height: auto; overflow-y: auto; }
             nav { mix-blend-mode: normal; color: var(--text-color); background: rgba(222, 220, 215, 0.9); padding: 20px; }
             .sticky-wrapper { position: relative; height: auto; }
@@ -256,8 +216,6 @@
 <body>
 
     <div class="noise"></div>
-    <div class="cursor-dot" id="cursor-dot"></div>
-    <div class="cursor-ring" id="cursor-ring"></div>
 
     <nav>
         <div class="logo">PUNKT</div>
@@ -342,53 +300,6 @@
         });
         window.addEventListener('resize', updateScroll);
         updateScroll();
-
-
-        // --- OBSŁUGA NOWEGO KURSORA (KROPKA + OKRĄG) ---
-        const cursorDot = document.getElementById('cursor-dot');
-        const cursorRing = document.getElementById('cursor-ring');
-        
-        let mouseX = window.innerWidth / 2;
-        let mouseY = window.innerHeight / 2;
-        let ringX = mouseX;
-        let ringY = mouseY;
-
-        window.addEventListener('mousemove', (e) => {
-            if (window.innerWidth > 768) {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
-                
-                // Kropka aktualizuje się natychmiast
-                cursorDot.style.left = mouseX + 'px';
-                cursorDot.style.top = mouseY + 'px';
-            }
-        });
-
-        function animateRing() {
-            if (window.innerWidth > 768) {
-                // Płynne podążanie okręgu (Lerp)
-                ringX += (mouseX - ringX) * 0.15;
-                ringY += (mouseY - ringY) * 0.15;
-                
-                cursorRing.style.left = ringX + 'px';
-                cursorRing.style.top = ringY + 'px';
-            }
-            requestAnimationFrame(animateRing);
-        }
-        animateRing();
-
-        // Powiększanie na interaktywnych elementach
-        const interactables = document.querySelectorAll('a, .art-image');
-        interactables.forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                cursorRing.classList.add('hovered');
-                cursorDot.classList.add('hovered');
-            });
-            el.addEventListener('mouseleave', () => {
-                cursorRing.classList.remove('hovered');
-                cursorDot.classList.remove('hovered');
-            });
-        });
 
 
         // --- ANIMACJE POJAWIANIA SIĘ ELEMENTÓW ---
