@@ -128,7 +128,6 @@
             border-radius: 50%;
             font-size: 12px;
             font-weight: bold;
-            transition: transform 0.2s ease;
         }
 
         .mobile-menu-btn {
@@ -249,7 +248,7 @@
             box-shadow: 30px 30px 0px var(--accent);
         }
 
-        /* --- PRODUKTY --- */
+        /* --- PRODUKTY (PRZYWRÓCONY GRIDE 3-KAFELKOWY) --- */
         .products {
             padding: 120px 5%;
             background-color: var(--section-bg);
@@ -277,6 +276,8 @@
             border-radius: 12px;
             border: 1px solid rgba(255,255,255,0.05);
             transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
         }
 
         .product-card:hover {
@@ -292,13 +293,13 @@
             background-size: cover;
             background-position: center;
             border-radius: 8px;
-            filter: grayscale(100%); /* Efekt wow: mroczny look */
+            filter: grayscale(100%); /* Efekt wow: mroczny look, znika na hover */
             transition: all 0.5s ease;
         }
 
-        .product-card:hover .product-image { filter: grayscale(0%); transform: scale(1.03); } /* Efekt wow: kawa ożywa na hover */
+        .product-card:hover .product-image { filter: grayscale(0%); transform: scale(1.03); }
 
-        /* Prawdziwe zdjęcia kaw z Unsplash dla każdej klasy */
+        /* Prawdziwe zdjęcia kaw dla każdej klasy - TO BYŁO KLUCZOWE ZADANIE */
         .p1 { background-image: url('https://images.unsplash.com/photo-1595434091143-b375ace5d46d?q=80&w=800&auto=format&fit=crop'); }
         .p2 { background-image: url('https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=800&auto=format&fit=crop'); }
         .p3 { background-image: url('https://images.unsplash.com/photo-1559056199-641a0ac8b55e?q=80&w=800&auto=format&fit=crop'); }
@@ -411,7 +412,7 @@
         .cart-items {
             flex: 1;
             overflow-y: auto;
-            padding-right: 10px; /* Miejsce na scrollbar */
+            padding-right: 10px;
         }
 
         .cart-items::-webkit-scrollbar { width: 6px; }
@@ -463,8 +464,26 @@
             border: none;
             padding: 18px;
             font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
-        .btn-full:hover { background: var(--accent-hover); color: var(--bg-color); box-shadow: none; }
+        .btn-full:hover { background: var(--accent-hover); color: var(--bg-color); }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: -300px;
+            background: var(--accent);
+            color: var(--bg-color);
+            padding: 15px 25px;
+            border-radius: 4px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: right 0.4s ease;
+            z-index: 1001;
+        }
+        .toast.show { right: 30px; }
 
         /* --- STOPKA --- */
         footer {
@@ -522,7 +541,7 @@
             .newsletter-box { padding: 30px 15px; }
             
             .hero-content { text-align: center; margin: 0 auto; }
-            .hero { background-position: 70% center; } /* Lepsze kadrowanie tła na mobile */
+            .hero { background-position: 70% center; }
         }
     </style>
 </head>
@@ -573,32 +592,29 @@
 
         <div class="grid-container">
             <div class="product-card reveal">
-                <div class="product-image p1"></div>
-                <h3>Etiopia Yirgacheffe</h3>
+                <div class="product-image p1"></div> <h3>Etiopia Yirgacheffe</h3>
                 <p>Nuty smakowe: jaśmin, bergamotka, czarna herbata. Jasne palenie idealne do metod alternatywnych.</p>
                 <div class="product-footer">
                     <div class="price">65 PLN</div>
-                    <button class="btn-outline" onclick="addToCart('Etiopia Yirgacheffe', 65)">Dodaj</button>
+                    <button class="btn-outline" onclick="addToCart(0, 'Etiopia Yirgacheffe', 65)">Dodaj do koszyka</button>
                 </div>
             </div>
             
             <div class="product-card reveal">
-                <div class="product-image p2"></div>
-                <h3>Brazylia Cerrado</h3>
+                <div class="product-image p2"></div> <h3>Brazylia Cerrado</h3>
                 <p>Nuty smakowe: czekolada, orzech laskowy, karmel. Średnie palenie, doskonałe espresso.</p>
                 <div class="product-footer">
                     <div class="price">45 PLN</div>
-                    <button class="btn-outline" onclick="addToCart('Brazylia Cerrado', 45)">Dodaj</button>
+                    <button class="btn-outline" onclick="addToCart(1, 'Brazylia Cerrado', 45)">Dodaj do koszyka</button>
                 </div>
             </div>
 
             <div class="product-card reveal">
-                <div class="product-image p3"></div>
-                <h3>Gwatemala Antigua</h3>
+                <div class="product-image p3"></div> <h3>Gwatemala Antigua</h3>
                 <p>Nuty smakowe: kakao, wiśnia, czerwone jabłko. Gładkie body i przyjemna kwasowość.</p>
                 <div class="product-footer">
                     <div class="price">55 PLN</div>
-                    <button class="btn-outline" onclick="addToCart('Gwatemala Antigua', 55)">Dodaj</button>
+                    <button class="btn-outline" onclick="addToCart(2, 'Gwatemala Antigua', 55)">Dodaj do koszyka</button>
                 </div>
             </div>
         </div>
@@ -636,10 +652,11 @@
         </div>
     </div>
 
+    <div id="toast" class="toast">Dodano do koszyka!</div>
+
     <script>
         let cart = [];
-        let total = 0;
-
+        
         // Funkcja menu mobilnego
         function toggleMobileMenu() {
             document.getElementById('nav-links').classList.toggle('active');
@@ -651,28 +668,27 @@
             document.getElementById('cart-overlay').classList.toggle('active');
         }
 
-        function addToCart(productName, price) {
-            cart.push({ name: productName, price: price });
-            total += price;
+        function addToCart(id, productName, price) {
+            const cartItemId = Date.now();
+            cart.push({ id: cartItemId, name: productName, price: price });
             updateCartUI();
-            
-            // Otwórz koszyk po dodaniu produktu
-            toggleCart();
+            showToast();
+        }
 
-            // Animacja licznika
-            const count = document.getElementById('cart-count');
-            count.style.transform = 'scale(1.2)';
-            setTimeout(() => count.style.transform = 'scale(1)', 200);
+        function removeFromCart(idToRemove) {
+            cart = cart.filter(item => item.id !== idToRemove);
+            updateCartUI();
         }
 
         function updateCartUI() {
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
             document.getElementById('cart-count').innerText = cart.length;
             document.getElementById('cart-total-price').innerText = total + ' PLN';
 
             const cartItemsContainer = document.getElementById('cart-items');
             
             if (cart.length === 0) {
-                cartItemsContainer.innerHTML = '<p style="color: var(--text-muted);">Twój koszyk jest pusty.</p>';
+                cartItemsContainer.innerHTML = '<p style="color: var(--text-muted); text-align: center; margin-top: 40px;">Twój koszyk pachnie pustką. <br>Czas to zmienić!</p>';
                 return;
             }
 
@@ -684,6 +700,7 @@
                             <span class="cart-item-title">${item.name}</span>
                             <span class="cart-item-price">${item.price} PLN</span>
                         </div>
+                        <button class="remove-item" onclick="removeFromCart(${item.id})">Usuń</button>
                     </div>
                 `;
             });
@@ -694,15 +711,24 @@
             if (cart.length === 0) {
                 alert("Twój koszyk jest pusty!");
             } else {
+                const total = cart.reduce((sum, item) => sum + item.price, 0);
                 alert("Przekierowanie do bezpiecznej płatności... Do zapłaty: " + total + " PLN.");
                 cart = [];
-                total = 0;
                 updateCartUI();
                 toggleCart();
             }
         }
 
-        // Animacje przy scrollowaniu
+        // Powiadomienie
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2500);
+        }
+
+        // Animacje scroll
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
             for (var i = 0; i < reveals.length; i++) {
@@ -715,7 +741,7 @@
             }
         }
         window.addEventListener("scroll", reveal);
-        reveal(); // Wywołaj raz na start
+        reveal(); // start
 
         // Inicjalizacja
         updateCartUI();
