@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LUMEN Optyk | Ekskluzywny Salon i Okulista</title>
+    <title>LUMEN Optyk | Ekskluzywna Optyka Swarzędz</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,16 +14,14 @@
             --primary: #0f172a; 
             --accent: #d4af37;  
             --accent-hover: #b5952f;
-            --bg-color: #fcfcfc; /* Czysta, bardzo jasna szarość/biel dla clean looku */
+            --bg-color: #fcfcfc;
             --text-dark: #1e293b;
             --text-light: #ffffff;
-            --glass-bg: rgba(15, 23, 42, 0.95);
+            --glass-bg: rgba(255, 255, 255, 0.95); /* Header jasny dla clean looku */
         }
 
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            margin: 0; padding: 0; box-sizing: border-box;
             font-family: 'Montserrat', sans-serif;
         }
 
@@ -39,8 +37,7 @@
 
         /* --- PRELOADER --- */
         #preloader {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--primary);
             display: flex; justify-content: center; align-items: center;
             z-index: 9999;
@@ -57,21 +54,21 @@
 
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* --- HEADER --- */
+        /* --- HEADER (Czysty, jasny) --- */
         header {
             position: fixed; top: 0; width: 100%;
             background: var(--glass-bg);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
             z-index: 1000;
             transition: all 0.4s ease;
-            padding: 20px 0;
+            padding: 25px 0;
         }
 
         header.scrolled {
-            padding: 12px 0;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 15px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
         }
 
         nav {
@@ -79,39 +76,103 @@
             padding: 0 5%; max-width: 1400px; margin: auto;
         }
 
-        .logo { font-size: 28px; font-weight: 800; color: var(--text-light); text-decoration: none; letter-spacing: 2px; }
-        .logo span { color: var(--accent); font-style: italic; }
+        .logo { font-size: 28px; font-weight: 800; color: var(--primary); text-decoration: none; letter-spacing: 2px; }
+        .logo span { color: var(--accent); }
 
         .nav-links { list-style: none; display: flex; gap: 40px; }
-        .nav-links a { text-decoration: none; color: var(--text-light); font-weight: 400; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; position: relative; padding-bottom: 5px; transition: color 0.3s; }
+        .nav-links a { text-decoration: none; color: var(--primary); font-weight: 400; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; position: relative; padding-bottom: 5px; transition: color 0.3s; }
         .nav-links a:hover { color: var(--accent); }
         .nav-links a::after { content: ''; position: absolute; width: 0; height: 1px; bottom: 0; left: 0; background-color: var(--accent); transition: width 0.3s ease; }
         .nav-links a:hover::after { width: 100%; }
 
         .hamburger { display: none; cursor: pointer; border: none; background: none; }
-        .hamburger span { display: block; width: 30px; height: 2px; background-color: var(--text-light); margin: 6px 0; transition: 0.4s; }
+        .hamburger span { display: block; width: 30px; height: 2px; background-color: var(--primary); margin: 6px 0; transition: 0.4s; }
 
-        /* --- HERO --- */
-        .hero { position: relative; height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; }
-        .hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('https://images.unsplash.com/photo-1591076482161-42ce6da69f67?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') center/cover; animation: kenBurns 25s infinite alternate linear; z-index: -2; }
-        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(15, 23, 42, 0.5) 100%); z-index: -1; }
+        /* --- NOWY HERO VIEW (SPLIT-SCREEN) --- */
+        .hero { 
+            position: relative; 
+            height: 100vh; 
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Podział pół na pół */
+            align-items: center; 
+            overflow: hidden; 
+            background: var(--bg-color);
+        }
+
+        .hero-content-side {
+            padding: 0 10%;
+            color: var(--text-dark);
+            transform: translateY(40px);
+            opacity: 0;
+            animation: fadeUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.5s;
+        }
+
+        .hero-subtitle {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--accent);
+            margin-bottom: 15px;
+            display: block;
+            font-weight: 600;
+        }
+
+        .hero-content-side h1 { 
+            font-size: 4.5rem; 
+            margin-bottom: 25px; 
+            font-weight: 600; 
+            line-height: 1.1; 
+            letter-spacing: -1px; 
+            color: var(--primary);
+        }
         
-        .hero-content { color: var(--text-light); padding: 0 20px; transform: translateY(40px); opacity: 0; animation: fadeUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.5s; }
-        .hero-content h1 { font-size: 5rem; margin-bottom: 25px; font-weight: 600; line-height: 1.1; letter-spacing: -1px; }
-        .hero-content h1 span { font-style: italic; color: var(--accent); }
-        .hero-content p { font-size: 1.2rem; margin-bottom: 45px; max-width: 600px; margin-inline: auto; opacity: 0.8; font-weight: 300; line-height: 1.8; }
+        .hero-content-side h1 span { font-style: italic; }
 
-        .btn { padding: 16px 45px; background: transparent; color: var(--text-light); text-decoration: none; font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; border-radius: 0; transition: all 0.4s ease; display: inline-block; border: 1px solid var(--accent); position: relative; overflow: hidden; }
+        .hero-content-side p { 
+            font-size: 1.15rem; 
+            margin-bottom: 50px; 
+            max-width: 500px; 
+            opacity: 0.8; 
+            font-weight: 300; 
+            line-height: 1.8; 
+            color: #64748b;
+        }
+
+        .btn { 
+            padding: 18px 50px; 
+            background: transparent; 
+            color: var(--primary); 
+            text-decoration: none; 
+            font-size: 0.9rem; 
+            font-weight: 600; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            border-radius: 0; 
+            transition: all 0.4s ease; 
+            display: inline-block; 
+            border: 1px solid var(--accent); 
+            position: relative; 
+            overflow: hidden; 
+        }
+        
         .btn::before { content: ''; position: absolute; top: 0; left: 0; width: 0%; height: 100%; background: var(--accent); transition: all 0.4s ease; z-index: -1; }
         .btn:hover::before { width: 100%; }
-        .btn:hover { color: var(--primary); }
+        .btn:hover { color: var(--text-light); }
+
+        /* Strona ze zdjęciem - wycięta i wpasowana */
+        .hero-image-side {
+            height: 100%;
+            width: 100%;
+            background: url('https://i.imgur.com/8N4pA5F.jpeg') center/cover; /* Tu wklej link do zdjęcia */
+            position: relative;
+        }
 
         @keyframes fadeUp { to { transform: translateY(0); opacity: 1; } }
 
         .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* --- CLEAN SERVICES SECTION (Redesign) --- */
+        /* --- CLEAN SERVICES SECTION (Bez zmian) --- */
         .services { padding: 140px 5%; max-width: 1000px; margin: auto; }
         
         .section-header { text-align: center; margin-bottom: 80px; }
@@ -131,7 +192,7 @@
         .service-text h3 { font-size: 2rem; color: var(--primary); margin-bottom: 20px; font-weight: 600; }
         .service-text p { color: #64748b; line-height: 1.8; font-size: 1.05rem; font-weight: 300; max-width: 600px; }
 
-        /* --- KONTAKT (Bez emotek, czysty układ) --- */
+        /* --- KONTAKT (Bez zmian) --- */
         .contact { background: var(--bg-color); padding: 100px 5% 140px; }
         .contact-container { max-width: 1200px; margin: auto; display: grid; grid-template-columns: 1fr 1fr; background: var(--text-light); box-shadow: 0 20px 50px rgba(0,0,0,0.03); }
         
@@ -144,22 +205,30 @@
         
         .map-container { width: 100%; height: 100%; min-height: 500px; background: #eaeaea; }
 
-        /* --- FOOTER --- */
+        /* --- FOOTER (Bez zmian) --- */
         footer { background: var(--primary); color: rgba(255,255,255,0.5); text-align: center; padding: 40px 20px; font-size: 0.9rem; font-weight: 300; letter-spacing: 1px; }
         footer span { color: var(--text-light); }
 
         /* --- RESPONSIVE --- */
+        @media (max-width: 1200px) {
+            .hero-content-side h1 { font-size: 3.5rem; }
+        }
+
         @media (max-width: 992px) {
+            .hero { grid-template-columns: 1fr; height: auto; padding-top: 120px; } /* Powrót do jednej kolumny na tablecie */
+            .hero-content-side { padding: 80px 5%; text-align: center; }
+            .hero-content-side p { margin-inline: auto; }
+            .hero-image-side { height: 50vh; } /* Zdjęcie pod spodem */
+
             .contact-container { grid-template-columns: 1fr; }
             .map-container { min-height: 400px; }
-            .hero-content h1 { font-size: 3.5rem; }
         }
 
         @media (max-width: 768px) {
             .hamburger { display: block; z-index: 1001; position: relative; }
-            .nav-links { position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: var(--glass-bg); backdrop-filter: blur(20px); flex-direction: column; justify-content: center; align-items: center; transition: 0.5s ease-in-out; gap: 30px; }
+            .nav-links { position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: rgba(255,255,255,0.98); backdrop-filter: blur(20px); flex-direction: column; justify-content: center; align-items: center; transition: 0.5s ease-in-out; gap: 30px; }
             .nav-links.active { left: 0; }
-            .nav-links a { font-size: 1.2rem; }
+            .nav-links a { font-size: 1.2rem; color: var(--primary); }
 
             .service-item { flex-direction: column; padding: 40px 0; }
             .service-item:hover { transform: translateX(0); }
@@ -190,13 +259,14 @@
     </header>
 
     <section id="home" class="hero">
-        <div class="hero-bg"></div>
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <h1>Zadbaj o <span>Spojrzenie</span></h1>
-            <p>Ekskluzywne oprawki, precyzyjne badanie wzroku i pełen profesjonalizm. Poznaj zupełnie nowy wymiar optyki.</p>
-            <a href="#kontakt" class="btn">Umów Wizytę</a>
+        <div class="hero-content-side">
+            <span class="hero-subtitle">Ekskluzywna Optyka Swarzędz</span>
+            <h1>Wizja w <span>nowym</span> świetle.</h1>
+            <p>LUMEN to więcej niż salon optyczny. To Twoja jasna ścieżka do komfortu i nienagannego stylu. Poznaj najwyższą jakość badania i doboru premium.</p>
+            <a href="#kontakt" class="btn">Umów Wizytę Premium</a>
         </div>
+        <div class="hero-image-side">
+            </div>
     </section>
 
     <section id="uslugi" class="services">
@@ -259,7 +329,7 @@
             
             <div class="map-container">
                 <iframe 
-                    src="https://maps.google.com/maps?width=100%&amp;height=600&amp;hl=en&amp;q=Swarz%C4%99dz+(LUMEN)&amp;ie=UTF8&amp;t=&amp;z=13&amp;iwloc=B&amp;output=embed" 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2433.6823522271!2d17.0694186120536!3d52.41243167192237!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47045b54a2a4b865%3A0xc34a66e640356c36!2sGraniczna%2063%2C%2062-020%20Swarz%C4%99dz!5e0!3m2!1spl!2spl!4v1711200000000!5m2!1spl!2spl" 
                     width="100%" 
                     height="100%" 
                     style="border:0;" 
@@ -271,7 +341,7 @@
     </section>
 
     <footer>
-        <p>© 2026 <span>LUMEN.</span> Wszelkie prawa zastrzeżone.</p>
+        <p>© 2026 <span>LUMEN.</span> ul. Szafirowa 18, Swarzędz.</p>
     </footer>
 
     <script>
