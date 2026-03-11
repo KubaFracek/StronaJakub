@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=1200">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jakub Frąckiewicz | Web Developer Portfolio</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&display=swap');
@@ -40,14 +40,16 @@
             align-items: center;
             z-index: 9999;
             animation: slideUpOut 1s cubic-bezier(0.77, 0, 0.175, 1) 1.5s forwards;
+            padding: 0 20px;
         }
 
         .preloader h1 {
-            font-size: 4.5rem; 
+            /* clamp() sprawia, że tekst sam rośnie/maleje zależnie od ekranu */
+            font-size: clamp(1.8rem, 5vw, 4.5rem); 
             font-weight: 800;
             letter-spacing: 5px;
             text-transform: uppercase;
-            white-space: nowrap; 
+            white-space: nowrap; /* Zabezpiecza przed łamaniem linii */
             background: linear-gradient(to right, #fff, #666);
             -webkit-background-clip: text;
             color: transparent;
@@ -118,10 +120,11 @@
         }
 
         header h1 {
-            font-size: 4rem;
+            font-size: clamp(2.5rem, 6vw, 4rem);
             font-weight: 800;
             letter-spacing: -1px;
             margin-bottom: 15px;
+            line-height: 1.1;
         }
 
         header h1 span {
@@ -130,17 +133,19 @@
         }
 
         header p {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--text-muted);
             font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
-        /* --- NOWA SIATKA (Wysoki Pionowy Prostokąt - 2 Kolumny) --- */
+        /* --- IDEALNA SIATKA BENTO (Wersja Komputerowa) --- */
         .bento-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* Zmiana z 4 na 2 kolumny */
-            grid-auto-rows: 350px; /* Zwiększona wysokość kafelków */
-            gap: 25px;
+            grid-template-columns: repeat(4, 1fr); /* 4 równe kolumny, idealne proporcje */
+            grid-auto-rows: 230px; /* Zmniejszona wysokość kafelka, by wszystko zmieściło się na ekranie */
+            gap: 20px;
             width: 100%;
             max-width: 1200px;
         }
@@ -149,21 +154,21 @@
             background-color: rgba(20, 20, 23, 0.4);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 24px;
+            border-radius: 20px;
             overflow: hidden;
             position: relative;
             text-decoration: none;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
-            padding: 40px; /* Więcej oddechu w kafelku */
+            padding: 30px;
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             --mouse-x: 50%;
             --mouse-y: 50%;
         }
 
         .card:hover {
-            transform: translateY(-8px) scale(1.02);
+            transform: translateY(-5px) scale(1.02);
             border-color: rgba(209, 213, 219, 0.3);
             z-index: 10;
             box-shadow: 0 20px 40px rgba(0,0,0,0.6);
@@ -175,8 +180,8 @@
             top: var(--mouse-y);
             left: var(--mouse-x);
             transform: translate(-50%, -50%);
-            width: 500px;
-            height: 500px;
+            width: 400px;
+            height: 400px;
             background: radial-gradient(circle, rgba(209, 213, 219, 0.1) 0%, transparent 60%);
             opacity: 0;
             transition: opacity 0.3s ease;
@@ -204,66 +209,90 @@
         }
 
         /* Tła projektów */
-        .c-art .card-bg { background-image: url('https://images.unsplash.com/photo-1541961017774-22349e4a1262?auto=format&fit=crop&w=1200&q=80'); filter: grayscale(100%); }
-        .c-barber .card-bg { background-image: url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1000&q=80'); filter: grayscale(100%); }
-        .c-arch .card-bg { background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80'); }
-        .c-kawa .card-bg { background-image: url('https://images.unsplash.com/photo-1559525839-b184a4d698c7?auto=format&fit=crop&w=1000&q=80'); }
-        .c-auto .card-bg { background-image: url('https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&w=1000&q=80'); }
-        .c-optyk .card-bg { background-image: url('https://images.unsplash.com/photo-1574258495973-f010dfbb5371?auto=format&fit=crop&w=1200&q=80'); }
-        .c-resto .card-bg { background-image: url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=1200&q=80'); }
+        .c-art .card-bg { background-image: url('https://images.unsplash.com/photo-1541961017774-22349e4a1262?auto=format&fit=crop&w=1000&q=80'); filter: grayscale(100%); }
+        .c-barber .card-bg { background-image: url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=800&q=80'); filter: grayscale(100%); }
+        .c-arch .card-bg { background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80'); }
+        .c-kawa .card-bg { background-image: url('https://images.unsplash.com/photo-1559525839-b184a4d698c7?auto=format&fit=crop&w=800&q=80'); }
+        .c-auto .card-bg { background-image: url('https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&w=800&q=80'); }
+        .c-optyk .card-bg { background-image: url('https://images.unsplash.com/photo-1574258495973-f010dfbb5371?auto=format&fit=crop&w=800&q=80'); }
+        .c-resto .card-bg { background-image: url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=800&q=80'); }
 
         .card-content {
             position: relative;
             z-index: 3;
             background: linear-gradient(to top, rgba(5, 5, 5, 0.95) 0%, rgba(5, 5, 5, 0) 100%);
-            margin: -40px;
-            padding: 40px;
-            padding-top: 120px;
+            margin: -30px;
+            padding: 30px;
+            padding-top: 80px;
             pointer-events: none;
         }
 
         .card h2 {
-            font-size: 2.2rem; /* Większa czcionka dla większych kafelków */
+            font-size: 1.5rem;
             color: var(--text-main); 
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             font-weight: 600;
             letter-spacing: 0.5px;
             text-shadow: 0 2px 4px rgba(0,0,0,0.8);
         }
 
         .card p {
-            font-size: 1rem;
+            font-size: 0.85rem;
             color: var(--accent);
             font-weight: 500;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
         }
 
-        /* --- NOWE ROZMIESZCZENIE (Tworzy wysoki prostokąt) --- */
-        .card:nth-child(1) { grid-column: span 2; grid-row: span 2; } /* Galeria - Gigantyczny górny baner */
-        .card:nth-child(1) h2 { font-size: 4rem; }
-        
-        .card:nth-child(2) { grid-column: span 1; grid-row: span 1; } /* Barber - Środek lewy */
-        .card:nth-child(3) { grid-column: span 1; grid-row: span 1; } /* Architektura - Środek prawy */
-        .card:nth-child(4) { grid-column: span 1; grid-row: span 1; } /* Kawa - Dół lewy */
-        .card:nth-child(5) { grid-column: span 1; grid-row: span 1; } /* Detailing - Dół prawy */
-        
-        .card:nth-child(6) { grid-column: span 2; grid-row: span 1; } /* Optyk - Pełna szerokość */
-        .card:nth-child(7) { grid-column: span 2; grid-row: span 1; } /* Restauracja - Pełna szerokość dół */
+        /* Kompaktowe ułożenie dla komputerów (Mieści się na ekranie) */
+        .card:nth-child(1) { grid-column: span 2; grid-row: span 2; } /* Galeria */
+        .card:nth-child(1) h2 { font-size: 2.5rem; }
+        .card:nth-child(2) { grid-column: span 1; grid-row: span 1; } /* Barber */
+        .card:nth-child(3) { grid-column: span 1; grid-row: span 1; } /* Architektura */
+        .card:nth-child(4) { grid-column: span 1; grid-row: span 1; } /* Kawa */
+        .card:nth-child(5) { grid-column: span 1; grid-row: span 1; } /* Detailing */
+        .card:nth-child(6) { grid-column: span 2; grid-row: span 1; } /* Optyk */
+        .card:nth-child(7) { grid-column: span 2; grid-row: span 1; } /* Restauracja */
 
         footer {
-            margin-top: 100px;
+            margin-top: 80px;
+            margin-bottom: 20px;
             color: var(--text-muted);
-            font-size: 1rem;
+            font-size: 0.9rem;
             text-align: center;
-            padding-bottom: 40px;
+        }
+
+        /* --- RESPONSIVE --- */
+
+        /* Tablety / Mniejsze monitory */
+        @media (max-width: 1024px) {
+            .bento-grid { 
+                grid-template-columns: repeat(2, 1fr); 
+                grid-auto-rows: 250px; 
+            }
+            .card:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+            .card:nth-child(2), .card:nth-child(3), .card:nth-child(4), .card:nth-child(5) { grid-column: span 1; }
+            .card:nth-child(6), .card:nth-child(7) { grid-column: span 2; }
+        }
+
+        /* Smartfony - Pełna responsywność, wypełnia ekran i pozwala na naturalne przewijanie */
+        @media (max-width: 768px) {
+            .container { padding: 30px 5%; }
+            .bento-grid { 
+                grid-template-columns: 1fr; 
+                grid-auto-rows: 220px; 
+            }
+            /* Resetujemy span - wszystkie kafelki są takie same na telefonie */
+            .card { grid-column: span 1 !important; grid-row: span 1 !important; }
+            .card:nth-child(1) h2 { font-size: 1.8rem; }
+            header { margin-bottom: 40px; }
         }
     </style>
 </head>
 <body>
 
     <div class="preloader">
-        <h1>JAKUB</h1>
+        <h1>JAKUB FRĄCKIEWICZ</h1>
     </div>
 
     <div class="ambient-bg">
