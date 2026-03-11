@@ -24,7 +24,7 @@
         }
 
         html {
-            scroll-behavior: smooth; /* Płynne przewijanie do sekcji */
+            scroll-behavior: smooth;
         }
 
         body {
@@ -34,13 +34,13 @@
             line-height: 1.7;
         }
 
-        /* --- NAWIGACJA (Glassmorphism na scrollu) --- */
+        /* --- NAWIGACJA --- */
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 25px 5%;
-            position: fixed; /* Zmienione z absolute na fixed */
+            position: fixed;
             width: 100%;
             top: 0;
             z-index: 1000;
@@ -96,7 +96,6 @@
             width: 100%;
         }
 
-        /* --- HAMBURGER MENU (Dla telefonów) --- */
         .hamburger {
             display: none;
             cursor: pointer;
@@ -139,7 +138,7 @@
 
         .hero-text h1 strong {
             font-weight: 700;
-            color: var(--secondary); /* Wyróżnienie słów kluczowych */
+            color: var(--secondary);
         }
 
         .hero-text p {
@@ -175,7 +174,7 @@
         .hero-image {
             flex: 1.2;
             background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
-            background-attachment: fixed; /* Delikatna paralaksa na desktopie */
+            background-attachment: fixed;
             position: relative;
         }
 
@@ -191,7 +190,6 @@
             z-index: 1;
         }
 
-        /* Scroll Down Indicator */
         .scroll-down {
             position: absolute;
             bottom: 40px;
@@ -209,7 +207,7 @@
             60% { transform: translateY(-7px); }
         }
 
-        /* --- PORTFOLIO --- */
+        /* --- NOWE PORTFOLIO (Układ naprzemienny / Magazynowy) --- */
         .portfolio {
             padding: 120px 5%;
             background-color: #ffffff;
@@ -217,7 +215,7 @@
 
         .section-title {
             text-align: center;
-            margin-bottom: 80px;
+            margin-bottom: 100px;
         }
 
         .section-title h2 {
@@ -230,74 +228,109 @@
             font-weight: 700;
         }
 
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
-            max-width: 1400px;
+        .project-list {
+            max-width: 1200px;
             margin: auto;
-        }
-
-        .gallery-item {
-            position: relative;
-            height: 450px;
-            overflow: hidden;
-            border-radius: 4px; /* Delikatne zaokrąglenie */
-            cursor: pointer;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.8s cubic-bezier(0.2, 1, 0.3, 1);
-        }
-
-        .gallery-item:hover img {
-            transform: scale(1.08);
-        }
-
-        .gallery-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to top, rgba(43, 69, 53, 0.95), rgba(43, 69, 53, 0.2));
             display: flex;
             flex-direction: column;
-            justify-content: flex-end;
-            padding: 40px;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            color: var(--text-light);
+            gap: 120px; /* Duży odstęp między projektami dodaje elegancji */
         }
 
-        .gallery-item:hover .gallery-overlay {
-            opacity: 1;
+        .project-row {
+            display: flex;
+            align-items: center;
+            gap: 60px;
         }
 
-        .gallery-overlay h3 {
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-            transform: translateY(20px);
-            transition: transform 0.5s ease;
+        .project-row.reverse {
+            flex-direction: row-reverse;
         }
 
-        .gallery-overlay p {
-            font-size: 0.9rem;
+        .project-image {
+            flex: 1.2;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            border-radius: 4px;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: auto;
+            min-height: 450px;
+            object-fit: cover;
+            display: block;
+            transition: transform 1.2s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+
+        .project-row:hover .project-image img {
+            transform: scale(1.05);
+        }
+
+        .project-info {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .project-category {
+            font-size: 0.85rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             color: var(--secondary);
-            transform: translateY(20px);
-            transition: transform 0.5s ease;
-            transition-delay: 0.1s;
+            margin-bottom: 15px;
+            display: block;
+            font-weight: 700;
         }
 
-        .gallery-item:hover .gallery-overlay h3,
-        .gallery-item:hover .gallery-overlay p {
-            transform: translateY(0);
+        .project-info h3 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 25px;
+            font-weight: 300;
+            line-height: 1.2;
+        }
+
+        .project-info p {
+            font-size: 1.05rem;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            position: relative;
+        }
+
+        .project-link::after {
+            content: ' \2192'; /* Strzałka w prawo */
+            margin-left: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .project-link:hover::after {
+            transform: translateX(5px);
+        }
+
+        .project-link::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .project-link:hover::before {
+            width: 100%;
         }
 
         /* --- FILOZOFIA --- */
@@ -341,7 +374,7 @@
             line-height: 2;
         }
 
-        /* --- KONTAKT (Nowa sekcja) --- */
+        /* --- KONTAKT --- */
         .contact {
             padding: 120px 5%;
             background-color: var(--bg-color);
@@ -413,12 +446,24 @@
             transition: opacity 1s cubic-bezier(0.2, 1, 0.3, 1), transform 1s cubic-bezier(0.2, 1, 0.3, 1);
         }
 
-        .fade-up.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .fade-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: opacity 1s cubic-bezier(0.2, 1, 0.3, 1), transform 1s cubic-bezier(0.2, 1, 0.3, 1);
         }
 
-        /* --- RESPONSIVE (Telefony i Tablety) --- */
+        .fade-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: opacity 1s cubic-bezier(0.2, 1, 0.3, 1), transform 1s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+
+        .fade-up.visible, .fade-left.visible, .fade-right.visible {
+            opacity: 1;
+            transform: translate(0);
+        }
+
+        /* --- RESPONSIVE --- */
         @media (max-width: 960px) {
             .hero {
                 flex-direction: column;
@@ -436,7 +481,7 @@
             }
             .hero-image {
                 min-height: 50vh;
-                background-attachment: scroll; /* Wyłączenie paralaksy na mobile dla wydajności */
+                background-attachment: scroll;
             }
             .hero-image::before {
                 display: none;
@@ -444,11 +489,26 @@
             .scroll-down {
                 display: none;
             }
+            
+            /* Naprawa nowego portfolio na mobile */
+            .project-row, .project-row.reverse {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .project-image img {
+                min-height: 300px;
+            }
+            
+            .project-info {
+                padding: 0;
+                text-align: center;
+            }
+
             .contact-container {
                 grid-template-columns: 1fr;
             }
             
-            /* Mobile Menu */
             .nav-links {
                 position: absolute;
                 right: 0px;
@@ -476,7 +536,6 @@
                 display: block;
             }
 
-            /* Animacja krzyżyka z hamburgera */
             .toggle .line1 {
                 transform: rotate(-45deg) translate(-5px, 5px);
             }
@@ -519,26 +578,41 @@
         <div class="section-title fade-up">
             <h2>Wybrane <strong>Realizacje</strong></h2>
         </div>
-        <div class="gallery">
-            <div class="gallery-item fade-up">
-                <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Projekt Rezydencja Sosnowa">
-                <div class="gallery-overlay">
+        
+        <div class="project-list">
+            <div class="project-row">
+                <div class="project-image fade-left">
+                    <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Rezydencja Sosnowa">
+                </div>
+                <div class="project-info fade-right">
+                    <span class="project-category">Architektura Wnętrz</span>
                     <h3>Rezydencja Sosnowa</h3>
-                    <p>Architektura Wnętrz</p>
+                    <p>Minimalistyczny dom w otoczeniu stuletnich sosen. Główne założenie opierało się na maksymalnym wpuszczeniu światła dziennego do wnętrza i zastosowaniu surowych materiałów, takich jak beton, jasne drewno i naturalny kamień.</p>
+                    <a href="#" class="project-link">Poznaj detale</a>
                 </div>
             </div>
-            <div class="gallery-item fade-up" style="transition-delay: 0.2s;">
-                <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Projekt Biuro Botanika">
-                <div class="gallery-overlay">
+
+            <div class="project-row reverse">
+                <div class="project-image fade-right">
+                    <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Biuro Botanika">
+                </div>
+                <div class="project-info fade-left">
+                    <span class="project-category">Przestrzeń Komercyjna</span>
                     <h3>Biuro Botanika</h3>
-                    <p>Przestrzeń Komercyjna</p>
+                    <p>Miejsce pracy zaprojektowane w myśl idei biophilic design. Połączyliśmy ergonomię z prawdziwą dżunglą w centrum miasta. Roślinność poprawia akustykę, nawilża powietrze i obniża stres pracowników.</p>
+                    <a href="#" class="project-link">Poznaj detale</a>
                 </div>
             </div>
-            <div class="gallery-item fade-up" style="transition-delay: 0.4s;">
-                <img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Projekt Apartament z Ogrodem">
-                <div class="gallery-overlay">
+
+            <div class="project-row">
+                <div class="project-image fade-left">
+                    <img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Apartament z Ogrodem">
+                </div>
+                <div class="project-info fade-right">
+                    <span class="project-category">Architektura Krajobrazu</span>
                     <h3>Apartament z Ogrodem</h3>
-                    <p>Architektura Krajobrazu</p>
+                    <p>Zatarcie granicy między salonem a tarasem. Zastosowanie przesuwnych okien wielkogabarytowych sprawiło, że ogród stał się naturalnym przedłużeniem strefy dziennej tego apartamentu.</p>
+                    <a href="#" class="project-link">Poznaj detale</a>
                 </div>
             </div>
         </div>
@@ -580,9 +654,9 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- SCROLL ANIMATION (Intersection Observer) ---
+            // Animacje Intersection Observer
             const observerOptions = {
-                threshold: 0.1,
+                threshold: 0.15,
                 rootMargin: "0px 0px -50px 0px"
             };
 
@@ -595,28 +669,25 @@
                 });
             }, observerOptions);
 
-            document.querySelectorAll('.fade-up').forEach((element) => {
+            // Obserwuj wszystkie elementy z klasami animacji
+            document.querySelectorAll('.fade-up, .fade-left, .fade-right').forEach((element) => {
                 observer.observe(element);
             });
 
-            // Aktywacja animacji Hero bez scrolla
             setTimeout(() => {
                 document.querySelectorAll('.hero-text .fade-up').forEach(el => el.classList.add('visible'));
             }, 100);
 
-            // --- MENU MOBILNE ---
+            // Menu mobilne
             const hamburger = document.querySelector('.hamburger');
             const navLinks = document.querySelector('.nav-links');
             const links = document.querySelectorAll('.nav-links li');
 
             hamburger.addEventListener('click', () => {
-                // Toggle Menu
                 navLinks.classList.toggle('nav-active');
-                // Animate Links
                 hamburger.classList.toggle('toggle');
             });
 
-            // Zamykanie menu po kliknięciu w link na telefonie
             links.forEach(link => {
                 link.addEventListener('click', () => {
                     navLinks.classList.remove('nav-active');
@@ -624,7 +695,7 @@
                 });
             });
 
-            // --- GLASSMORPHISM NAVBAR ON SCROLL ---
+            // Glassmorphism Navbar
             const navbar = document.getElementById('navbar');
             window.addEventListener('scroll', () => {
                 if (window.scrollY > 50) {
