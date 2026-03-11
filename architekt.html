@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zielona Bryła | Architektura i Natura</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap');
+
+        :root {
+            --bg-color: #f4f1ea; /* Ciepły beż */
+            --primary: #2b4535; /* Głęboka leśna zieleń */
+            --secondary: #8ba888; /* Szałwia */
+            --text-dark: #1a1a1a;
+            --text-light: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
+
+        /* --- NAWIGACJA --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 5%;
+            position: absolute;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 500;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* --- HERO SECTION (Split Screen) --- */
+        .hero {
+            display: flex;
+            height: 100vh;
+            min-height: 700px;
+        }
+
+        .hero-text {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 10% 0 5%;
+            background-color: var(--bg-color);
+        }
+
+        .hero-text h1 {
+            font-size: 4rem;
+            color: var(--primary);
+            line-height: 1.1;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .hero-text h1 strong {
+            font-weight: 700;
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 40px;
+            max-width: 500px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 18px 45px;
+            background-color: var(--primary);
+            color: var(--text-light);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 13px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            align-self: flex-start;
+        }
+
+        .btn:hover {
+            background-color: #1d3024;
+            transform: translateY(-3px);
+        }
+
+        .hero-image {
+            flex: 1;
+            background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
+            position: relative;
+        }
+
+        /* Dekapitalizacja asymetrii */
+        .hero-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -50px;
+            width: 100px;
+            height: 100%;
+            background-color: var(--bg-color);
+            transform: skewX(-5deg);
+        }
+
+        /* --- PORTFOLIO (Grid CSS) --- */
+        .portfolio {
+            padding: 120px 5%;
+            background-color: #ffffff;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            font-weight: 300;
+        }
+
+        .section-title h2 strong {
+            font-weight: 700;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: auto;
+        }
+
+        .gallery-item {
+            position: relative;
+            height: 450px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(43, 69, 53, 0.85);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            color: var(--text-light);
+            text-align: center;
+            padding: 20px;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-overlay h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            transform: translateY(20px);
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-overlay p {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--secondary);
+            transform: translateY(20px);
+            transition: transform 0.4s ease;
+            transition-delay: 0.1s;
+        }
+
+        .gallery-item:hover .gallery-overlay h3,
+        .gallery-item:hover .gallery-overlay p {
+            transform: translateY(0);
+        }
+
+        /* --- FILOZOFIA --- */
+        .philosophy {
+            padding: 120px 5%;
+            background-color: var(--primary);
+            color: var(--text-light);
+            text-align: center;
+        }
+
+        .philosophy-content {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .philosophy h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .philosophy p {
+            font-size: 1.2rem;
+            color: #d1dcd5;
+            font-weight: 300;
+        }
+
+        /* --- STOPKA --- */
+        footer {
+            background-color: #1d3024;
+            color: #8ba888;
+            text-align: center;
+            padding: 40px 5%;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        /* --- ANIMACJE SCROLLOWANIA --- */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 900px) {
+            .hero {
+                flex-direction: column;
+                height: auto;
+            }
+            .hero-text {
+                padding: 120px 5% 60px 5%;
+            }
+            .hero-image {
+                min-height: 500px;
+            }
+            .hero-image::before {
+                display: none;
+            }
+            .nav-links {
+                display: none;
+            }
+            .hero-text h1 {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="logo">Zielona Bryła</a>
+        <ul class="nav-links">
+            <li><a href="#projekty">Projekty</a></li>
+            <li><a href="#filozofia">Filozofia</a></li>
+            <li><a href="#kontakt">Kontakt</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-text">
+            <h1 class="fade-up">Zacieramy granice między <strong>wnętrzem</strong> a <strong>naturą</strong>.</h1>
+            <p class="fade-up" style="transition-delay: 0.2s;">Projektujemy przestrzenie, które oddychają. Tworzymy harmonijne środowiska do życia i pracy, wykorzystując naturalne materiały, światło i roślinność.</p>
+            <a href="#projekty" class="btn fade-up" style="transition-delay: 0.4s;">Zobacz realizacje</a>
+        </div>
+        <div class="hero-image"></div>
+    </header>
+
+    <section id="projekty" class="portfolio">
+        <div class="section-title fade-up">
+            <h2>Wybrane <strong>Realizacje</strong></h2>
+        </div>
+        <div class="gallery">
+            <div class="gallery-item fade-up">
+                <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Projekt 1">
+                <div class="gallery-overlay">
+                    <h3>Rezydencja Sosnowa</h3>
+                    <p>Architektura Wnętrz</p>
+                </div>
+            </div>
+            <div class="gallery-item fade-up" style="transition-delay: 0.2s;">
+                <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Projekt 2">
+                <div class="gallery-overlay">
+                    <h3>Biuro Botanika</h3>
+                    <p>Przestrzeń Komercyjna</p>
+                </div>
+            </div>
+            <div class="gallery-item fade-up" style="transition-delay: 0.4s;">
+                <img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Projekt 3">
+                <div class="gallery-overlay">
+                    <h3>Apartament z Ogrodem</h3>
+                    <p>Architektura Krajobrazu</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="filozofia" class="philosophy">
+        <div class="philosophy-content fade-up">
+            <h2>Mniej betonu, więcej życia.</h2>
+            <p>Wierzymy, że otoczenie wpływa na nasze samopoczucie. Dlatego w każdym projekcie dążymy do balansu. Łączymy nowoczesny minimalizm z organicznymi formami, tworząc azyle spokoju w zgiełku miasta.</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Zielona Bryła Pracownia Projektowa. Zaprojektowane z myślą o naturze.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-up').forEach((element) => {
+                observer.observe(element);
+            });
+
+            // Aktywacja animacji dla pierwszej sekcji bez konieczności scrollowania
+            setTimeout(() => {
+                document.querySelectorAll('.hero-text .fade-up').forEach(el => el.classList.add('visible'));
+            }, 100);
+        });
+    </script>
+</body>
+</html>

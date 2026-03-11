@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nomen | Restauracja Autorska</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400&display=swap');
+
+        :root {
+            --bg-dark: #0a0a0a;
+            --text-light: #e8e6e1;
+            --text-dim: #8c8c8c;
+            --border-color: rgba(232, 230, 225, 0.15);
+            --accent: #b89065;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            line-height: 1.6;
+            display: flex;
+        }
+
+        h1, h2, h3, .serif {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+        }
+
+        /* --- BOCZNA NAWIGACJA (SIDEBAR) --- */
+        .sidebar {
+            width: 300px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 50px 40px;
+            background-color: var(--bg-dark);
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            color: var(--text-light);
+            text-decoration: none;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .nav-menu a {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            transition: color 0.4s ease, padding-left 0.4s ease;
+        }
+
+        .nav-menu a:hover {
+            color: var(--accent);
+            padding-left: 10px;
+        }
+
+        .sidebar-footer {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+        }
+
+        /* --- GŁÓWNA ZAWARTOŚĆ --- */
+        .main-content {
+            margin-left: 300px;
+            width: calc(100% - 300px);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(10,10,10,0.3), rgba(10,10,10,0.8)), url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') center/cover;
+            display: flex;
+            align-items: center;
+            padding-left: 10%;
+        }
+
+        .hero h1 {
+            font-size: 6rem;
+            line-height: 1;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            display: block;
+            font-style: italic;
+            color: var(--accent);
+            padding-left: 100px;
+        }
+
+        /* --- SEKCJA OPOWIEŚCI (Układ Redakcyjny) --- */
+        .story {
+            display: flex;
+            min-height: 100vh;
+            align-items: center;
+            padding: 100px 10%;
+            gap: 80px;
+        }
+
+        .story-text {
+            flex: 1;
+        }
+
+        .story-text h2 {
+            font-size: 3.5rem;
+            margin-bottom: 30px;
+            color: var(--accent);
+        }
+
+        .story-text p {
+            font-size: 1.1rem;
+            color: var(--text-dim);
+            margin-bottom: 20px;
+            max-width: 500px;
+        }
+
+        .story-image {
+            flex: 1;
+            height: 700px;
+            background: url('https://images.unsplash.com/photo-1577106263724-2c8e03bfe9cf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80') center/cover;
+            filter: grayscale(40%);
+        }
+
+        /* --- MENU (Lista, brak kafelków) --- */
+        .menu-section {
+            padding: 150px 10%;
+            background-color: #0f0f0f;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-header h2 {
+            font-size: 4rem;
+        }
+
+        .menu-list {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding: 30px 0;
+            border-bottom: 1px solid var(--border-color);
+            transition: border-color 0.4s ease;
+        }
+
+        .menu-item:hover {
+            border-bottom: 1px solid var(--accent);
+        }
+
+        .dish-info {
+            max-width: 70%;
+        }
+
+        .dish-name {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            color: var(--text-light);
+        }
+
+        .dish-desc {
+            font-size: 0.95rem;
+            color: var(--text-dim);
+        }
+
+        .dish-price {
+            font-size: 1.5rem;
+            color: var(--accent);
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* --- REZERWACJA (Pełnoekranowy blok) --- */
+        .reservation {
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') center/cover;
+            position: relative;
+        }
+
+        .reservation::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(10, 10, 10, 0.85);
+        }
+
+        .reservation-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .reservation h2 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .btn-gold {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 20px 50px;
+            background-color: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            font-family: 'Inter', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.4s ease;
+        }
+
+        .btn-gold:hover {
+            background-color: var(--accent);
+            color: var(--bg-dark);
+        }
+
+        /* --- RESPONSIVE DESIGN --- */
+        @media (max-width: 1024px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                flex-direction: row;
+                align-items: center;
+                padding: 20px 5%;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+            .nav-menu {
+                flex-direction: row;
+                gap: 20px;
+            }
+            .sidebar-footer {
+                display: none;
+            }
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+            .story {
+                flex-direction: column;
+                padding: 80px 5%;
+                gap: 40px;
+            }
+            .story-image {
+                width: 100%;
+                height: 400px;
+            }
+            .hero h1 {
+                font-size: 4rem;
+            }
+            .hero h1 span {
+                padding-left: 20px;
+            }
+            .menu-section {
+                padding: 80px 5%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <a href="#" class="logo serif">Nomen.</a>
+        
+        <ul class="nav-menu">
+            <li><a href="#filozofia">Filozofia</a></li>
+            <li><a href="#menu">Menu Degustacyjne</a></li>
+            <li><a href="#rezerwacja">Rezerwacja</a></li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <p>ul. Wierzbowa 12, Warszawa</p>
+            <p>+48 500 600 700</p>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        
+        <section class="hero">
+            <div>
+                <h1>Sztuka <span>Smaku</span></h1>
+            </div>
+        </section>
+
+        <section id="filozofia" class="story">
+            <div class="story-text">
+                <h2>Powrót do korzeni</h2>
+                <p>Nie szukamy kompromisów. Każdy talerz, który opuszcza naszą kuchnię, jest wynikiem setek prób, rozmów z lokalnymi dostawcami i szacunku do składnika.</p>
+                <p>Nomen to miejsce, w którym polska tradycja kulinarna spotyka się z nowoczesnymi technikami fermentacji i dbałością o najmniejszy detal. Gotujemy z tego, co daje nam dany sezon.</p>
+            </div>
+            <div class="story-image"></div>
+        </section>
+
+        <section id="menu" class="menu-section">
+            <div class="section-header">
+                <h2 class="serif">Menu Degustacyjne</h2>
+            </div>
+            
+            <div class="menu-list">
+                <div class="menu-item">
+                    <div class="dish-info">
+                        <h3 class="dish-name serif">Tatar z jelenia</h3>
+                        <p class="dish-desc">Piklowana kurka, emulsja z lubczyku, puder z palonego siana, domowy chleb na zakwasie.</p>
+                    </div>
+                    <div class="dish-price">85 PLN</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="dish-info">
+                        <h3 class="dish-name serif">Jesiotr z polskiego jeziora</h3>
+                        <p class="dish-desc">Palone masło, kalafior romanesco, sos na bazie białego wina i ikry, koper morski.</p>
+                    </div>
+                    <div class="dish-price">140 PLN</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="dish-info">
+                        <h3 class="dish-name serif">Kaczka sezonowana na sucho</h3>
+                        <p class="dish-desc">Krem z pieczonej pietruszki, demi-glace z wiśnią, konfitowane udo, brukselka.</p>
+                    </div>
+                    <div class="dish-price">160 PLN</div>
+                </div>
+
+                <div class="menu-item">
+                    <div class="dish-info">
+                        <h3 class="dish-name serif">Tekstury jabłka</h3>
+                        <p class="dish-desc">Mus z antonówki, lody z palonego masła, kruszonka z orzecha laskowego, żel z cydru.</p>
+                    </div>
+                    <div class="dish-price">45 PLN</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="rezerwacja" class="reservation">
+            <div class="reservation-content">
+                <h2 class="serif">Zarezerwuj stolik</h2>
+                <p style="color: var(--text-dim); max-width: 400px; margin: 0 auto;">Liczba miejsc w naszej restauracji jest ściśle ograniczona. Prosimy o rezerwację z wyprzedzeniem.</p>
+                <a href="#" class="btn-gold">Przejdź do systemu</a>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

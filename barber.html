@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Siekiera & Brzytwa | Prawdziwy Barber</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400&display=swap');
+
+        :root {
+            --bg-paper: #f4f1ea; /* Kolor starego papieru */
+            --ink: #1a1a1a;      /* Wyblakła czerń */
+            --gold: #b08d57;     /* Mosiądz/Złoto */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Efekt plakatu - gruba ramka dookoła całej strony */
+        body {
+            background-color: var(--bg-paper);
+            color: var(--ink);
+            font-family: 'Lora', serif;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .poster-frame {
+            border: 8px solid var(--ink);
+            min-height: calc(100vh - 40px);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Wewnętrzna, cienka ramka ozdobna */
+        .poster-frame::before {
+            content: '';
+            position: absolute;
+            top: 5px; left: 5px; right: 5px; bottom: 5px;
+            border: 1px solid var(--ink);
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        h1, h2, h3, .sans {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+        }
+
+        /* --- NAGŁÓWEK GAZETOWY --- */
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            border-bottom: 4px solid var(--ink);
+            position: relative;
+        }
+
+        .est {
+            font-size: 1rem;
+            letter-spacing: 4px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        header h1 {
+            font-size: 6rem;
+            line-height: 1;
+            letter-spacing: 2px;
+            margin: 0;
+        }
+
+        header p {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.2rem;
+            letter-spacing: 5px;
+            margin-top: 15px;
+            text-transform: uppercase;
+        }
+
+        /* --- SEKCJA GŁÓWNA (Podział kolumnowy) --- */
+        .content-split {
+            display: flex;
+            flex: 1;
+        }
+
+        .text-column {
+            flex: 1;
+            padding: 50px;
+            border-right: 2px solid var(--ink);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .image-column {
+            flex: 1;
+            background: url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80') center/cover;
+            filter: grayscale(100%) contrast(120%);
+        }
+
+        .text-column h2 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .text-column p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .btn-solid {
+            display: inline-block;
+            background-color: var(--ink);
+            color: var(--bg-paper);
+            padding: 15px 40px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.2rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            align-self: flex-start;
+            transition: background-color 0.3s;
+        }
+
+        .btn-solid:hover {
+            background-color: var(--gold);
+        }
+
+        /* --- CENNIK (Zamiast kafelków) --- */
+        .price-list-section {
+            padding: 60px 50px;
+            border-top: 4px solid var(--ink);
+            background-color: #eeeae0;
+        }
+
+        .price-list-section h2 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 50px;
+            letter-spacing: 2px;
+        }
+
+        .menu-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .service-item {
+            display: flex;
+            align-items: baseline;
+            margin-bottom: 25px;
+        }
+
+        .service-name {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        /* Kropki łączące nazwę z ceną */
+        .service-dots {
+            flex-grow: 1;
+            border-bottom: 2px dotted var(--ink);
+            margin: 0 15px;
+            position: relative;
+            top: -6px;
+        }
+
+        .service-price {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .service-desc {
+            font-size: 0.95rem;
+            font-style: italic;
+            margin-top: -5px;
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        /* --- STOPKA --- */
+        footer {
+            border-top: 4px solid var(--ink);
+            display: flex;
+            justify-content: space-between;
+            padding: 30px 50px;
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            font-size: 1.1rem;
+            background-color: var(--bg-paper);
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 900px) {
+            header h1 { font-size: 3.5rem; }
+            .content-split { flex-direction: column; }
+            .text-column { border-right: none; border-bottom: 4px solid var(--ink); padding: 30px; }
+            .image-column { min-height: 400px; }
+            .price-list-section { padding: 40px 20px; }
+            footer { flex-direction: column; text-align: center; gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="poster-frame">
+        
+        <header>
+            <div class="est">ZAŁOŻONE W 2018</div>
+            <h1>SIEKIERA & BRZYTWA</h1>
+            <p>Klasyczny zakład fryzjerski dla mężczyzn</p>
+        </header>
+
+        <div class="content-split">
+            <div class="text-column">
+                <h2>BEZ KOMPROMISÓW.<br>TYLKO KLASYKA.</h2>
+                <p>Nie mamy tu modnej muzyki klubowej ani sojowego latte. Mamy za to ostre brzytwy, gorące ręczniki, zapach drzewa sandałowego i rzemiosło, którego uczyliśmy się od starych mistrzów.</p>
+                <p>Siadasz w fotelu, a my robimy to, na czym znamy się najlepiej.</p>
+                <a href="#rezerwacja" class="btn-solid">Zarezerwuj Fotel</a>
+            </div>
+            <div class="image-column"></div>
+        </div>
+
+        <div class="price-list-section">
+            <h2>NASZE USŁUGI</h2>
+            
+            <div class="menu-container">
+                
+                <div class="service-item">
+                    <span class="service-name">STRZYŻENIE KLASYCZNE</span>
+                    <span class="service-dots"></span>
+                    <span class="service-price">80 PLN</span>
+                </div>
+                <p class="service-desc">Mycie, strzyżenie nożyczkami i maszynką, modelowanie z użyciem pomady.</p>
+
+                <div class="service-item">
+                    <span class="service-name">KRÓLEWSKIE GOLENIE BRZYTWĄ</span>
+                    <span class="service-dots"></span>
+                    <span class="service-price">70 PLN</span>
+                </div>
+                <p class="service-desc">Gorący ręcznik, wyrównanie linii zarostu, golenie na gładko z pianą i balsam po goleniu.</p>
+
+                <div class="service-item">
+                    <span class="service-name">COMBO: WŁOSY + BRODA</span>
+                    <span class="service-dots"></span>
+                    <span class="service-price">130 PLN</span>
+                </div>
+                <p class="service-desc">Pełen pakiet. Ponad godzina w fotelu, z której wyjdziesz jak nowy człowiek.</p>
+
+                <div class="service-item">
+                    <span class="service-name">TUSZOWANIE SIWIZNY</span>
+                    <span class="service-dots"></span>
+                    <span class="service-price">50 PLN</span>
+                </div>
+                <p class="service-desc">Dyskretne, naturalne pokrycie siwych włosów i brody.</p>
+
+            </div>
+        </div>
+
+        <footer>
+            <div>UL. KAMIENNA 12, POZNAŃ</div>
+            <div>TEL: 555 444 333</div>
+            <div>PN - PT: 10:00 - 19:00</div>
+        </footer>
+
+    </div>
+
+</body>
+</html>

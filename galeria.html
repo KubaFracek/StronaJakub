@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PUNKT | Galeria Sztuki Współczesnej</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Space+Grotesk:wght@300;400;700&display=swap');
+
+        :root {
+            --bg-color: #dedcd7;
+            --text-color: #111111;
+            --accent-color: #ff3300; /* Neonowa czerwień */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Ustawiamy wysokość body tak, aby umożliwić scrollowanie w dół,
+           które za pomocą JS zamienimy na ruch poziomy */
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Space Grotesk', sans-serif;
+            height: 400vh; /* 4 sekcje = 400vh do przewinięcia */
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .logo {
+            font-family: 'Syncopate', sans-serif;
+            text-transform: uppercase;
+        }
+
+        /* Stała nawigacja niezależna od przewijania */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 40px 5vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            mix-blend-mode: difference; /* Tekst dopasowuje się do tła */
+            color: #ffffff;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -2px;
+        }
+
+        .nav-info {
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+        }
+
+        /* Główny kontener trzymający widok w miejscu */
+        .sticky-wrapper {
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Kontener poruszający się w poziomie */
+        .horizontal-container {
+            display: flex;
+            width: 400vw; /* 4 sekcje po 100vw */
+            height: 100%;
+            will-change: transform;
+        }
+
+        /* Pojedynczy panel (sekcja) */
+        .panel {
+            width: 100vw;
+            height: 100vh;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            padding: 0 10vw;
+            position: relative;
+        }
+
+        /* --- PANEL 1: TYTUŁOWY --- */
+        .panel-1 {
+            justify-content: center;
+            text-align: center;
+        }
+
+        .panel-1 h1 {
+            font-size: 8vw;
+            line-height: 0.9;
+            letter-spacing: -5px;
+            margin-bottom: 20px;
+        }
+
+        .panel-1 p {
+            font-size: 1.5rem;
+            max-width: 600px;
+            margin: 0 auto;
+            color: #555;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .scroll-line {
+            width: 50px;
+            height: 1px;
+            background-color: var(--text-color);
+        }
+
+        /* --- PANEL 2 & 3: EKSPOZYCJA --- */
+        .exhibition-layout {
+            display: flex;
+            gap: 5vw;
+            align-items: center;
+            width: 100%;
+        }
+
+        .art-image {
+            width: 45vw;
+            height: 70vh;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: filter 0.5s ease;
+        }
+
+        .art-image:hover {
+            filter: grayscale(0%);
+        }
+
+        .art-info {
+            max-width: 400px;
+        }
+
+        .art-info h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            word-wrap: break-word;
+        }
+
+        .art-info .artist {
+            color: var(--accent-color);
+            font-weight: 700;
+            margin-bottom: 30px;
+            display: block;
+            letter-spacing: 2px;
+        }
+
+        .art-info p {
+            line-height: 1.8;
+            color: #444;
+        }
+
+        /* --- PANEL 4: KONTAKT --- */
+        .panel-4 {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            justify-content: space-between;
+        }
+
+        .contact-content {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .contact-text h2 {
+            font-size: 6vw;
+            line-height: 1;
+            margin-bottom: 40px;
+            color: var(--bg-color);
+        }
+
+        .contact-details p {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .contact-details a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .horizontal-container {
+                width: 100vw;
+                flex-direction: column;
+            }
+            body {
+                height: auto;
+                overflow-x: hidden;
+                overflow-y: auto;
+            }
+            .sticky-wrapper {
+                position: relative;
+                height: auto;
+            }
+            .panel {
+                padding: 100px 5vw;
+                height: auto;
+                min-height: 100vh;
+            }
+            .exhibition-layout {
+                flex-direction: column;
+            }
+            .art-image {
+                width: 100%;
+                height: 50vh;
+            }
+            .contact-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">PUNKT</div>
+        <div class="nav-info">WYSTAWA BIEŻĄCA</div>
+    </nav>
+
+    <div class="sticky-wrapper">
+        <div class="horizontal-container" id="scroll-container">
+            
+            <section class="panel panel-1">
+                <div>
+                    <h1>Forma<br>Pusta</h1>
+                    <p>Nowa perspektywa przestrzeni w sztuce postindustrialnej. Kolekcja wiosna-lato.</p>
+                </div>
+                <div class="scroll-indicator">
+                    Przewiń <div class="scroll-line"></div>
+                </div>
+            </section>
+
+            <section class="panel panel-2">
+                <div class="exhibition-layout">
+                    <img src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Instalacja 1" class="art-image">
+                    <div class="art-info">
+                        <h2>Deformacja 01</h2>
+                        <span class="artist">ANNA NOWAK</span>
+                        <p>Analiza wpływu cyfryzacji na postrzeganie fizycznej materii. Rzeźba wykonana z recyklingowanego poliwęglanu i betonu architektonicznego, grająca z załamaniem światła i perspektywą widza.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel panel-3">
+                <div class="exhibition-layout">
+                    <div class="art-info" style="text-align: right;">
+                        <h2>Struktura<br>Złożona</h2>
+                        <span class="artist">JAN KOWALSKI</span>
+                        <p>Wielkoformatowe płótno badające granice ludzkiej percepcji w chaosie informacyjnym. Minimalizm formy kontrastujący z agresywną fakturą nakładanych warstwowo farb akrylowych i pyłu wulkanicznego.</p>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1557672172-298e090bd0f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Obraz 2" class="art-image">
+                </div>
+            </section>
+
+            <section class="panel panel-4">
+                <div class="contact-content">
+                    <div class="contact-text">
+                        <h2>Odwiedź<br>Nas</h2>
+                    </div>
+                    <div class="contact-details">
+                        <p>ul. Fabryczna 42, Łódź</p>
+                        <p>Wtorek - Niedziela: 12:00 - 20:00</p>
+                        <br>
+                        <p>Kontakt dla mediów i kolekcjonerów:</p>
+                        <a href="#">hello@punktgaleria.pl</a>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script>
+        const container = document.getElementById('scroll-container');
+        
+        // Funkcja przeliczająca pozycję scrolla
+        function updateScroll() {
+            // Obliczamy maksymalną wartość scrolla w pionie
+            const maxScroll = document.body.scrollHeight - window.innerHeight;
+            
+            // Pobieramy obecną pozycję scrolla
+            const currentScroll = window.scrollY;
+            
+            // Obliczamy procent przewinięcia strony (od 0 do 1)
+            const scrollPercentage = currentScroll / maxScroll;
+            
+            // Mamy 4 panele, czyli cała szerokość to 400%. 
+            // Aby zobaczyć ostatni panel, musimy przesunąć kontener o 300% w lewo (czyli 75% z 400%)
+            // Używamy ułamka -75% jako maksymalnego przesunięcia w CSS (translateX)
+            const moveAmount = scrollPercentage * -75;
+            
+            // Aplikujemy transformację
+            container.style.transform = `translateX(${moveAmount}%)`;
+        }
+
+        // Podpinamy funkcję pod zdarzenie przewijania okna
+        window.addEventListener('scroll', () => {
+            // Używamy requestAnimationFrame dla lepszej wydajności i płynności animacji
+            requestAnimationFrame(updateScroll);
+        });
+
+        // Wywołujemy raz przy starcie, aby upewnić się, że pozycja jest poprawna przy odświeżeniu
+        updateScroll();
+    </script>
+</body>
+</html>
