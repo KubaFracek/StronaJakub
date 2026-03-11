@@ -5,194 +5,135 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Czarna Ziarnista | Rzemieślnicza Palarnia Kawy</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Raleway:wght@300;400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,900&family=Raleway:wght@300;400;700&display=swap');
 
         :root {
-            --bg-color: #0d0d0d;
-            --text-main: #f5f5f5;
-            --text-muted: #a0a0a0;
+            --bg: #0a0a0a;
+            --card-bg: #111;
             --accent: #c48b47;
-            --accent-hover: #e0a358;
-            --section-bg: #141414;
-            --glass-bg: rgba(13, 13, 13, 0.85);
+            --text: #ffffff;
+            --text-dim: #888;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html { scroll-behavior: smooth; }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: 'Raleway', sans-serif;
-            line-height: 1.6;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background: var(--bg); 
+            color: var(--text); 
+            font-family: 'Raleway', sans-serif; 
             overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        h1, h2, h3, .logo { font-family: 'Playfair Display', serif; }
-
-        /* --- NAWIGACJA --- */
+        /* --- NAVIGATION --- */
         header {
-            padding: 20px 5%;
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 25px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: fixed;
-            width: 100%;
-            top: 0;
             z-index: 1000;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
+            background: rgba(10,10,10,0.8);
+            backdrop-filter: blur(15px);
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
-
-        .logo {
-            font-size: 26px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--text-main);
-            text-decoration: none;
-        }
+        .logo { font-family: 'Playfair Display'; font-weight: 900; font-size: 1.5rem; text-transform: uppercase; letter-spacing: 2px; text-decoration: none; color: var(--text); }
         .logo span { color: var(--accent); }
-
-        .nav-right { display: flex; align-items: center; gap: 40px; }
-        .nav-links { display: flex; gap: 40px; list-style: none; }
-        .nav-links a {
-            color: var(--text-main);
-            text-decoration: none;
-            font-size: 14px;
-            text-transform: uppercase;
-            transition: color 0.3s;
-        }
-        .nav-links a:hover { color: var(--accent); }
-
-        .cart-btn {
-            color: var(--text-main);
-            cursor: pointer;
-            background: none;
-            border: none;
-            font-family: 'Raleway', sans-serif;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .cart-count {
-            background: var(--accent);
-            color: var(--bg-color);
-            padding: 2px 8px;
-            border-radius: 50%;
-            font-size: 12px;
-        }
 
         /* --- HERO --- */
         .hero {
             height: 100vh;
             display: flex;
             align-items: center;
-            padding: 0 5%;
-            background: linear-gradient(to right, rgba(13, 13, 13, 0.9) 0%, rgba(13, 13, 13, 0.4) 100%), 
-                        url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1920&auto=format&fit=crop') center/cover fixed;
+            padding: 0 8%;
+            background: linear-gradient(to right, rgba(10,10,10,1), rgba(10,10,10,0.2)), url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1920') center/cover;
         }
+        .hero h1 { font-family: 'Playfair Display'; font-size: clamp(3.5rem, 10vw, 7rem); line-height: 1; margin-bottom: 20px; font-weight: 900; }
+        .hero h1 i { color: var(--accent); -webkit-text-stroke: 1px var(--accent); -webkit-text-fill-color: transparent; }
 
-        .hero-content { max-width: 800px; animation: fadeInUp 1s ease; }
-        .hero-content h1 { font-size: clamp(3rem, 8vw, 5.5rem); margin-bottom: 20px; }
-        .hero-content h1 i { color: var(--accent); }
+        /* --- PRODUCTS SECTION --- */
+        .shop { padding: 150px 8%; }
+        .product-row {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 100px;
+            margin-bottom: 200px;
+            align-items: center;
+            position: relative;
+        }
+        .product-row:nth-child(even) { grid-template-columns: 1fr 1.2fr; direction: rtl; }
+        .product-row:nth-child(even) .product-text { direction: ltr; }
 
-        .btn-outline {
-            display: inline-block;
-            padding: 15px 40px;
+        /* --- DUŻE LICZBY (FIXED) --- */
+        .big-num {
+            position: absolute;
+            top: -60px;
+            left: -40px;
+            font-family: 'Playfair Display';
+            font-size: 15rem;
+            font-weight: 900;
+            line-height: 1;
+            color: transparent;
+            -webkit-text-stroke: 2px rgba(196, 139, 71, 0.3);
+            z-index: 10;
+            pointer-events: none;
+        }
+        .product-row:nth-child(even) .big-num { left: auto; right: -40px; }
+
+        /* --- ZDJĘCIA --- */
+        .img-cont { position: relative; overflow: hidden; border-radius: 2px; }
+        .img-cont img { 
+            width: 100%; 
+            display: block; 
+            aspect-ratio: 4/5; 
+            object-fit: cover; 
+            filter: grayscale(1) brightness(0.6); 
+            transition: 0.8s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+        .product-row:hover img { filter: grayscale(0) brightness(1); transform: scale(1.05); }
+
+        /* --- TEKST I PRZYCISK (NEW DESIGN) --- */
+        .product-text { position: relative; z-index: 20; }
+        .tag { color: var(--accent); text-transform: uppercase; letter-spacing: 5px; font-size: 0.75rem; font-weight: 700; display: block; margin-bottom: 20px; }
+        .product-text h2 { font-family: 'Playfair Display'; font-size: 4rem; line-height: 1; margin-bottom: 30px; }
+        .product-text p { color: var(--text-dim); font-size: 1.1rem; margin-bottom: 40px; max-width: 450px; }
+
+        .price-wrap { display: flex; align-items: center; gap: 40px; }
+        .price { font-family: 'Playfair Display'; font-size: 2.5rem; font-weight: 700; }
+
+        .add-btn {
+            background: transparent;
             border: 1px solid var(--accent);
             color: var(--accent);
-            text-decoration: none;
-            text-transform: uppercase;
-            font-weight: 600;
-            transition: all 0.4s ease;
-        }
-        .btn-outline:hover { background: var(--accent); color: var(--bg-color); }
-
-        /* --- TICKER --- */
-        .ticker-wrap { background: var(--accent); color: var(--bg-color); padding: 12px 0; overflow: hidden; }
-        .ticker {
-            display: inline-block;
-            white-space: nowrap;
-            animation: ticker 30s linear infinite;
+            padding: 18px 35px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 2px;
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+            transition: 0.4s;
+            font-size: 0.8rem;
         }
-        @keyframes ticker {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-100%); }
-        }
-
-        /* --- PRODUKTY (MAGAZYNOWY STYL) --- */
-        .products { padding: 140px 5%; }
-        .section-header { text-align: center; margin-bottom: 100px; }
-        .section-header h2 { font-size: 3.5rem; }
-
-        .product-showcase { max-width: 1200px; margin: auto; display: flex; flex-direction: column; gap: 180px; }
-        .product-item { display: flex; align-items: center; justify-content: space-between; position: relative; }
-        .product-item:nth-child(even) { flex-direction: row-reverse; }
-
-        .product-visual { width: 45%; position: relative; }
-
-        /* NUMERACJA NAD ZDJĘCIEM */
-        .product-number {
+        .add-btn::before {
+            content: '';
             position: absolute;
-            font-size: clamp(8rem, 15vw, 15rem);
-            font-weight: 700;
-            font-family: 'Playfair Display', serif;
-            color: rgba(255,255,255,0.15); /* Jaśniejszy kolor */
-            z-index: 10; /* NAD zdjęciem */
-            mix-blend-mode: overlay; /* Efekt przenikania */
-            line-height: 1;
-            top: -40px;
-            pointer-events: none;
+            top: 0; left: 0; width: 0; height: 100%;
+            background: var(--accent);
+            z-index: -1;
+            transition: 0.4s;
         }
-        .product-item:nth-child(odd) .product-number { left: -30px; }
-        .product-item:nth-child(even) .product-number { right: -30px; }
+        .add-btn:hover { color: var(--bg); }
+        .add-btn:hover::before { width: 100%; }
 
-        .product-image {
-            width: 100%;
-            aspect-ratio: 4/5;
-            background-size: cover;
-            background-position: center;
-            border-radius: 4px;
-            filter: grayscale(100%) contrast(1.1);
-            transition: all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
-        }
-        .product-item:hover .product-image { filter: grayscale(0%); transform: scale(1.02); }
-
-        /* Linki do obrazków */
-        .p1 { background-image: url('https://images.unsplash.com/photo-1527018263374-5adb6a54f01e?q=80&w=800&auto=format&fit=crop'); }
-        .p2 { background-image: url('https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=800&auto=format&fit=crop'); }
-        .p3 { background-image: url('https://images.unsplash.com/photo-1498804103079-a6351b050096?q=80&w=800&auto=format&fit=crop'); }
-
-        .product-info { width: 45%; }
-        .tasting-notes { color: var(--accent); text-transform: uppercase; letter-spacing: 3px; font-size: 0.8rem; margin-bottom: 15px; display: block; }
-        .product-info h3 { font-size: clamp(2.5rem, 4vw, 3.5rem); line-height: 1.1; margin-bottom: 25px; }
-        .product-info p { color: var(--text-muted); margin-bottom: 30px; }
-        .price { font-size: 2rem; font-family: 'Playfair Display', serif; margin-right: 30px; }
-
-        /* --- STOPKA --- */
-        footer { padding: 60px 5%; text-align: center; background: var(--section-bg); border-top: 1px solid rgba(255,255,255,0.05); }
-
-        /* MOBILE */
-        @media (max-width: 900px) {
-            .product-item, .product-item:nth-child(even) { flex-direction: column; gap: 40px; text-align: center; }
-            .product-visual, .product-info { width: 100%; }
-            .product-number { top: -20px; font-size: 8rem; width: 100%; text-align: center; left: 0 !important; right: 0 !important; }
-            .nav-links { display: none; }
+        /* --- RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .product-row, .product-row:nth-child(even) { grid-template-columns: 1fr; gap: 50px; }
+            .big-num { font-size: 10rem; top: -40px; left: 0; }
+            .product-text h2 { font-size: 3rem; }
         }
 
-        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
+        .reveal { opacity: 0; transform: translateY(50px); transition: 1s ease; }
         .reveal.active { opacity: 1; transform: translateY(0); }
     </style>
 </head>
@@ -200,108 +141,62 @@
 
     <header>
         <a href="#" class="logo">Czarna<span>Ziarnista</span></a>
-        <div class="nav-right">
-            <ul class="nav-links">
-                <li><a href="#shop">Sklep</a></li>
-                <li><a href="#about">O nas</a></li>
-            </ul>
-            <button class="cart-btn" onclick="document.getElementById('cart-sidebar').classList.add('active')">
-                Koszyk <span class="cart-count" id="cart-count">0</span>
-            </button>
-        </div>
+        <button class="add-btn" style="padding: 10px 20px; border-width: 1px;">Koszyk (0)</button>
     </header>
 
     <section class="hero">
         <div class="hero-content">
-            <h1>Rzemieślnicze palenie.<br><i>Inny</i> wymiar kawy.</h1>
-            <p>Wypalamy ziarna w małych partiach, aby wydobyć z nich to, co najlepsze. Etiopia, Brazylia, Gwatemala – poczuj różnicę.</p>
-            <a href="#shop" class="btn-outline">Sprawdź kolekcję</a>
+            <h1>Czysta Pasja.<br><i>Mroczny</i> Roast.</h1>
+            <p>Nie jesteśmy zwykłą palarnią. Jesteśmy rzemieślnikami smaku.</p>
         </div>
     </section>
 
-    <div class="ticker-wrap">
-        <div class="ticker">
-            Darmowa dostawa od 150 PLN • Świeże palenie w każdy wtorek • 100% Arabica Specialty • Darmowa dostawa od 150 PLN • Świeże palenie w każdy wtorek • 100% Arabica Specialty
-        </div>
-    </div>
-
-    <section id="shop" class="products">
-        <div class="section-header reveal">
-            <h2>Kolekcja 2026</h2>
-        </div>
-
-        <div class="product-showcase">
-            <div class="product-item reveal">
-                <div class="product-visual">
-                    <div class="product-number">01</div>
-                    <div class="product-image p1"></div>
-                </div>
-                <div class="product-info">
-                    <span class="tasting-notes">Jaśmin • Herbata • Cytrusy</span>
-                    <h3>Etiopia<br>Yirgacheffe</h3>
-                    <p>Jasno palona Arabica idealna do metod alternatywnych. Niesamowicie lekka, o kwiatowym aromacie, który przeniesie Cię prosto na afrykańskie plantacje.</p>
-                    <div style="display: flex; align-items: center;">
-                        <span class="price">65 PLN</span>
-                        <button class="btn-outline" onclick="addToCart('Etiopia Yirgacheffe', 65)">Dodaj do koszyka</button>
-                    </div>
-                </div>
+    <main class="shop">
+        <div class="product-row reveal">
+            <span class="big-num">01</span>
+            <div class="img-cont">
+                <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?q=80&w=800" alt="Etiopia">
             </div>
-
-            <div class="product-item reveal">
-                <div class="product-visual">
-                    <div class="product-number">02</div>
-                    <div class="product-image p2"></div>
-                </div>
-                <div class="product-info">
-                    <span class="tasting-notes">Orzech • Czekolada • Karmel</span>
-                    <h3>Brazylia<br>Cerrado</h3>
-                    <p>Klasyka, która nigdy się nie nudzi. Średnio palona, gęsta i słodka. Idealna baza do Twojego codziennego espresso lub aksamitnego cappuccino.</p>
-                    <div style="display: flex; align-items: center;">
-                        <span class="price">45 PLN</span>
-                        <button class="btn-outline" onclick="addToCart('Brazylia Cerrado', 45)">Dodaj do koszyka</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-item reveal">
-                <div class="product-visual">
-                    <div class="product-number">03</div>
-                    <div class="product-image p3"></div>
-                </div>
-                <div class="product-info">
-                    <span class="tasting-notes">Wiśnia • Kakao • Jabłko</span>
-                    <h3>Gwatemala<br>Antigua</h3>
-                    <p>Zrównoważona kawa z wulkanicznych gleb. Posiada przyjemne, owocowe body z wyraźnym, czekoladowym finiszem. Dla tych, którzy szukają głębi.</p>
-                    <div style="display: flex; align-items: center;">
-                        <span class="price">55 PLN</span>
-                        <button class="btn-outline" onclick="addToCart('Gwatemala Antigua', 55)">Dodaj do koszyka</button>
-                    </div>
+            <div class="product-text">
+                <span class="tag">Cytrusy • Jaśmin • Herbata</span>
+                <h2>Etiopia<br>Yirgacheffe</h2>
+                <p>Wyżynna kawa o niezwykle lekkim i kwiatowym profilu. Idealna dla tych, którzy w kawie szukają orzeźwienia, a nie goryczy.</p>
+                <div class="price-wrap">
+                    <span class="price">65 PLN</span>
+                    <button class="add-btn" onclick="alert('Dodano do koszyka!')">Dodaj do koszyka</button>
                 </div>
             </div>
         </div>
-    </section>
 
-    <footer>
-        <p>&copy; 2026 Czarna Ziarnista. Prawdziwa kawa wymaga czasu.</p>
+        <div class="product-row reveal">
+            <span class="big-num">02</span>
+            <div class="img-cont">
+                <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=800" alt="Brazylia">
+            </div>
+            <div class="product-text">
+                <span class="tag">Orzech • Czekolada • Karmel</span>
+                <h2>Brazylia<br>Cerrado</h2>
+                <p>Esencja klasycznego espresso. Gęsta, słodka i niesamowicie stabilna. Najlepszy wybór do mlecznych kaw o poranku.</p>
+                <div class="price-wrap">
+                    <span class="price">45 PLN</span>
+                    <button class="add-btn" onclick="alert('Dodano do koszyka!')">Dodaj do koszyka</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer style="padding: 100px 8%; border-top: 1px solid #222; text-align: center; color: #555;">
+        <p>&copy; 2026 Czarna Ziarnista. Design for Connoisseurs.</p>
     </footer>
 
     <script>
-        let cart = [];
-        function addToCart(name, price) {
-            cart.push({name, price});
-            document.getElementById('cart-count').innerText = cart.length;
-            alert("Dodano: " + name);
-        }
-
-        function reveal() {
-            var reveals = document.querySelectorAll(".reveal");
-            for (var i = 0; i < reveals.length; i++) {
-                var windowHeight = window.innerHeight;
-                var elementTop = reveals[i].getBoundingClientRect().top;
-                if (elementTop < windowHeight - 100) {
-                    reveals[i].classList.add("active");
-                }
-            }
+        const reveal = () => {
+            const reveals = document.querySelectorAll(".reveal");
+            reveals.forEach(el => {
+                let windowHeight = window.innerHeight;
+                let elementTop = el.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) el.classList.add("active");
+            });
         }
         window.addEventListener("scroll", reveal);
         reveal();
