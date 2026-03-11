@@ -57,7 +57,7 @@
         .logo {
             font-size: 22px;
             font-weight: 700;
-            color: var(--primary);
+            color: var(--primary); /* Logo jest na jasnym tle, zostaje zielone */
             text-decoration: none;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -72,13 +72,14 @@
 
         .nav-links a {
             text-decoration: none;
-            color: var(--primary);
+            color: var(--text-light); /* BIAŁE NA START (na zdjęciu) */
             font-weight: 500;
             font-size: 14px;
             text-transform: uppercase;
             letter-spacing: 1px;
             position: relative;
             padding: 5px 0;
+            transition: color 0.4s ease; /* Płynna zmiana koloru */
         }
 
         .nav-links a::after {
@@ -88,12 +89,21 @@
             height: 2px;
             bottom: 0;
             left: 0;
-            background-color: var(--secondary);
-            transition: width 0.3s ease;
+            background-color: var(--text-light); /* BIAŁA LINIA NA START */
+            transition: width 0.3s ease, background-color 0.4s ease;
         }
 
         .nav-links a:hover::after {
             width: 100%;
+        }
+
+        /* KOLORY LINKÓW PO SCROLLU (NA BEŻOWYM TLE) */
+        nav.scrolled .nav-links a {
+            color: var(--primary);
+        }
+        
+        nav.scrolled .nav-links a::after {
+            background-color: var(--secondary);
         }
 
         .hamburger {
@@ -105,9 +115,15 @@
         .hamburger div {
             width: 25px;
             height: 2px;
-            background-color: var(--primary);
+            background-color: var(--text-light); /* BIAŁY NA START */
             margin: 5px;
             transition: all 0.3s ease;
+        }
+
+        /* HAMBURGER CIEMNY PO SCROLLU ALBO JAK OTWORZYMY MENU (krzyżyk) */
+        nav.scrolled .hamburger div,
+        .hamburger.toggle div {
+            background-color: var(--primary);
         }
 
         /* --- HERO SECTION --- */
@@ -207,7 +223,7 @@
             60% { transform: translateY(-7px); }
         }
 
-        /* --- NOWE PORTFOLIO (Układ naprzemienny / Magazynowy) --- */
+        /* --- PORTFOLIO --- */
         .portfolio {
             padding: 120px 5%;
             background-color: #ffffff;
@@ -233,7 +249,7 @@
             margin: auto;
             display: flex;
             flex-direction: column;
-            gap: 120px; /* Duży odstęp między projektami dodaje elegancji */
+            gap: 120px;
         }
 
         .project-row {
@@ -309,7 +325,7 @@
         }
 
         .project-link::after {
-            content: ' \2192'; /* Strzałka w prawo */
+            content: ' \2192';
             margin-left: 8px;
             transition: transform 0.3s ease;
         }
@@ -490,7 +506,6 @@
                 display: none;
             }
             
-            /* Naprawa nowego portfolio na mobile */
             .project-row, .project-row.reverse {
                 flex-direction: column;
                 gap: 30px;
@@ -509,6 +524,7 @@
                 grid-template-columns: 1fr;
             }
             
+            /* MENU MOBILNE */
             .nav-links {
                 position: absolute;
                 right: 0px;
@@ -528,8 +544,14 @@
                 transform: translateX(0%);
             }
             
-            .nav-links a {
+            /* WYMUSZENIE CIEMNEGO KOLORU W MENU MOBILNYM NA BEŻOWYM TLE */
+            .nav-links.nav-active a {
+                color: var(--primary) !important;
                 font-size: 20px;
+            }
+            
+            .nav-links.nav-active a::after {
+                background-color: var(--secondary) !important;
             }
 
             .hamburger {
@@ -654,7 +676,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Animacje Intersection Observer
+            // Animacje na scrollu
             const observerOptions = {
                 threshold: 0.15,
                 rootMargin: "0px 0px -50px 0px"
@@ -669,7 +691,6 @@
                 });
             }, observerOptions);
 
-            // Obserwuj wszystkie elementy z klasami animacji
             document.querySelectorAll('.fade-up, .fade-left, .fade-right').forEach((element) => {
                 observer.observe(element);
             });
@@ -695,7 +716,7 @@
                 });
             });
 
-            // Glassmorphism Navbar
+            // Glassmorphism i zmiana kolorów Navbaru
             const navbar = document.getElementById('navbar');
             window.addEventListener('scroll', () => {
                 if (window.scrollY > 50) {
