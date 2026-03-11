@@ -16,6 +16,7 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body { 
             background: var(--bg); 
             color: var(--text); 
@@ -28,7 +29,7 @@
         header {
             position: fixed;
             top: 0; width: 100%;
-            padding: 25px 5%;
+            padding: 25px 8%;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -46,57 +47,65 @@
             display: flex;
             align-items: center;
             padding: 0 8%;
-            background: linear-gradient(to right, rgba(10,10,10,1), rgba(10,10,10,0.2)), url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1920') center/cover;
+            background: linear-gradient(to right, rgba(10,10,10,1), rgba(10,10,10,0.2)), 
+                        url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1920') center/cover;
         }
         .hero h1 { font-family: 'Playfair Display'; font-size: clamp(3.5rem, 10vw, 7rem); line-height: 1; margin-bottom: 20px; font-weight: 900; }
         .hero h1 i { color: var(--accent); -webkit-text-stroke: 1px var(--accent); -webkit-text-fill-color: transparent; }
 
-        /* --- PRODUCTS SECTION --- */
+        /* --- TICKER (PASEK) --- */
+        .ticker-wrap { background: var(--accent); color: var(--bg); padding: 10px 0; overflow: hidden; }
+        .ticker { display: inline-block; white-space: nowrap; animation: ticker 40s linear infinite; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; }
+        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* --- SHOP SECTION --- */
         .shop { padding: 150px 8%; }
         .product-row {
             display: grid;
             grid-template-columns: 1.2fr 1fr;
             gap: 100px;
-            margin-bottom: 200px;
+            margin-bottom: 250px;
             align-items: center;
             position: relative;
         }
         .product-row:nth-child(even) { grid-template-columns: 1fr 1.2fr; direction: rtl; }
         .product-row:nth-child(even) .product-text { direction: ltr; }
 
-        /* --- DUŻE LICZBY (FIXED) --- */
+        /* --- LICZBY KONTUROWE --- */
         .big-num {
             position: absolute;
-            top: -60px;
+            top: -80px;
             left: -40px;
             font-family: 'Playfair Display';
-            font-size: 15rem;
+            font-size: 18rem;
             font-weight: 900;
             line-height: 1;
             color: transparent;
-            -webkit-text-stroke: 2px rgba(196, 139, 71, 0.3);
+            -webkit-text-stroke: 2px rgba(196, 139, 71, 0.25);
             z-index: 10;
             pointer-events: none;
+            transition: 0.5s;
         }
         .product-row:nth-child(even) .big-num { left: auto; right: -40px; }
+        .product-row:hover .big-num { -webkit-text-stroke: 2px rgba(196, 139, 71, 0.6); transform: translateY(-10px); }
 
         /* --- ZDJĘCIA --- */
-        .img-cont { position: relative; overflow: hidden; border-radius: 2px; }
+        .img-cont { position: relative; overflow: hidden; border-radius: 4px; box-shadow: 0 30px 60px rgba(0,0,0,0.5); }
         .img-cont img { 
             width: 100%; 
             display: block; 
             aspect-ratio: 4/5; 
             object-fit: cover; 
             filter: grayscale(1) brightness(0.6); 
-            transition: 0.8s cubic-bezier(0.2, 1, 0.3, 1);
+            transition: 1.2s cubic-bezier(0.2, 1, 0.3, 1);
         }
-        .product-row:hover img { filter: grayscale(0) brightness(1); transform: scale(1.05); }
+        .product-row:hover img { filter: grayscale(0) brightness(1); transform: scale(1.08); }
 
-        /* --- TEKST I PRZYCISK (NEW DESIGN) --- */
+        /* --- TEKST I PRZYCISKI --- */
         .product-text { position: relative; z-index: 20; }
         .tag { color: var(--accent); text-transform: uppercase; letter-spacing: 5px; font-size: 0.75rem; font-weight: 700; display: block; margin-bottom: 20px; }
-        .product-text h2 { font-family: 'Playfair Display'; font-size: 4rem; line-height: 1; margin-bottom: 30px; }
-        .product-text p { color: var(--text-dim); font-size: 1.1rem; margin-bottom: 40px; max-width: 450px; }
+        .product-text h2 { font-family: 'Playfair Display'; font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1; margin-bottom: 30px; }
+        .product-text p { color: var(--text-dim); font-size: 1.1rem; margin-bottom: 40px; max-width: 480px; }
 
         .price-wrap { display: flex; align-items: center; gap: 40px; }
         .price { font-family: 'Playfair Display'; font-size: 2.5rem; font-weight: 700; }
@@ -105,35 +114,37 @@
             background: transparent;
             border: 1px solid var(--accent);
             color: var(--accent);
-            padding: 18px 35px;
+            padding: 20px 40px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 2px;
             cursor: pointer;
             position: relative;
             z-index: 1;
-            transition: 0.4s;
-            font-size: 0.8rem;
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.85rem;
+            overflow: hidden;
         }
         .add-btn::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; width: 0; height: 100%;
+            top: 0; left: -100%; width: 100%; height: 100%;
             background: var(--accent);
             z-index: -1;
-            transition: 0.4s;
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .add-btn:hover { color: var(--bg); }
-        .add-btn:hover::before { width: 100%; }
+        .add-btn:hover::before { left: 0; }
 
         /* --- RESPONSIVE --- */
         @media (max-width: 1024px) {
-            .product-row, .product-row:nth-child(even) { grid-template-columns: 1fr; gap: 50px; }
+            .product-row, .product-row:nth-child(even) { grid-template-columns: 1fr; gap: 60px; margin-bottom: 150px; }
             .big-num { font-size: 10rem; top: -40px; left: 0; }
             .product-text h2 { font-size: 3rem; }
+            .shop { padding: 100px 5%; }
         }
 
-        .reveal { opacity: 0; transform: translateY(50px); transition: 1s ease; }
+        .reveal { opacity: 0; transform: translateY(60px); transition: 1.2s cubic-bezier(0.2, 1, 0.3, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
     </style>
 </head>
@@ -141,17 +152,26 @@
 
     <header>
         <a href="#" class="logo">Czarna<span>Ziarnista</span></a>
-        <button class="add-btn" style="padding: 10px 20px; border-width: 1px;">Koszyk (0)</button>
+        <div style="display: flex; align-items: center; gap: 30px;">
+            <a href="#shop" style="color: white; text-decoration: none; font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;">Sklep</a>
+            <button class="add-btn" style="padding: 10px 20px;">Koszyk (0)</button>
+        </div>
     </header>
 
     <section class="hero">
         <div class="hero-content">
             <h1>Czysta Pasja.<br><i>Mroczny</i> Roast.</h1>
-            <p>Nie jesteśmy zwykłą palarnią. Jesteśmy rzemieślnikami smaku.</p>
+            <p>Nie jesteśmy zwykłą palarnią. Jesteśmy rzemieślnikami smaku, którzy nie uznają kompromisów.</p>
         </div>
     </section>
 
-    <main class="shop">
+    <div class="ticker-wrap">
+        <div class="ticker">
+            Darmowa dostawa od 150 PLN • Świeże palenie w każdy wtorek • 100% Arabica Specialty • Darmowa dostawa od 150 PLN • Świeże palenie w każdy wtorek • 100% Arabica Specialty • 
+        </div>
+    </div>
+
+    <main class="shop" id="shop">
         <div class="product-row reveal">
             <span class="big-num">01</span>
             <div class="img-cont">
@@ -160,10 +180,10 @@
             <div class="product-text">
                 <span class="tag">Cytrusy • Jaśmin • Herbata</span>
                 <h2>Etiopia<br>Yirgacheffe</h2>
-                <p>Wyżynna kawa o niezwykle lekkim i kwiatowym profilu. Idealna dla tych, którzy w kawie szukają orzeźwienia, a nie goryczy.</p>
+                <p>Wyżynna kawa o niezwykle lekkim i kwiatowym profilu. Idealna dla tych, którzy w kawie szukają orzeźwienia i szlachetnej kwasowości.</p>
                 <div class="price-wrap">
                     <span class="price">65 PLN</span>
-                    <button class="add-btn" onclick="alert('Dodano do koszyka!')">Dodaj do koszyka</button>
+                    <button class="add-btn" onclick="alert('Dodano Etiopię!')">Dodaj do koszyka</button>
                 </div>
             </div>
         </div>
@@ -176,17 +196,33 @@
             <div class="product-text">
                 <span class="tag">Orzech • Czekolada • Karmel</span>
                 <h2>Brazylia<br>Cerrado</h2>
-                <p>Esencja klasycznego espresso. Gęsta, słodka i niesamowicie stabilna. Najlepszy wybór do mlecznych kaw o poranku.</p>
+                <p>Esencja klasycznego espresso. Gęsta, słodka i niesamowicie stabilna. Najlepszy wybór do porannego cappuccino lub intensywnego shota.</p>
                 <div class="price-wrap">
                     <span class="price">45 PLN</span>
-                    <button class="add-btn" onclick="alert('Dodano do koszyka!')">Dodaj do koszyka</button>
+                    <button class="add-btn" onclick="alert('Dodano Brazylię!')">Dodaj do koszyka</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-row reveal">
+            <span class="big-num">03</span>
+            <div class="img-cont">
+                <img src="https://images.unsplash.com/photo-1498804103079-a6351b050096?q=80&w=800" alt="Gwatemala">
+            </div>
+            <div class="product-text">
+                <span class="tag">Wiśnia • Kakao • Jabłko</span>
+                <h2>Gwatemala<br>Antigua</h2>
+                <p>Kawa z wulkanicznych gleb. Posiada idealny balans między owocową świeżością a głębokim, dymnym posmakiem czekolady.</p>
+                <div class="price-wrap">
+                    <span class="price">55 PLN</span>
+                    <button class="add-btn" onclick="alert('Dodano Gwatemalę!')">Dodaj do koszyka</button>
                 </div>
             </div>
         </div>
     </main>
 
     <footer style="padding: 100px 8%; border-top: 1px solid #222; text-align: center; color: #555;">
-        <p>&copy; 2026 Czarna Ziarnista. Design for Connoisseurs.</p>
+        <p>&copy; 2026 Czarna Ziarnista. Prawdziwa kawa wymaga odwagi.</p>
     </footer>
 
     <script>
@@ -195,7 +231,7 @@
             reveals.forEach(el => {
                 let windowHeight = window.innerHeight;
                 let elementTop = el.getBoundingClientRect().top;
-                if (elementTop < windowHeight - 100) el.classList.add("active");
+                if (elementTop < windowHeight - 150) el.classList.add("active");
             });
         }
         window.addEventListener("scroll", reveal);
