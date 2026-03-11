@@ -10,15 +10,15 @@
         :root {
             --bg-color: #dedcd7;
             --text-color: #111111;
-            --accent-color: #ff3300;
+            --accent-color: #ff3300; /* Neonowa czerwień */
         }
 
+        /* --- NOWY MINIMALISTYCZNY KURSOR --- */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            /* Ukrywamy domyślny kursor na desktopie */
-            cursor: none; 
+            cursor: none; /* Ukrywamy domyślny kursor na PC */
         }
 
         body {
@@ -27,14 +27,14 @@
             font-family: 'Space Grotesk', sans-serif;
             height: 400vh;
             overflow-x: hidden;
-            /* Ukrywamy pionowy pasek przewijania dla estetyki */
             scrollbar-width: none;
         }
+        
         body::-webkit-scrollbar {
             display: none;
         }
 
-        /* --- EFEKT SZUMU (GRAIN) --- */
+        /* Tło z delikatnym szumem */
         .noise {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -44,23 +44,40 @@
             background: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
         }
 
-        /* --- CUSTOM KURSOR --- */
-        .cursor {
+        /* Wygląd nowej kropki */
+        .cursor-dot {
             position: fixed;
             top: 0; left: 0;
-            width: 20px; height: 20px;
+            width: 6px; height: 6px;
+            background-color: var(--text-color);
             border-radius: 50%;
-            background-color: var(--accent-color);
-            mix-blend-mode: difference;
             pointer-events: none;
             z-index: 10000;
             transform: translate(-50%, -50%);
-            transition: width 0.2s, height 0.2s, background-color 0.2s;
+            transition: opacity 0.2s ease;
         }
-        /* Efekt hover na linkach dla kursora */
-        a:hover ~ .cursor, .art-image:hover ~ .cursor {
-            width: 50px; height: 50px;
-            background-color: #fff;
+
+        /* Wygląd nowego podążającego okręgu */
+        .cursor-ring {
+            position: fixed;
+            top: 0; left: 0;
+            width: 36px; height: 36px;
+            border: 1px solid rgba(17, 17, 17, 0.4);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+        }
+
+        /* Animacja kursora po najechaniu */
+        .cursor-ring.hovered {
+            width: 80px; height: 80px;
+            border-color: var(--accent-color);
+            background-color: rgba(255, 51, 0, 0.05);
+        }
+        .cursor-dot.hovered {
+            opacity: 0;
         }
 
         h1, h2, h3, .logo {
@@ -78,19 +95,11 @@
             z-index: 1000;
             mix-blend-mode: difference;
             color: #ffffff;
-            pointer-events: none; /* Żeby kursor przenikał */
+            pointer-events: none;
         }
 
-        .logo {
-            font-size: 2rem;
-            font-weight: 700;
-            letter-spacing: -2px;
-        }
-
-        .nav-info {
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-        }
+        .logo { font-size: 2rem; font-weight: 700; letter-spacing: -2px; }
+        .nav-info { font-size: 0.9rem; letter-spacing: 2px; }
 
         .sticky-wrapper {
             position: sticky;
@@ -115,7 +124,7 @@
             position: relative;
         }
 
-        /* --- ANIMACJE POJAWIANIA SIĘ (FADE-IN) --- */
+        /* --- ANIMACJE POJAWIANIA SIĘ --- */
         .reveal {
             opacity: 0;
             transform: translateY(40px);
@@ -126,10 +135,10 @@
             transform: translateY(0);
         }
 
-        /* PANEL 1 */
+        /* --- PANEL 1 --- */
         .panel-1 { justify-content: center; text-align: center; }
         .panel-1 h1 {
-            font-size: clamp(3rem, 8vw, 10rem); /* Dynamiczna wielkość fontu */
+            font-size: clamp(3rem, 8vw, 10rem);
             line-height: 0.9;
             letter-spacing: -5px;
             margin-bottom: 20px;
@@ -141,7 +150,6 @@
             color: #555;
         }
 
-        /* Wskaźnik scrolla z animacją */
         .scroll-indicator {
             position: absolute;
             bottom: 50px; left: 50%;
@@ -165,19 +173,15 @@
             100% { transform: scaleX(0.2); }
         }
 
-        /* PANELE 2 & 3 */
+        /* --- PANELE 2 & 3 --- */
         .exhibition-layout {
-            display: flex;
-            gap: 5vw;
-            align-items: center;
-            width: 100%;
+            display: flex; gap: 5vw; align-items: center; width: 100%;
         }
         .art-image {
             width: 45vw; height: 70vh;
             object-fit: cover;
             filter: grayscale(100%) contrast(1.2);
             transition: all 0.7s ease;
-            cursor: none;
         }
         .art-image:hover {
             filter: grayscale(0%) contrast(1);
@@ -186,50 +190,39 @@
         .art-info { max-width: 400px; }
         .art-info h2 {
             font-size: clamp(2rem, 4vw, 4rem);
-            margin-bottom: 20px;
-            word-wrap: break-word;
+            margin-bottom: 20px; word-wrap: break-word;
         }
         .art-info .artist {
-            color: var(--accent-color);
-            font-weight: 700;
-            margin-bottom: 30px;
-            display: inline-block;
-            letter-spacing: 2px;
-            padding: 5px 10px;
+            color: var(--accent-color); font-weight: 700;
+            margin-bottom: 30px; display: inline-block;
+            letter-spacing: 2px; padding: 5px 10px;
             border: 1px solid var(--accent-color);
         }
         .art-info p { line-height: 1.8; color: #444; }
 
-        /* PANEL 4 */
+        /* --- PANEL 4 --- */
         .panel-4 {
             background-color: var(--text-color);
             color: var(--bg-color);
         }
         .contact-content {
             width: 100%; display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
+            justify-content: space-between; align-items: flex-end;
         }
         .contact-text h2 {
             font-size: clamp(3rem, 8vw, 8rem);
             line-height: 1; margin-bottom: 40px;
             color: var(--bg-color);
         }
-        .contact-details p {
-            font-size: 1.2rem; margin-bottom: 10px;
-        }
+        .contact-details p { font-size: 1.2rem; margin-bottom: 10px; }
         .contact-details a {
-            color: var(--accent-color);
-            text-decoration: none;
-            font-size: clamp(1.5rem, 3vw, 3rem);
-            font-weight: 700;
+            color: var(--accent-color); text-decoration: none;
+            font-size: clamp(1.5rem, 3vw, 3rem); font-weight: 700;
             position: relative;
-            cursor: none;
         }
         .contact-details a::after {
             content: ''; position: absolute;
-            bottom: -5px; left: 0;
-            width: 0%; height: 2px;
+            bottom: -5px; left: 0; width: 0%; height: 2px;
             background-color: var(--accent-color);
             transition: width 0.3s ease;
         }
@@ -237,45 +230,34 @@
 
         /* --- RESPONSIVE DLA TELEFONÓW --- */
         @media (max-width: 768px) {
-            * { cursor: auto; } /* Przywracamy kursor na mobilkach (dla dotyku) */
-            .cursor { display: none; }
+            * { cursor: auto; }
+            .cursor-dot, .cursor-ring { display: none; }
             
-            body {
-                height: auto; 
-                overflow-y: auto;
-            }
+            body { height: auto; overflow-y: auto; }
             nav { mix-blend-mode: normal; color: var(--text-color); background: rgba(222, 220, 215, 0.9); padding: 20px; }
-            .sticky-wrapper {
-                position: relative;
-                height: auto;
-            }
+            .sticky-wrapper { position: relative; height: auto; }
             .horizontal-container {
-                width: 100vw;
-                flex-direction: column;
-                transform: none !important; /* Wyłączamy poziome przesuwanie z JS */
+                width: 100vw; flex-direction: column;
+                transform: none !important; 
             }
             .panel {
-                padding: 120px 5vw 50px; /* Większy padding u góry ze względu na nav */
-                height: auto;
-                min-height: 100vh;
+                padding: 120px 5vw 50px;
+                height: auto; min-height: 100vh;
                 justify-content: center;
             }
             .exhibition-layout { flex-direction: column; }
-            .art-image {
-                width: 100%; height: 50vh; margin-bottom: 30px;
-            }
+            .art-image { width: 100%; height: 50vh; margin-bottom: 30px; }
             .art-info { text-align: left !important; max-width: 100%; }
-            .scroll-indicator { display: none; } /* Ukrywamy "Przewiń" na końcu pierwszego ekranu, bo na telefonie przewija się naturalnie */
-            .contact-content {
-                flex-direction: column; align-items: flex-start; gap: 30px;
-            }
+            .scroll-indicator { display: none; }
+            .contact-content { flex-direction: column; align-items: flex-start; gap: 30px; }
         }
     </style>
 </head>
 <body>
 
     <div class="noise"></div>
-    <div class="cursor" id="custom-cursor"></div>
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-ring" id="cursor-ring"></div>
 
     <nav>
         <div class="logo">PUNKT</div>
@@ -336,12 +318,10 @@
     </div>
 
     <script>
-        const container = document.getElementById('scroll-container');
-        const customCursor = document.getElementById('custom-cursor');
-        
         // --- OBSŁUGA POZIOMEGO SCROLLA ---
+        const container = document.getElementById('scroll-container');
+        
         function updateScroll() {
-            // Sprawdzamy czy jesteśmy na urządzeniu mobilnym (jeśli tak, wyłączamy JS-owy scroll)
             if (window.innerWidth <= 768) {
                 container.style.transform = 'none';
                 return;
@@ -351,7 +331,6 @@
             const currentScroll = window.scrollY;
             const scrollPercentage = currentScroll / maxScroll;
             
-            // Limitujemy procent od 0 do 1, żeby uniknąć błędów przy "odbijaniu" scrolla w macOS
             const clampedPercentage = Math.min(Math.max(scrollPercentage, 0), 1);
             const moveAmount = clampedPercentage * -75;
             
@@ -362,29 +341,60 @@
             requestAnimationFrame(updateScroll);
         });
         window.addEventListener('resize', updateScroll);
-        updateScroll(); // Inicjalizacja
+        updateScroll();
 
-        // --- CUSTOM KURSOR ---
+
+        // --- OBSŁUGA NOWEGO KURSORA (KROPKA + OKRĄG) ---
+        const cursorDot = document.getElementById('cursor-dot');
+        const cursorRing = document.getElementById('cursor-ring');
+        
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let ringX = mouseX;
+        let ringY = mouseY;
+
         window.addEventListener('mousemove', (e) => {
-            // Ukrywamy custom kursor na małych ekranach
             if (window.innerWidth > 768) {
-                customCursor.style.left = e.clientX + 'px';
-                customCursor.style.top = e.clientY + 'px';
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                
+                // Kropka aktualizuje się natychmiast
+                cursorDot.style.left = mouseX + 'px';
+                cursorDot.style.top = mouseY + 'px';
             }
         });
 
-        // Duży kursor po najechaniu na interaktywne elementy
-        const hoverElements = document.querySelectorAll('a, .art-image');
-        hoverElements.forEach(el => {
-            el.addEventListener('mouseenter', () => customCursor.style.transform = 'translate(-50%, -50%) scale(2)');
-            el.addEventListener('mouseleave', () => customCursor.style.transform = 'translate(-50%, -50%) scale(1)');
+        function animateRing() {
+            if (window.innerWidth > 768) {
+                // Płynne podążanie okręgu (Lerp)
+                ringX += (mouseX - ringX) * 0.15;
+                ringY += (mouseY - ringY) * 0.15;
+                
+                cursorRing.style.left = ringX + 'px';
+                cursorRing.style.top = ringY + 'px';
+            }
+            requestAnimationFrame(animateRing);
+        }
+        animateRing();
+
+        // Powiększanie na interaktywnych elementach
+        const interactables = document.querySelectorAll('a, .art-image');
+        interactables.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursorRing.classList.add('hovered');
+                cursorDot.classList.add('hovered');
+            });
+            el.addEventListener('mouseleave', () => {
+                cursorRing.classList.remove('hovered');
+                cursorDot.classList.remove('hovered');
+            });
         });
 
-        // --- ANIMACJE POJAWIANIA SIĘ (Intersection Observer) ---
+
+        // --- ANIMACJE POJAWIANIA SIĘ ELEMENTÓW ---
         const revealElements = document.querySelectorAll('.reveal');
-        
         const revealOptions = {
-            threshold: 0.2, // Element pojawia się, gdy 20% jest widoczne na ekranie
+            threshold: 0.2, 
             rootMargin: "0px 0px -50px 0px"
         };
 
@@ -392,7 +402,7 @@
             entries.forEach(entry => {
                 if (!entry.isIntersecting) return;
                 entry.target.classList.add('active');
-                observer.unobserve(entry.target); // Animacja odpala się tylko raz
+                observer.unobserve(entry.target); 
             });
         }, revealOptions);
 
