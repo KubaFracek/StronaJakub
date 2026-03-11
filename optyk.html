@@ -11,12 +11,12 @@
 
     <style>
         :root {
-            --primary: #0f172a; /* Głęboki granat/czarny */
-            --accent: #d4af37;  /* Eleganckie złoto */
+            --primary: #0f172a; 
+            --accent: #d4af37;  
             --bg-color: #fcfcfc;
             --text-dark: #1e293b;
             --text-light: #ffffff;
-            --glass-bg: rgba(255, 255, 255, 0.98); /* Header jasny */
+            --glass-bg: rgba(255, 255, 255, 0.98); 
         }
 
         * {
@@ -87,7 +87,7 @@
         .hamburger { display: none; cursor: pointer; border: none; background: none; }
         .hamburger span { display: block; width: 30px; height: 2px; background-color: var(--primary); margin: 6px 0; transition: 0.4s; }
 
-        /* --- HERO VIEW (SPLIT-SCREEN) --- */
+        /* --- HERO VIEW --- */
         .hero { 
             position: relative; 
             height: 100vh; 
@@ -96,7 +96,7 @@
             align-items: center; 
             overflow: hidden; 
             background: var(--bg-color);
-            padding-top: 100px; /* Przestrzeń pod header */
+            padding-top: 100px;
         }
 
         .hero-content-side {
@@ -158,8 +158,10 @@
         .btn::before { content: ''; position: absolute; top: 0; left: 0; width: 0%; height: 100%; background: var(--accent); transition: all 0.4s ease; z-index: -1; }
         .btn:hover::before { width: 100%; }
         .btn:hover { color: var(--text-light); }
+        
+        .btn-outline { border-color: var(--primary); }
+        .btn-outline::before { background: var(--primary); }
 
-        /* Strona ze zdjęciem - wycięta i wpasowana */
         .hero-image-side {
             height: 100%;
             width: 100%;
@@ -172,7 +174,7 @@
         .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* --- KOLEKCJE (Układ magazynowy) --- */
+        /* --- KOLEKCJE --- */
         .collections { padding: 120px 5%; max-width: 1400px; margin: auto; }
         .section-header { margin-bottom: 80px; text-align: center; }
         .section-title { font-size: 3rem; color: var(--primary); font-weight: 600; }
@@ -226,7 +228,9 @@
         .info-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 8px; display: block; font-weight: 600; }
         .info-text, .info-text a { font-size: 1.2rem; color: var(--primary); text-decoration: none; font-weight: 300; line-height: 1.6; }
         
-        .map-box { width: 100%; height: 100%; min-height: 500px; background: #eaeaea; }
+        .map-box { width: 100%; height: 100%; min-height: 500px; background: #eaeaea; position: relative; }
+        /* Resetowanie marginesów dla iframe wewnątrz map-box */
+        .map-box iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
 
         /* --- FOOTER --- */
         footer { background: var(--primary); color: rgba(255,255,255,0.5); text-align: center; padding: 40px 20px; font-size: 0.9rem; font-weight: 300; letter-spacing: 1px; }
@@ -388,7 +392,7 @@
             </div>
             
             <div class="map-box">
-                <iframe src="https://maps.app.goo.gl/p8CXAkduHyywdefDA" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                <iframe src="https://maps.google.com/maps?q=Swarz%C4%99dz,+Poland&t=&z=13&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy"></iframe>
             </div>
         </div>
     </section>
