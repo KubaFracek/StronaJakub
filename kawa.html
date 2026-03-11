@@ -3,24 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Czarna Ziarnista | Premium Craft Roastery</title>
+    <title>Czarna Ziarnista | Premium Coffee Roastery</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Raleway:wght@200;400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Raleway:wght@200;400;700&display=swap');
 
         :root {
             --bg-color: #0a0a0a;
-            --text-main: #fcfaf7;
-            --text-muted: #888;
-            --accent: #d4a373; /* Szlachetniejszy odcień złota/kawy */
-            --accent-dark: #b08968;
-            --section-bg: #111;
-            --glass: rgba(10, 10, 10, 0.8);
+            --section-bg: #111111;
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --accent: #d4a373; /* Cieplejszy odcień kawy */
+            --accent-glow: rgba(212, 163, 115, 0.3);
+            --glass: rgba(255, 255, 255, 0.03);
+            --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* --- RESET & BASE --- */
         * {
-            margin: 0; padding: 0; box-sizing: border-box;
-            cursor: none; /* Ukrywamy standardowy kursor dla efektu WOW */
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none; /* Ukrywamy kursor dla efektu custom cursor */
+        }
+
+        @media (max-width: 768px) {
+            * { cursor: auto; } /* Na mobile przywracamy standard */
+            .custom-cursor { display: none; }
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
@@ -29,352 +40,463 @@
             font-family: 'Raleway', sans-serif;
             line-height: 1.6;
             overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
         }
 
-        /* Subtelne ziarno na całej stronie */
-        body::before {
-            content: "";
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url("https://grainy-gradients.vercel.app/noise.svg");
-            opacity: 0.04;
-            pointer-events: none;
-            z-index: 9999;
-        }
-
-        h1, h2, h3, .logo { font-family: 'Playfair Display', serif; }
-
-        /* Custom Cursor */
-        #cursor {
-            width: 10px; height: 10px;
+        /* --- CUSTOM CURSOR --- */
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
             background: var(--accent);
             border-radius: 50%;
             position: fixed;
             pointer-events: none;
-            z-index: 10000;
-            transition: transform 0.1s ease;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: transform 0.2s ease;
         }
 
-        #cursor-follower {
-            width: 40px; height: 40px;
+        .custom-cursor-outline {
+            width: 40px;
+            height: 40px;
             border: 1px solid var(--accent);
             border-radius: 50%;
             position: fixed;
             pointer-events: none;
-            z-index: 9999;
-            transition: transform 0.15s ease, width 0.3s, height 0.3s;
+            z-index: 9998;
+            transition: all 0.15s ease-out;
         }
 
-        /* --- NAV --- */
+        /* --- PROGRESS BAR --- */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: var(--accent);
+            z-index: 1001;
+        }
+
+        h1, h2, h3, .logo { font-family: 'Playfair Display', serif; }
+
+        /* --- NAVIGATION --- */
         header {
             padding: 25px 5%;
-            display: flex; justify-content: space-between; align-items: center;
-            position: fixed; width: 100%; top: 0; z-index: 1000;
-            background: var(--glass);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255,255,255,0.03);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: var(--transition);
         }
 
-        .logo { font-size: 1.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; text-decoration: none; color: var(--text-main); }
+        header.scrolled {
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(20px);
+            padding: 15px 5%;
+            border-bottom: 1px solid var(--glass);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
         .logo span { color: var(--accent); }
 
-        .nav-links { display: flex; gap: 40px; list-style: none; }
-        .nav-links a { 
-            color: var(--text-main); text-decoration: none; font-size: 0.8rem; 
-            text-transform: uppercase; letter-spacing: 2px; transition: 0.3s;
-            opacity: 0.7;
-        }
-        .nav-links a:hover { opacity: 1; color: var(--accent); }
+        .nav-right { display: flex; align-items: center; gap: 30px; }
 
-        /* --- HERO --- */
+        .nav-links { display: flex; gap: 30px; list-style: none; }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover { color: var(--accent); }
+
+        .cart-btn {
+            background: var(--glass);
+            border: 1px solid var(--glass);
+            color: var(--text-main);
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+        }
+
+        .cart-btn:hover { background: var(--accent); color: var(--bg-color); }
+
+        .cart-count {
+            background: var(--text-main);
+            color: var(--bg-color);
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 10px;
+        }
+
+        /* --- HERO SECTION (PARALLAX) --- */
         .hero {
             height: 100vh;
-            display: flex; align-items: center; padding: 0 8%;
-            background: linear-gradient(to bottom, rgba(10,10,10,0.2), var(--bg-color)), 
-                        url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            padding: 0 10%;
+            overflow: hidden;
+            position: relative;
         }
 
-        .hero-content { max-width: 900px; }
+        .hero-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to right, #0a0a0a 20%, transparent 80%), 
+                        url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1920&q=80') center/cover;
+            z-index: -1;
+            transform: scale(1.1);
+            transition: transform 0.1s linear;
+        }
+
+        .hero-content { max-width: 700px; }
+
         .hero-content h1 {
-            font-size: clamp(3.5rem, 10vw, 7rem);
+            font-size: clamp(3.5rem, 10vw, 6.5rem);
             line-height: 0.9;
             margin-bottom: 30px;
-            font-weight: 400;
-            animation: heroFade 1.2s ease forwards;
+            font-weight: 900;
         }
 
         .hero-content p {
-            font-size: 1.1rem; color: var(--text-muted);
-            max-width: 500px; margin-bottom: 40px;
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
             border-left: 2px solid var(--accent);
             padding-left: 20px;
         }
 
         .btn-main {
             padding: 18px 45px;
-            background: transparent;
-            border: 1px solid var(--accent);
-            color: var(--accent);
+            background: var(--accent);
+            color: var(--bg-color);
+            text-decoration: none;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            transition: 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-            position: relative; overflow: hidden;
+            letter-spacing: 2px;
+            display: inline-block;
+            transition: var(--transition);
+            border-radius: 2px;
+            position: relative;
         }
 
         .btn-main:hover {
-            background: var(--accent);
-            color: var(--bg-color);
-            box-shadow: 0 10px 30px rgba(212, 163, 115, 0.3);
-            transform: translateY(-3px);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px var(--accent-glow);
         }
 
-        /* --- PRODUCTS --- */
-        .products { padding: 150px 8%; }
-        .section-title { margin-bottom: 100px; }
-        .section-title h2 { font-size: clamp(2.5rem, 5vw, 4.5rem); }
-        .section-title .dash { width: 60px; height: 2px; background: var(--accent); margin-top: 15px; }
+        /* --- PRODUKTY 2.0 --- */
+        .products { padding: 100px 5%; }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .section-title h2 { font-size: 3rem; margin-bottom: 10px; }
+        .section-title .divider {
+            width: 60px; height: 3px; background: var(--accent); margin: 0 auto;
+        }
 
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 60px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
         .product-card {
-            position: relative;
             background: var(--section-bg);
-            padding: 40px;
-            border-radius: 2px;
-            transition: 0.5s;
-            border: 1px solid rgba(255,255,255,0.02);
+            border: 1px solid var(--glass);
+            padding: 30px;
+            border-radius: 4px;
+            transition: var(--transition);
+            position: relative;
         }
 
         .product-card:hover {
-            transform: translateY(-15px);
-            border-color: rgba(212, 163, 115, 0.2);
-        }
-
-        .product-img-wrapper {
-            width: 100%;
-            height: 400px;
-            overflow: hidden;
-            margin-bottom: 30px;
+            border-color: var(--accent);
+            transform: translateY(-10px);
         }
 
         .product-img {
-            width: 100%; height: 100%;
-            object-fit: cover;
-            filter: grayscale(0.5);
-            transition: 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+            width: 100%;
+            height: 350px;
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 25px;
+            filter: grayscale(1);
+            transition: var(--transition);
         }
 
-        .product-card:hover .product-img {
-            filter: grayscale(0);
-            transform: scale(1.1);
+        .product-card:hover .product-img { filter: grayscale(0); }
+
+        .product-card h3 { font-size: 1.8rem; margin-bottom: 10px; }
+        .product-card .price { font-size: 1.4rem; color: var(--accent); font-family: 'Playfair Display'; }
+
+        /* --- KOSZYK (SIDEBAR) --- */
+        #cart-sidebar {
+            position: fixed;
+            top: 0; right: -100%;
+            width: 400px; height: 100vh;
+            background: #0f0f0f;
+            z-index: 2000;
+            padding: 40px;
+            transition: 0.6s cubic-bezier(0.85, 0, 0.15, 1);
+            box-shadow: -20px 0 50px rgba(0,0,0,0.5);
         }
 
-        .roast-level {
-            display: flex; gap: 5px; margin: 15px 0;
+        #cart-sidebar.active { right: 0; }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--glass);
         }
 
-        .dot { width: 8px; height: 8px; border-radius: 50%; border: 1px solid var(--accent); }
-        .dot.fill { background: var(--accent); }
-
-        .price-tag {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            margin-top: 20px;
-            display: block;
+        .qty-btn {
+            background: var(--glass);
+            border: none;
+            color: white;
+            width: 25px; height: 25px;
+            cursor: pointer;
         }
 
-        /* --- CART SIDEBAR --- */
-        .cart-sidebar {
-            position: fixed; top: 0; right: -100%; width: 400px; height: 100%;
-            background: #0f0f0f; z-index: 2000; transition: 0.6s cubic-bezier(0.85, 0, 0.15, 1);
-            padding: 50px; display: flex; flex-direction: column;
+        /* --- REVEAL ANIMATION --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: 1s ease-out;
         }
-        .cart-sidebar.active { right: 0; }
-        
-        /* Mobile fixes */
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         @media (max-width: 768px) {
-            .cart-sidebar { width: 100%; }
-            .nav-links { display: none; } /* Uproszczenie na mobile */
-            .hero { padding-top: 100px; align-items: flex-start; }
-            * { cursor: auto !important; }
-            #cursor, #cursor-follower { display: none; }
+            #cart-sidebar { width: 100%; }
+            .nav-links { display: none; } /* Uproszczenie dla przykładu */
+            .hero-content h1 { font-size: 3rem; }
         }
-
-        /* --- ANIMATIONS --- */
-        @keyframes heroFade {
-            from { opacity: 0; transform: translateY(50px); filter: blur(10px); }
-            to { opacity: 1; transform: translateY(0); filter: blur(0); }
-        }
-
-        .reveal { opacity: 0; transform: translateY(30px); transition: 1s ease; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-
     </style>
 </head>
 <body>
 
-    <div id="cursor"></div>
-    <div id="cursor-follower"></div>
+    <div id="scroll-progress"></div>
+    <div class="custom-cursor"></div>
+    <div class="custom-cursor-outline"></div>
 
-    <header>
-        <a href="#" class="logo">CZARNA<span>ZIARNISTA</span></a>
-        <nav>
+    <header id="header">
+        <a href="#" class="logo">Czarna<span>Ziarnista.</span></a>
+        <div class="nav-right">
             <ul class="nav-links">
-                <li><a href="#kolekcja">Kolekcja</a></li>
-                <li><a href="#onas">O nas</a></li>
-                <li><a href="#kontakt">Kontakt</a></li>
+                <li><a href="#about">Nasza Misja</a></li>
+                <li><a href="#shop">Kolekcje</a></li>
+                <li><a href="#club">Klub</a></li>
             </ul>
-        </nav>
-        <div style="display: flex; align-items: center; gap: 20px;">
-            <button class="btn-main" style="padding: 10px 20px;" onclick="toggleCart()">
-                Koszyk [<span id="cart-count">0</span>]
+            <button class="cart-btn" onclick="toggleCart()">
+                CART <span class="cart-count">0</span>
             </button>
         </div>
     </header>
 
     <section class="hero">
+        <div class="hero-bg"></div>
         <div class="hero-content">
-            <p>EST. 2026 • CRAFT ROASTERY</p>
-            <h1>Sztuka palenia, <br><em>którą czuć.</em></h1>
-            <p>Nie sprzedajemy tylko kawy. Sprzedajemy moment skupienia, w którym czas zwalnia do tempa kapiącego naparu.</p>
-            <a href="#kolekcja" class="btn-main">Eksploruj zbiory</a>
+            <h1 class="reveal">Kawa, która ma <br><i>charakter.</i></h1>
+            <p class="reveal">Rzemieślnicza palarnia, w której czas płynie wolniej, a ziarno traktujemy jak skarb. Odkryj profile smakowe z najdalszych zakątków świata.</p>
+            <a href="#shop" class="btn-main reveal">Eksploruj Sklep</a>
         </div>
     </section>
 
-    <section id="kolekcja" class="products">
+    <section id="shop" class="products">
         <div class="section-title reveal">
             <h2>Wyselekcjonowane Ziarna</h2>
-            <div class="dash"></div>
+            <div class="divider"></div>
         </div>
 
         <div class="product-grid">
             <div class="product-card reveal">
-                <div class="product-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?q=80&w=800" class="product-img" alt="Kawa">
+                <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=600&q=80')"></div>
+                <h3>Etiopia Guji</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 15px;">Nuty: Poziomka, Earl Grey, Kwiaty</p>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span class="price">69 PLN</span>
+                    <button onclick="addToCart(1, 'Etiopia Guji', 69)" class="btn-main" style="padding: 10px 20px; font-size: 11px;">+ Dodaj</button>
                 </div>
-                <span style="color: var(--accent); font-size: 0.8rem; letter-spacing: 2px;">ETIOPIA</span>
-                <h3>Yirgacheffe Gedeb</h3>
-                <div class="roast-level">
-                    <span style="font-size: 0.7rem; margin-right: 10px;">WYPALENIE:</span>
-                    <div class="dot fill"></div>
-                    <div class="dot fill"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                </div>
-                <p style="font-size: 0.9rem; color: var(--text-muted);">Nuty: Kwiat jaśminu, brzoskwinia, herbata Earl Grey.</p>
-                <span class="price-tag">69.00 PLN</span>
-                <button class="btn-main" style="width: 100%; margin-top: 20px;" onclick="addToCart('Etiopia', 69)">Dodaj do koszyka</button>
             </div>
 
             <div class="product-card reveal">
-                <div class="product-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1580915411954-282cb1b0d780?q=80&w=800" class="product-img" alt="Kawa">
+                <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1580915411954-282cb1b0d780?auto=format&fit=crop&w=600&q=80')"></div>
+                <h3>Brazylia Santos</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 15px;">Nuty: Orzech, Mleczna Czekolada</p>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span class="price">49 PLN</span>
+                    <button onclick="addToCart(2, 'Brazylia Santos', 49)" class="btn-main" style="padding: 10px 20px; font-size: 11px;">+ Dodaj</button>
                 </div>
-                <span style="color: var(--accent); font-size: 0.8rem; letter-spacing: 2px;">COLOMBIA</span>
-                <h3>Huila Excelso</h3>
-                <div class="roast-level">
-                    <span style="font-size: 0.7rem; margin-right: 10px;">WYPALENIE:</span>
-                    <div class="dot fill"></div>
-                    <div class="dot fill"></div>
-                    <div class="dot fill"></div>
-                    <div class="dot fill"></div>
+            </div>
+
+            <div class="product-card reveal">
+                <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1611854779393-1b2da9d400fe?auto=format&fit=crop&w=600&q=80')"></div>
+                <h3>Colombia Supremo</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 15px;">Nuty: Czerwone Jabłko, Karmel</p>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span class="price">55 PLN</span>
+                    <button onclick="addToCart(3, 'Colombia Supremo', 55)" class="btn-main" style="padding: 10px 20px; font-size: 11px;">+ Dodaj</button>
                 </div>
-                <p style="font-size: 0.9rem; color: var(--text-muted);">Nuty: Ciemna czekolada, karmel, czerwone jabłko.</p>
-                <span class="price-tag">55.00 PLN</span>
-                <button class="btn-main" style="width: 100%; margin-top: 20px;" onclick="addToCart('Colombia', 55)">Dodaj do koszyka</button>
             </div>
         </div>
     </section>
 
-    <div class="cart-sidebar" id="cart-sidebar">
-        <h2 style="margin-bottom: 30px;">Twój wybór</h2>
-        <div id="cart-items" style="flex: 1; overflow-y: auto;">
+    <div id="cart-sidebar">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+            <h2 style="font-family: 'Playfair Display';">Twój Wybór</h2>
+            <button onclick="toggleCart()" style="background: none; border: none; color: white; font-size: 24px;">✕</button>
+        </div>
+        <div id="cart-items-list">
             </div>
-        <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+        <div style="margin-top: 40px; border-top: 1px solid var(--glass); padding-top: 20px;">
+            <div style="display: flex; justify-content: space-between; font-size: 1.5rem; margin-bottom: 20px;">
                 <span>Suma:</span>
-                <span id="total-price" style="color: var(--accent); font-size: 1.5rem;">0.00 PLN</span>
+                <span id="cart-total" style="color: var(--accent);">0 PLN</span>
             </div>
-            <button class="btn-main" style="width: 100%;" onclick="alert('Przejście do kasy...')">Finalizuj zamówienie</button>
-            <button class="btn-main" style="width: 100%; border: none; margin-top: 10px; font-size: 0.6rem;" onclick="toggleCart()">Kontynuuj zakupy</button>
+            <button class="btn-main" style="width: 100%;" onclick="alert('Przekierowanie do płatności...')">Finalizuj Zamówienie</button>
         </div>
     </div>
 
     <script>
-        // --- CUSTOM CURSOR ---
-        const cursor = document.getElementById('cursor');
-        const follower = document.getElementById('cursor-follower');
-        
-        document.addEventListener('mousemove', (e) => {
+        // --- CUSTOM CURSOR LOGIC ---
+        const cursor = document.querySelector('.custom-cursor');
+        const cursorOutline = document.querySelector('.custom-cursor-outline');
+
+        window.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX + 'px';
             cursor.style.top = e.clientY + 'px';
-            follower.style.left = e.clientX - 15 + 'px';
-            follower.style.top = e.clientY - 15 + 'px';
+            
+            cursorOutline.animate({
+                left: `${e.clientX - 20}px`,
+                top: `${e.clientY - 20}px`
+            }, { duration: 500, fill: "forwards" });
         });
 
-        document.querySelectorAll('a, button').forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                follower.style.width = '60px';
-                follower.style.height = '60px';
-                follower.style.transform = 'translate(-10px, -10px)';
-                follower.style.background = 'rgba(212, 163, 115, 0.1)';
-            });
-            el.addEventListener('mouseleave', () => {
-                follower.style.width = '40px';
-                follower.style.height = '40px';
-                follower.style.transform = 'translate(0, 0)';
-                follower.style.background = 'transparent';
-            });
+        // --- HERO PARALLAX ---
+        window.addEventListener('scroll', () => {
+            const scroll = window.pageYOffset;
+            document.querySelector('.hero-bg').style.transform = `scale(1.1) translateY(${scroll * 0.3}px)`;
+            
+            // Header change
+            const header = document.querySelector('header');
+            if (scroll > 50) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
+
+            // Progress Bar
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("scroll-progress").style.width = scrolled + "%";
         });
 
-        // --- REVEAL ON SCROLL (Intersection Observer) ---
-        const observerOptions = { threshold: 0.1 };
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-        // --- CART LOGIC ---
+        // --- ADVANCED CART SYSTEM ---
         let cart = [];
+
         function toggleCart() {
             document.getElementById('cart-sidebar').classList.toggle('active');
         }
 
-        function addToCart(name, price) {
-            cart.push({name, price});
-            updateCartUI();
-            if(!document.getElementById('cart-sidebar').classList.contains('active')) {
-                toggleCart();
+        function addToCart(id, name, price) {
+            const existingItem = cart.find(item => item.id === id);
+            if (existingItem) {
+                existingItem.qty++;
+            } else {
+                cart.push({ id, name, price, qty: 1 });
             }
+            renderCart();
+            if(!document.getElementById('cart-sidebar').classList.contains('active')) toggleCart();
         }
 
-        function updateCartUI() {
-            const container = document.getElementById('cart-items');
-            const count = document.getElementById('cart-count');
-            const total = document.getElementById('total-price');
+        function changeQty(id, delta) {
+            const item = cart.find(item => item.id === id);
+            if (item) {
+                item.qty += delta;
+                if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
+            }
+            renderCart();
+        }
+
+        function renderCart() {
+            const list = document.getElementById('cart-items-list');
+            const countLabel = document.querySelector('.cart-count');
+            const totalLabel = document.getElementById('cart-total');
             
-            count.innerText = cart.length;
-            container.innerHTML = cart.map((item, index) => `
-                <div style="display: flex; justify-content: space-between; margin-bottom: 15px; background: rgba(255,255,255,0.03); padding: 15px;">
-                    <span>${item.name}</span>
-                    <span>${item.price} PLN</span>
-                </div>
-            `).join('');
+            list.innerHTML = '';
+            let total = 0;
+            let count = 0;
 
-            const sum = cart.reduce((a, b) => a + b.price, 0);
-            total.innerText = sum.toFixed(2) + ' PLN';
+            cart.forEach(item => {
+                total += item.price * item.qty;
+                count += item.qty;
+                list.innerHTML += `
+                    <div class="cart-item">
+                        <div>
+                            <div style="font-weight: bold;">${item.name}</div>
+                            <div style="color: var(--accent); font-size: 0.9rem;">${item.price} PLN</div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <button class="qty-btn" onclick="changeQty(${item.id}, -1)">-</button>
+                            <span>${item.qty}</span>
+                            <button class="qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            countLabel.innerText = count;
+            totalLabel.innerText = total + ' PLN';
         }
+
+        // --- REVEAL ON SCROLL ---
+        const reveal = () => {
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(el => {
+                const windowHeight = window.innerHeight;
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) {
+                    el.classList.add('active');
+                }
+            });
+        };
+
+        window.addEventListener('scroll', reveal);
+        window.onload = reveal;
     </script>
 </body>
 </html>
