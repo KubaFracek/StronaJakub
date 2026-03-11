@@ -248,75 +248,128 @@
             box-shadow: 30px 30px 0px var(--accent);
         }
 
-        /* --- PRODUKTY (PRZYWRÓCONY GRIDE 3-KAFELKOWY) --- */
+        /* --- PRODUKTY (EDITORIAL STYLE) --- */
         .products {
-            padding: 120px 5%;
-            background-color: var(--section-bg);
-        }
-
-        .section-header {
-            margin-bottom: 60px;
-            text-align: center;
-        }
-
-        .section-header h2 { font-size: 3rem; color: var(--text-main); }
-        .section-header p { color: var(--text-muted); margin-top: 10px; font-size: 1.1rem; }
-
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            max-width: 1200px;
-            margin: auto;
-        }
-
-        .product-card {
+            padding: 140px 5%;
             background-color: var(--bg-color);
-            padding: 30px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
         }
 
-        .product-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+        .section-header {
+            margin-bottom: 120px;
+            text-align: center;
+        }
+
+        .section-header h2 { font-size: 3.5rem; color: var(--text-main); }
+        .section-header p { color: var(--text-muted); margin-top: 15px; font-size: 1.2rem; }
+
+        .product-showcase {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 160px; /* Przestrzeń między produktami */
+        }
+
+        .product-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            gap: 10%;
+        }
+
+        /* Zygzak: parzyste elementy mają zdjęcie po prawej */
+        .product-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .product-visual {
+            width: 45%;
+            position: relative;
+            z-index: 2;
         }
 
         .product-image {
             width: 100%;
-            height: 250px;
-            margin-bottom: 20px;
+            aspect-ratio: 4/5;
             background-size: cover;
             background-position: center;
             border-radius: 8px;
-            filter: grayscale(100%); /* Efekt wow: mroczny look, znika na hover */
-            transition: all 0.5s ease;
+            filter: grayscale(100%) brightness(0.7);
+            transition: all 0.7s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
 
-        .product-card:hover .product-image { filter: grayscale(0%); transform: scale(1.03); }
+        /* KLUCZOWY FIX: Dodane linki do zdjęć bezpośrednio w kodzie CSS */
+        .p1 { background-image: url('https://images.unsplash.com/photo-1559525839-cece31d10e05?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'); }
+        .p2 { background-image: url('https://images.unsplash.com/photo-1587734195503-904fca47e0e9?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'); }
+        .p3 { background-image: url('https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'); }
 
-        /* Prawdziwe zdjęcia kaw dla każdej klasy - TO BYŁO KLUCZOWE ZADANIE */
-        .p1 { background-image: url('https://images.unsplash.com/photo-1595434091143-b375ace5d46d?q=80&w=800&auto=format&fit=crop'); }
-        .p2 { background-image: url('https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=800&auto=format&fit=crop'); }
-        .p3 { background-image: url('https://images.unsplash.com/photo-1559056199-641a0ac8b55e?q=80&w=800&auto=format&fit=crop'); }
+        .product-item:hover .product-image {
+            filter: grayscale(0%) brightness(1);
+            transform: scale(1.03) translateY(-15px);
+            box-shadow: 0 30px 60px rgba(196, 139, 71, 0.15);
+        }
 
-        .product-card h3 { font-size: 1.5rem; margin-bottom: 10px; }
-        .product-card p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px; min-height: 60px; }
-        
-        .product-footer {
+        .product-info {
+            width: 45%;
+            z-index: 2;
+            position: relative;
+        }
+
+        .product-number {
+            position: absolute;
+            font-size: clamp(10rem, 20vw, 20rem);
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+            color: rgba(255,255,255,0.03);
+            top: -20%;
+            z-index: -1;
+            line-height: 1;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .product-item:nth-child(odd) .product-number { left: -20%; }
+        .product-item:nth-child(even) .product-number { right: -20%; }
+
+        .tasting-notes {
+            color: var(--accent);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+            display: block;
+            font-weight: 600;
+        }
+
+        .product-info h3 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            line-height: 1.1;
+            margin-bottom: 30px;
+        }
+
+        .product-info p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+
+        .product-actions {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            gap: 40px;
         }
 
-        .price { color: var(--accent); font-weight: 700; font-size: 1.4rem; }
+        .product-actions .price {
+            font-size: 2rem;
+            font-weight: 400;
+            color: var(--text-main);
+            font-family: 'Playfair Display', serif;
+        }
 
         /* --- NEWSLETTER --- */
         .newsletter {
@@ -495,7 +548,7 @@
 
         footer p { color: var(--text-muted); font-size: 0.9rem; }
 
-        /* --- ANIMACJE DLA WOW --- */
+        /* --- ANIMACJE JS SCROLL --- */
         .reveal {
             opacity: 0;
             transform: translateY(40px);
@@ -515,8 +568,8 @@
             to { opacity: 1; transform: translateX(0); }
         }
 
-        /* --- RESPONSIVE MOBILE --- */
-        @media (max-width: 768px) {
+        /* --- RESPONSIVE MOBILE DLA NOWEGO UKŁADU --- */
+        @media (max-width: 900px) {
             .mobile-menu-btn { display: block; }
             
             .nav-links {
@@ -537,6 +590,23 @@
             .about-image { width: 100%; height: 300px; box-shadow: 10px 10px 0px var(--accent); }
             .about-image:hover { transform: none; }
             
+            /* Dopasowanie produktów do mobile (zyg-zag) */
+            .product-item, .product-item:nth-child(even) {
+                flex-direction: column;
+                gap: 50px;
+            }
+            .product-visual, .product-info { width: 100%; }
+            .product-info { text-align: center; }
+            .product-actions { justify-content: center; flex-direction: column; gap: 20px; }
+            .product-number { 
+                top: -50px; 
+                left: 0 !important; 
+                right: 0 !important; 
+                text-align: center; 
+                width: 100%;
+            }
+            .product-showcase { gap: 120px; }
+
             .subscribe-form { flex-direction: column; }
             .newsletter-box { padding: 30px 15px; }
             
@@ -586,35 +656,53 @@
 
     <section id="shop" class="products">
         <div class="section-header reveal">
-            <h2>Świeże wypały</h2>
-            <p>Kawy z najdalszych zakątków świata, wypalone w sercu Polski.</p>
+            <h2>Kolekcja Ziaren</h2>
+            <p>Najlepsze zbiory, potraktowane z szacunkiem, na jaki zasługują.</p>
         </div>
 
-        <div class="grid-container">
-            <div class="product-card reveal">
-                <div class="product-image p1"></div> <h3>Etiopia Yirgacheffe</h3>
-                <p>Nuty smakowe: jaśmin, bergamotka, czarna herbata. Jasne palenie idealne do metod alternatywnych.</p>
-                <div class="product-footer">
-                    <div class="price">65 PLN</div>
-                    <button class="btn-outline" onclick="addToCart(0, 'Etiopia Yirgacheffe', 65)">Dodaj do koszyka</button>
-                </div>
-            </div>
-            
-            <div class="product-card reveal">
-                <div class="product-image p2"></div> <h3>Brazylia Cerrado</h3>
-                <p>Nuty smakowe: czekolada, orzech laskowy, karmel. Średnie palenie, doskonałe espresso.</p>
-                <div class="product-footer">
-                    <div class="price">45 PLN</div>
-                    <button class="btn-outline" onclick="addToCart(1, 'Brazylia Cerrado', 45)">Dodaj do koszyka</button>
+        <div class="product-showcase">
+            <div class="product-item reveal">
+                <div class="product-number">01</div>
+                <div class="product-visual">
+                    <div class="product-image p1"></div> </div>
+                <div class="product-info">
+                    <span class="tasting-notes">Jaśmin · Bergamotka · Czarna Herbata</span>
+                    <h3>Etiopia<br>Yirgacheffe</h3>
+                    <p>Prawdziwa klasyka dla fanów alternatywy. Ziarna z regionu Yirgacheffe słyną z niesamowicie czystego profilu, herbacianego body i rześkiej kwasowości. Rozbudź swoje zmysły kwiatowym aromatem.</p>
+                    <div class="product-actions">
+                        <span class="price">65 PLN</span>
+                        <button class="btn-outline" onclick="addToCart(0, 'Etiopia Yirgacheffe', 65)">Dodaj do koszyka</button>
+                    </div>
                 </div>
             </div>
 
-            <div class="product-card reveal">
-                <div class="product-image p3"></div> <h3>Gwatemala Antigua</h3>
-                <p>Nuty smakowe: kakao, wiśnia, czerwone jabłko. Gładkie body i przyjemna kwasowość.</p>
-                <div class="product-footer">
-                    <div class="price">55 PLN</div>
-                    <button class="btn-outline" onclick="addToCart(2, 'Gwatemala Antigua', 55)">Dodaj do koszyka</button>
+            <div class="product-item reveal">
+                <div class="product-number">02</div>
+                <div class="product-visual">
+                    <div class="product-image p2"></div> </div>
+                <div class="product-info">
+                    <span class="tasting-notes">Czekolada · Orzech Laskowy · Karmel</span>
+                    <h3>Brazylia<br>Cerrado</h3>
+                    <p>Esencja klasycznego, gęstego espresso. Niska kwasowość, potężne body i słodycz, która idealnie przebija się przez mleko. Twoje codzienne, niezawodne źródło energii o poranku.</p>
+                    <div class="product-actions">
+                        <span class="price">45 PLN</span>
+                        <button class="btn-outline" onclick="addToCart(1, 'Brazylia Cerrado', 45)">Dodaj do koszyka</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-item reveal">
+                <div class="product-number">03</div>
+                <div class="product-visual">
+                    <div class="product-image p3"></div> </div>
+                <div class="product-info">
+                    <span class="tasting-notes">Kakao · Wiśnia · Czerwone Jabłko</span>
+                    <h3>Gwatemala<br>Antigua</h3>
+                    <p>Kawa uprawiana na wulkanicznych glebach, co nadaje jej unikalny, lekko dymny charakter. Świetnie zbalansowana, z delikatną, owocową kwasowością wiśni na finiszu.</p>
+                    <div class="product-actions">
+                        <span class="price">55 PLN</span>
+                        <button class="btn-outline" onclick="addToCart(2, 'Gwatemala Antigua', 55)">Dodaj do koszyka</button>
+                    </div>
                 </div>
             </div>
         </div>
