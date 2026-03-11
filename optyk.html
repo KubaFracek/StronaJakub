@@ -11,12 +11,12 @@
 
     <style>
         :root {
-            --primary: #111827; 
-            --accent: #b45309;  
-            --bg-color: #f8fafc;
-            --text-dark: #334155;
+            --primary: #0f172a; /* Głęboki granat/czarny */
+            --accent: #d4af37;  /* Eleganckie złoto */
+            --bg-color: #fcfcfc;
+            --text-dark: #1e293b;
             --text-light: #ffffff;
-            --glass-bg: rgba(255, 255, 255, 0.98);
+            --glass-bg: rgba(255, 255, 255, 0.98); /* Header jasny */
         }
 
         * {
@@ -24,7 +24,7 @@
             font-family: 'Montserrat', sans-serif;
         }
 
-        h1, h2, h3, .logo {
+        h1, h2, h3, .logo, .section-title {
             font-family: 'Playfair Display', serif;
         }
 
@@ -37,90 +37,146 @@
         /* --- PRELOADER --- */
         #preloader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg-color);
+            background: var(--primary);
             display: flex; justify-content: center; align-items: center;
             z-index: 9999;
             transition: opacity 0.6s ease, visibility 0.6s;
         }
 
-        .lens-loader { position: relative; width: 80px; height: 40px; }
-        .lens-loader::before, .lens-loader::after {
-            content: ''; position: absolute; top: 0;
-            width: 40px; height: 40px; border-radius: 50%;
-            border: 2px solid var(--primary);
-            animation: focusLens 1.5s infinite ease-in-out alternate;
+        .loader {
+            width: 60px; height: 60px;
+            border: 2px solid rgba(212, 175, 55, 0.2);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s infinite cubic-bezier(0.55, 0.15, 0.45, 0.85);
         }
-        .lens-loader::before { left: 0; border-right-color: transparent; }
-        .lens-loader::after { right: 0; border-left-color: transparent; animation-delay: -0.75s; }
 
-        @keyframes focusLens {
-            0% { transform: scale(0.8); opacity: 0.5; }
-            100% { transform: scale(1.1); opacity: 1; border-color: var(--accent); }
-        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
 
         /* --- HEADER --- */
         header {
             position: fixed; top: 0; width: 100%;
             background: var(--glass-bg);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
             z-index: 1000;
-            transition: all 0.3s ease;
-            padding: 20px 0;
+            transition: all 0.4s ease;
+            padding: 25px 0;
         }
 
-        header.scrolled { padding: 12px 0; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+        header.scrolled {
+            padding: 15px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+        }
 
         nav {
             display: flex; justify-content: space-between; align-items: center;
             padding: 0 5%; max-width: 1400px; margin: auto;
         }
 
-        .logo { font-size: 26px; font-weight: 700; color: var(--primary); text-decoration: none; letter-spacing: 1px; display: flex; flex-direction: column; line-height: 1; }
-        .logo span { font-family: 'Montserrat', sans-serif; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 4px; color: var(--accent); font-weight: 600; margin-top: 4px; }
+        .logo { font-size: 28px; font-weight: 800; color: var(--primary); text-decoration: none; letter-spacing: 2px; }
+        .logo span { color: var(--accent); }
 
-        .nav-links { list-style: none; display: flex; gap: 35px; }
-        .nav-links a { text-decoration: none; color: var(--primary); font-weight: 500; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; position: relative; padding-bottom: 4px; }
-        .nav-links a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: 0; left: 0; background-color: var(--accent); transition: width 0.3s ease; }
+        .nav-links { list-style: none; display: flex; gap: 40px; }
+        .nav-links a { text-decoration: none; color: var(--primary); font-weight: 400; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; position: relative; padding-bottom: 5px; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--accent); }
+        .nav-links a::after { content: ''; position: absolute; width: 0; height: 1px; bottom: 0; left: 0; background-color: var(--accent); transition: width 0.3s ease; }
         .nav-links a:hover::after { width: 100%; }
 
         .hamburger { display: none; cursor: pointer; border: none; background: none; }
         .hamburger span { display: block; width: 30px; height: 2px; background-color: var(--primary); margin: 6px 0; transition: 0.4s; }
 
-        /* --- HERO --- */
+        /* --- HERO VIEW (SPLIT-SCREEN) --- */
         .hero { 
-            position: relative; height: 100vh; display: flex; align-items: center; padding: 0 5%;
-            background: linear-gradient(to right, rgba(248, 250, 252, 0.95) 40%, rgba(248, 250, 252, 0.3)), 
-                        url('https://images.unsplash.com/photo-1574258495973-f010dfbb5371?auto=format&fit=crop&w=1920&q=80') center/cover;
+            position: relative; 
+            height: 100vh; 
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center; 
+            overflow: hidden; 
+            background: var(--bg-color);
+            padding-top: 100px; /* Przestrzeń pod header */
         }
 
-        .hero-content { max-width: 600px; z-index: 2; margin-left: 5%; }
-        .hero-subtitle { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 4px; color: var(--accent); font-weight: 600; margin-bottom: 20px; display: block; }
-
-        .focus-text {
-            font-size: 4.5rem; color: var(--primary); font-weight: 700; line-height: 1.1; margin-bottom: 25px;
-            filter: blur(10px); opacity: 0;
-            animation: bringIntoFocus 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.8s;
+        .hero-content-side {
+            padding: 0 10%;
+            color: var(--text-dark);
+            transform: translateY(40px);
+            opacity: 0;
+            animation: fadeUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.5s;
         }
 
-        @keyframes bringIntoFocus { 100% { filter: blur(0); opacity: 1; } }
-
-        .hero p { font-size: 1.1rem; color: var(--text-dark); margin-bottom: 40px; line-height: 1.8; opacity: 0; animation: fadeUp 1s forwards 1.5s; }
-
-        .btn {
-            padding: 16px 40px; background: var(--primary); color: var(--text-light); text-decoration: none; font-size: 0.9rem; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease; display: inline-block; opacity: 0; animation: fadeUp 1s forwards 1.7s; border: 1px solid var(--primary);
+        .hero-subtitle {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--accent);
+            margin-bottom: 15px;
+            display: block;
+            font-weight: 600;
         }
-        .btn:hover { background: transparent; color: var(--primary); }
+
+        .hero-content-side h1 { 
+            font-size: 4.5rem; 
+            margin-bottom: 25px; 
+            font-weight: 600; 
+            line-height: 1.1; 
+            letter-spacing: -1px; 
+            color: var(--primary);
+        }
         
-        .btn-outline { background: transparent; color: var(--primary); border: 1px solid var(--primary); }
-        .btn-outline:hover { background: var(--primary); color: var(--text-light); }
+        .hero-content-side h1 span { font-style: italic; }
+
+        .hero-content-side p { 
+            font-size: 1.15rem; 
+            margin-bottom: 50px; 
+            max-width: 500px; 
+            opacity: 0.8; 
+            font-weight: 300; 
+            line-height: 1.8; 
+            color: #64748b;
+        }
+
+        .btn { 
+            padding: 18px 50px; 
+            background: transparent; 
+            color: var(--primary); 
+            text-decoration: none; 
+            font-size: 0.9rem; 
+            font-weight: 600; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            border-radius: 0; 
+            transition: all 0.4s ease; 
+            display: inline-block; 
+            border: 1px solid var(--accent); 
+            position: relative; 
+            overflow: hidden; 
+        }
+        
+        .btn::before { content: ''; position: absolute; top: 0; left: 0; width: 0%; height: 100%; background: var(--accent); transition: all 0.4s ease; z-index: -1; }
+        .btn:hover::before { width: 100%; }
+        .btn:hover { color: var(--text-light); }
+
+        /* Strona ze zdjęciem - wycięta i wpasowana */
+        .hero-image-side {
+            height: 100%;
+            width: 100%;
+            background: url('https://images.pexels.com/photos/1110009/pexels-photo-1110009.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1') center/cover;
+            position: relative;
+        }
 
         @keyframes fadeUp { to { transform: translateY(0); opacity: 1; } }
 
-        /* --- KOLEKCJE --- */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* --- KOLEKCJE (Układ magazynowy) --- */
         .collections { padding: 120px 5%; max-width: 1400px; margin: auto; }
         .section-header { margin-bottom: 80px; text-align: center; }
-        .section-title { font-size: 3rem; color: var(--primary); margin-bottom: 10px; }
-        .section-desc { color: var(--accent); text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem; font-weight: 600; }
+        .section-title { font-size: 3rem; color: var(--primary); font-weight: 600; }
+        .section-subtitle { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 3px; color: var(--accent); margin-bottom: 15px; display: block; }
 
         .editorial-row { display: flex; align-items: center; gap: 80px; margin-bottom: 100px; }
         .editorial-row:last-child { margin-bottom: 0; }
@@ -132,9 +188,9 @@
         
         .ed-text-wrap { flex: 1; padding: 0 40px; }
         .ed-text-wrap h3 { font-size: 2.5rem; color: var(--primary); margin-bottom: 25px; line-height: 1.2; }
-        .ed-text-wrap p { color: var(--text-dark); font-size: 1.1rem; line-height: 1.8; margin-bottom: 35px; font-weight: 300; }
+        .ed-text-wrap p { color: #64748b; font-size: 1.1rem; line-height: 1.8; margin-bottom: 35px; font-weight: 300; }
 
-        /* --- USŁUGI OPTYCZNE --- */
+        /* --- GABINET --- */
         .services { padding: 40px 5% 120px; max-width: 1000px; margin: auto; }
         
         .service-item { 
@@ -157,68 +213,71 @@
             margin-top: 8px; 
         }
         .service-text h3 { font-size: 2.2rem; color: var(--primary); margin-bottom: 15px; line-height: 1.2; }
-        .service-text p { line-height: 1.7; color: var(--text-dark); font-size: 1.05rem; }
-
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
+        .service-text p { line-height: 1.7; color: #64748b; font-size: 1.05rem; }
 
         /* --- KONTAKT --- */
-        .contact { background: var(--primary); color: white; padding: 100px 5%; }
-        .contact-wrap { max-width: 1200px; margin: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+        .contact { background: var(--bg-color); padding: 100px 5% 140px; }
+        .contact-container { max-width: 1200px; margin: auto; display: grid; grid-template-columns: 1fr 1fr; background: var(--text-light); box-shadow: 0 20px 50px rgba(0,0,0,0.03); }
         
-        .contact-data h2 { font-size: 3rem; margin-bottom: 40px; color: white; }
-        .c-row { margin-bottom: 30px; }
-        .c-label { display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 10px; }
-        .c-value { font-size: 1.2rem; font-weight: 300; line-height: 1.5; color: #cbd5e1; }
-        .c-value a { color: #cbd5e1; text-decoration: none; transition: color 0.3s; }
-        .c-value a:hover { color: white; }
+        .contact-info { padding: 80px; display: flex; flex-direction: column; justify-content: center; }
+        .contact-info h3 { font-size: 2.5rem; color: var(--primary); margin-bottom: 40px; font-weight: 600; }
+        
+        .info-group { margin-bottom: 35px; }
+        .info-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 8px; display: block; font-weight: 600; }
+        .info-text, .info-text a { font-size: 1.2rem; color: var(--primary); text-decoration: none; font-weight: 300; line-height: 1.6; }
+        
+        .map-box { width: 100%; height: 100%; min-height: 500px; background: #eaeaea; }
 
-        .map-box { height: 450px; background: #334155; }
-
-        footer { text-align: center; padding: 30px; background: #0f172a; color: #64748b; font-size: 0.85rem; }
-        footer span { color: white; font-weight: 600; }
+        /* --- FOOTER --- */
+        footer { background: var(--primary); color: rgba(255,255,255,0.5); text-align: center; padding: 40px 20px; font-size: 0.9rem; font-weight: 300; letter-spacing: 1px; }
+        footer span { color: var(--text-light); }
 
         /* --- RESPONSIVE --- */
-        @media (max-width: 1024px) {
-            .editorial-row, .editorial-row.reverse { gap: 40px; }
-            .ed-text-wrap { padding: 0 20px; }
-            .ed-image-wrap { height: 450px; }
-            .service-item { grid-template-columns: 180px 1fr; gap: 30px; }
+        @media (max-width: 1200px) {
+            .hero-content-side h1 { font-size: 3.5rem; }
         }
 
         @media (max-width: 992px) {
-            .contact-wrap { grid-template-columns: 1fr; }
-            .hero { background: linear-gradient(rgba(248, 250, 252, 0.9), rgba(248, 250, 252, 0.9)), url('https://images.unsplash.com/photo-1574258495973-f010dfbb5371?auto=format&fit=crop&w=1920&q=80') center/cover; justify-content: center; text-align: center; }
-            .hero-content { margin-left: 0; }
-            
-            .editorial-row, .editorial-row.reverse { flex-direction: column; margin-bottom: 80px; }
+            .hero { grid-template-columns: 1fr; height: auto; padding-top: 120px; }
+            .hero-content-side { padding: 80px 5%; text-align: center; }
+            .hero-content-side p { margin-inline: auto; }
+            .hero-image-side { height: 50vh; }
+
+            .editorial-row, .editorial-row.reverse { flex-direction: column; margin-bottom: 80px; gap: 40px; }
             .ed-image-wrap { width: 100%; height: 400px; margin-bottom: 20px; }
             .ed-text-wrap { padding: 0; text-align: center; }
+
+            .contact-container { grid-template-columns: 1fr; }
+            .map-box { min-height: 400px; }
+            .contact-info { padding: 50px 30px; }
         }
 
         @media (max-width: 768px) {
-            .hamburger { display: block; z-index: 1001; }
-            .nav-links { position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: var(--glass-bg); flex-direction: column; justify-content: center; align-items: center; transition: 0.4s; }
+            .hamburger { display: block; z-index: 1001; position: relative; }
+            .nav-links { position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: var(--glass-bg); backdrop-filter: blur(20px); flex-direction: column; justify-content: center; align-items: center; transition: 0.5s ease-in-out; gap: 30px; }
             .nav-links.active { left: 0; }
-            .focus-text { font-size: 3rem; }
-            .ed-image-wrap { height: 300px; }
+            .nav-links a { font-size: 1.2rem; color: var(--primary); }
             
-            .service-item { grid-template-columns: 1fr; gap: 10px; padding: 40px 0; }
+            .section-title { font-size: 2.5rem; }
+            .ed-text-wrap h3 { font-size: 2rem; }
+            
+            .service-item { grid-template-columns: 1fr; gap: 10px; padding: 40px 0; text-align: center; }
             .service-tag { margin-top: 0; margin-bottom: 5px; }
+            .service-text h3 { font-size: 1.8rem; }
         }
     </style>
 </head>
 <body>
 
     <div id="preloader">
-        <div class="lens-loader"></div>
+        <div class="loader"></div>
     </div>
 
     <header id="header">
         <nav>
-            <a href="#" class="logo">LUMEN <span>Salon Optyczny</span></a>
+            <a href="#" class="logo">LUMEN<span>.</span></a>
             <ul class="nav-links">
-                <li><a href="#home">Strona Główna</a></li>
+                <li><a href="#home">Home</a></li>
                 <li><a href="#kolekcje">Kolekcje</a></li>
                 <li><a href="#uslugi">Gabinet</a></li>
                 <li><a href="#kontakt">Kontakt</a></li>
@@ -230,23 +289,24 @@
     </header>
 
     <section id="home" class="hero">
-        <div class="hero-content">
-            <span class="hero-subtitle">Precyzja i Styl</span>
-            <h1 class="focus-text">Zobacz świat<br>zupełnie ostro.</h1>
-            <p>Najlepszy sprzęt diagnostyczny, certyfikowani optometryści i selekcja ekskluzywnych oprawek. Zadbamy o Twój wzrok i wizerunek.</p>
-            <a href="#kontakt" class="btn">Umów wizytę w salonie</a>
+        <div class="hero-content-side">
+            <span class="hero-subtitle">Ekskluzywna Optyka Swarzędz</span>
+            <h1>Wizja w <span>nowym</span> świetle.</h1>
+            <p>LUMEN to więcej niż salon optyczny. To Twoja jasna ścieżka do komfortu i nienagannego stylu. Poznaj najwyższą jakość badania i doboru premium.</p>
+            <a href="#kontakt" class="btn">Umów Wizytę Premium</a>
         </div>
+        <div class="hero-image-side"></div>
     </section>
 
     <section id="kolekcje" class="collections">
         <div class="section-header reveal">
-            <span class="section-desc">Nasza Oferta</span>
+            <span class="section-subtitle">Nasza Oferta</span>
             <h2 class="section-title">Odkryj Kolekcje</h2>
         </div>
 
         <div class="editorial-row reveal">
             <div class="ed-image-wrap">
-                <img src="https://images.unsplash.com/photo-1509695507497-903c140c43b0?auto=format&fit=crop&w=1000&q=80" alt="Oprawki korekcyjne">
+                <img src="https://images.pexels.com/photos/39716/pexels-photo-39716.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Oprawki korekcyjne premium">
             </div>
             <div class="ed-text-wrap">
                 <h3>Oprawki Korekcyjne</h3>
@@ -257,7 +317,7 @@
 
         <div class="editorial-row reverse reveal">
             <div class="ed-image-wrap">
-                <img src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=1000&q=80" alt="Okulary przeciwsłoneczne">
+                <img src="https://images.pexels.com/photos/46710/pexels-photo-46710.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Ekskluzywne okulary przeciwsłoneczne">
             </div>
             <div class="ed-text-wrap">
                 <h3>Okulary Przeciwsłoneczne</h3>
@@ -268,7 +328,7 @@
 
         <div class="editorial-row reveal">
             <div class="ed-image-wrap">
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1000&q=80" alt="Soczewki i akcesoria">
+                <img src="https://images.pexels.com/photos/3985160/pexels-photo-3985160.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Ekskluzywne okulary i akcesoria">
             </div>
             <div class="ed-text-wrap">
                 <h3>Soczewki i Akcesoria</h3>
@@ -280,7 +340,7 @@
 
     <section id="uslugi" class="services">
         <div class="section-header reveal">
-            <span class="section-desc">Gabinet</span>
+            <span class="section-subtitle">Gabinet</span>
             <h2 class="section-title">Profesjonalna Optyka</h2>
         </div>
         
@@ -303,30 +363,38 @@
     </section>
 
     <section id="kontakt" class="contact">
-        <div class="contact-wrap reveal">
-            <div class="contact-data">
-                <h2>Czekamy na Ciebie.</h2>
-                <div class="c-row">
-                    <span class="c-label">Salon Swarzędz</span>
-                    <div class="c-value">ul. Szafirowa 18<br>62-020 Swarzędz</div>
+        <div class="contact-container reveal">
+            <div class="contact-info">
+                <h3>Odwiedź Nas</h3>
+                
+                <div class="info-group">
+                    <span class="info-label">Adres</span>
+                    <p class="info-text">ul. Szafirowa 18<br>62-020 Swarzędz</p>
                 </div>
-                <div class="c-row">
-                    <span class="c-label">Kontakt do gabinetu</span>
-                    <div class="c-value"><a href="tel:+48500600700">+48 500 600 700</a><br><a href="mailto:gabinet@lumenoptyk.pl">gabinet@lumenoptyk.pl</a></div>
+                
+                <div class="info-group">
+                    <span class="info-label">Telefon</span>
+                    <p class="info-text"><a href="tel:+48500600700">+48 500 600 700</a></p>
                 </div>
-                <div class="c-row">
-                    <span class="c-label">Godziny przyjęć</span>
-                    <div class="c-value">Poniedziałek – Piątek: 10:00 – 18:00<br>Sobota: 10:00 – 14:00</div>
+                
+                <div class="info-group">
+                    <span class="info-label">Godziny Otwarcia</span>
+                    <p class="info-text">
+                        Pon – Pt: 10:00 – 18:00<br>
+                        Sobota: 10:00 – 14:00<br>
+                        Niedziela: Zamknięte
+                    </p>
                 </div>
             </div>
+            
             <div class="map-box">
-                <iframe src="http://googleusercontent.com/maps.google.com/7" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2433.6823522271!2d17.0694186120536!3d52.41243167192237!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47045b54a2a4b865%3A0xc34a66e640356c36!2sGraniczna%2063%2C%2062-020%20Swarz%C4%99dz!5e0!3m2!1spl!2spl!4v1711200000000!5m2!1spl!2spl" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </div>
         </div>
     </section>
 
     <footer>
-        <p>© 2026 <span>LUMEN Salon Optyczny</span>. Strona stworzona na potrzeby wizualizacji.</p>
+        <p>© 2026 <span>LUMEN.</span> ul. Szafirowa 18, Swarzędz.</p>
     </footer>
 
     <script>
