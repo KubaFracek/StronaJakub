@@ -3,22 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LUMEN Optyk | Ekskluzywny Salon i Okulista | Swarzędz</title>
+    <title>LUMEN Optyk | Ekskluzywny Salon i Okulista</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
 
     <style>
-        /* Modern Premium CSS Variables */
         :root {
-            --primary: #0f172a; /* Głęboki granat/czerń */
-            --accent: #d4af37;  /* Eleganckie złoto */
+            --primary: #0f172a; 
+            --accent: #d4af37;  
             --accent-hover: #b5952f;
-            --bg-color: #f8fafc;
+            --bg-color: #fcfcfc; /* Czysta, bardzo jasna szarość/biel dla clean looku */
             --text-dark: #1e293b;
             --text-light: #ffffff;
-            --glass-bg: rgba(15, 23, 42, 0.9);
+            --glass-bg: rgba(15, 23, 42, 0.95);
         }
 
         * {
@@ -28,7 +27,7 @@
             font-family: 'Montserrat', sans-serif;
         }
 
-        h1, h2, h3, .logo {
+        h1, h2, h3, .logo, .service-number {
             font-family: 'Playfair Display', serif;
         }
 
@@ -41,474 +40,132 @@
         /* --- PRELOADER --- */
         #preloader {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: var(--primary);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            display: flex; justify-content: center; align-items: center;
             z-index: 9999;
             transition: opacity 0.6s ease, visibility 0.6s;
         }
 
         .loader {
-            width: 60px;
-            height: 60px;
-            border: 4px solid rgba(212, 175, 55, 0.2);
+            width: 60px; height: 60px;
+            border: 2px solid rgba(212, 175, 55, 0.2);
             border-top-color: var(--accent);
             border-radius: 50%;
             animation: spin 1s infinite cubic-bezier(0.55, 0.15, 0.45, 0.85);
         }
 
-        @keyframes spin {
-            100% { transform: rotate(360deg); }
-        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        /* --- HEADER & NAWIGACJA --- */
+        /* --- HEADER --- */
         header {
-            position: fixed;
-            top: 0;
-            width: 100%;
+            position: fixed; top: 0; width: 100%;
             background: var(--glass-bg);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             z-index: 1000;
             transition: all 0.4s ease;
             padding: 20px 0;
         }
 
         header.scrolled {
-            padding: 10px 0;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            padding: 12px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
         nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 5%;
-            max-width: 1400px;
-            margin: auto;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 5%; max-width: 1400px; margin: auto;
         }
 
-        .logo {
-            font-size: 32px;
-            font-weight: 800;
-            color: var(--text-light);
-            text-decoration: none;
-            letter-spacing: 2px;
-        }
+        .logo { font-size: 28px; font-weight: 800; color: var(--text-light); text-decoration: none; letter-spacing: 2px; }
+        .logo span { color: var(--accent); font-style: italic; }
 
-        .logo span {
-            color: var(--accent);
-            font-style: italic;
-        }
+        .nav-links { list-style: none; display: flex; gap: 40px; }
+        .nav-links a { text-decoration: none; color: var(--text-light); font-weight: 400; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; position: relative; padding-bottom: 5px; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--accent); }
+        .nav-links a::after { content: ''; position: absolute; width: 0; height: 1px; bottom: 0; left: 0; background-color: var(--accent); transition: width 0.3s ease; }
+        .nav-links a:hover::after { width: 100%; }
 
-        .nav-links {
-            list-style: none;
-            display: flex;
-            gap: 40px;
-        }
+        .hamburger { display: none; cursor: pointer; border: none; background: none; }
+        .hamburger span { display: block; width: 30px; height: 2px; background-color: var(--text-light); margin: 6px 0; transition: 0.4s; }
 
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text-light);
-            font-weight: 600;
-            font-size: 0.95rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            position: relative;
-            padding-bottom: 5px;
-            transition: color 0.3s ease;
-        }
+        /* --- HERO --- */
+        .hero { position: relative; height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; }
+        .hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('https://images.unsplash.com/photo-1591076482161-42ce6da69f67?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') center/cover; animation: kenBurns 25s infinite alternate linear; z-index: -2; }
+        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(15, 23, 42, 0.5) 100%); z-index: -1; }
+        
+        .hero-content { color: var(--text-light); padding: 0 20px; transform: translateY(40px); opacity: 0; animation: fadeUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.5s; }
+        .hero-content h1 { font-size: 5rem; margin-bottom: 25px; font-weight: 600; line-height: 1.1; letter-spacing: -1px; }
+        .hero-content h1 span { font-style: italic; color: var(--accent); }
+        .hero-content p { font-size: 1.2rem; margin-bottom: 45px; max-width: 600px; margin-inline: auto; opacity: 0.8; font-weight: 300; line-height: 1.8; }
 
-        .nav-links a:hover {
-            color: var(--accent);
-        }
+        .btn { padding: 16px 45px; background: transparent; color: var(--text-light); text-decoration: none; font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; border-radius: 0; transition: all 0.4s ease; display: inline-block; border: 1px solid var(--accent); position: relative; overflow: hidden; }
+        .btn::before { content: ''; position: absolute; top: 0; left: 0; width: 0%; height: 100%; background: var(--accent); transition: all 0.4s ease; z-index: -1; }
+        .btn:hover::before { width: 100%; }
+        .btn:hover { color: var(--primary); }
 
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: 0;
-            left: 0;
-            background-color: var(--accent);
-            transition: width 0.3s ease;
-        }
+        @keyframes fadeUp { to { transform: translateY(0); opacity: 1; } }
 
-        .nav-links a:hover::after {
-            width: 100%;
-        }
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* Hamburger Menu dla telefonów */
-        .hamburger {
-            display: none;
-            cursor: pointer;
-            border: none;
-            background: none;
-        }
+        /* --- CLEAN SERVICES SECTION (Redesign) --- */
+        .services { padding: 140px 5%; max-width: 1000px; margin: auto; }
+        
+        .section-header { text-align: center; margin-bottom: 80px; }
+        .section-title { font-size: 3rem; color: var(--primary); font-weight: 600; }
+        .section-subtitle { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 3px; color: var(--accent); margin-bottom: 15px; display: block; }
 
-        .hamburger span {
-            display: block;
-            width: 30px;
-            height: 3px;
-            background-color: var(--text-light);
-            margin: 6px 0;
-            transition: 0.4s;
-            border-radius: 3px;
-        }
+        .service-list { display: flex; flex-direction: column; }
+        
+        .service-item { display: flex; align-items: flex-start; padding: 50px 0; border-bottom: 1px solid rgba(15, 23, 42, 0.08); transition: all 0.4s ease; }
+        .service-item:first-child { border-top: 1px solid rgba(15, 23, 42, 0.08); }
+        .service-item:hover { transform: translateX(15px); }
+        
+        .service-number { font-size: 3rem; color: var(--accent); font-weight: 600; width: 120px; flex-shrink: 0; line-height: 1; opacity: 0.5; transition: opacity 0.4s ease; }
+        .service-item:hover .service-number { opacity: 1; }
+        
+        .service-text { flex-grow: 1; }
+        .service-text h3 { font-size: 2rem; color: var(--primary); margin-bottom: 20px; font-weight: 600; }
+        .service-text p { color: #64748b; line-height: 1.8; font-size: 1.05rem; font-weight: 300; max-width: 600px; }
 
-        /* --- HERO SECTION --- */
-        .hero {
-            position: relative;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            overflow: hidden;
-        }
-
-        .hero-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            /* Nowe, bardziej "optyczne" i klimatyczne zdjęcie */
-            background: url('https://images.unsplash.com/photo-1591076482161-42ce6da69f67?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') center/cover;
-            animation: kenBurns 25s infinite alternate linear;
-            z-index: -2;
-        }
-
-        .hero-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(15, 23, 42, 0.4) 100%);
-            z-index: -1;
-        }
-
-        @keyframes kenBurns {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.15); }
-        }
-
-        .hero-content {
-            color: var(--text-light);
-            padding: 0 20px;
-            transform: translateY(40px);
-            opacity: 0;
-            animation: fadeUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.5s;
-        }
-
-        .hero-content h1 {
-            font-size: 5rem;
-            margin-bottom: 20px;
-            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            line-height: 1.1;
-        }
-
-        .hero-content h1 span {
-            color: var(--accent);
-        }
-
-        .hero-content p {
-            font-size: 1.4rem;
-            margin-bottom: 40px;
-            max-width: 700px;
-            margin-inline: auto;
-            opacity: 0.9;
-            font-weight: 300;
-        }
-
-        .btn {
-            padding: 18px 50px;
-            background: var(--accent);
-            color: var(--primary);
-            text-decoration: none;
-            font-size: 1.1rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-radius: 50px;
-            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
-            transition: all 0.3s ease;
-            display: inline-block;
-            border: 2px solid var(--accent);
-        }
-
-        .btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.5);
-            background: transparent;
-            color: var(--accent);
-        }
-
-        @keyframes fadeUp {
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        /* --- ANIMACJE SCROLLOWANIA --- */
-        .reveal {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* --- SEKCJA USŁUGI --- */
-        .services {
-            padding: 120px 5%;
-            max-width: 1400px;
-            margin: auto;
-            text-align: center;
-        }
-
-        .section-title {
-            font-size: 3.5rem;
-            color: var(--primary);
-            margin-bottom: 80px;
-            position: relative;
-            display: inline-block;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            width: 80px;
-            height: 4px;
-            background: var(--accent);
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-radius: 2px;
-        }
-
-        .service-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 40px;
-        }
-
-        .card {
-            background: var(--text-light);
-            padding: 50px 40px;
-            border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.04);
-            transition: all 0.4s ease;
-            border-bottom: 5px solid transparent;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 0%;
-            background: var(--primary);
-            transition: all 0.4s ease;
-            z-index: -1;
-        }
-
-        .card:hover {
-            transform: translateY(-15px);
-            border-bottom: 5px solid var(--accent);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.1);
-        }
-
-        .card:hover::before {
-            height: 100%;
-        }
-
-        .card:hover h3, .card:hover p {
-            color: var(--text-light);
-        }
-
-        .card-icon {
-            width: 90px;
-            height: 90px;
-            background: rgba(212, 175, 55, 0.1);
-            color: var(--accent);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-            margin: 0 auto 30px auto;
-            transition: all 0.4s ease;
-        }
-
-        .card:hover .card-icon {
-            background: var(--accent);
-            color: var(--primary);
-            transform: rotateY(180deg);
-        }
-
-        .card h3 {
-            font-size: 1.8rem;
-            color: var(--primary);
-            margin-bottom: 20px;
-            transition: color 0.4s ease;
-        }
-
-        .card p {
-            color: #64748b;
-            line-height: 1.6;
-            transition: color 0.4s ease;
-        }
-
-        /* --- SEKCJA KONTAKT --- */
-        .contact {
-            background: var(--primary);
-            padding: 120px 5%;
-            color: var(--text-light);
-        }
-
-        .contact-container {
-            max-width: 1400px;
-            margin: auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0;
-            background: var(--text-light);
-            border-radius: 30px;
-            overflow: hidden;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.2);
-            color: var(--text-dark);
-        }
-
-        .contact-info {
-            padding: 70px 60px;
-        }
-
-        .contact-info h3 {
-            font-size: 2.5rem;
-            color: var(--primary);
-            margin-bottom: 30px;
-        }
-
-        .info-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 25px;
-            font-size: 1.1rem;
-            color: #475569;
-        }
-
-        .info-icon {
-            width: 40px;
-            height: 40px;
-            background: rgba(212, 175, 55, 0.1);
-            color: var(--accent);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            font-size: 1.2rem;
-        }
-
-        .hours-box {
-            margin-top: 50px;
-            background: var(--bg-color);
-            padding: 40px;
-            border-radius: 20px;
-            border-left: 5px solid var(--accent);
-        }
-
-        .hours-box p {
-            display: flex;
-            justify-content: space-between;
-            padding: 15px 0;
-            border-bottom: 1px solid #e2e8f0;
-            font-weight: 500;
-        }
-
-        .hours-box p:last-child {
-            border-bottom: none;
-        }
-
-        .map-container {
-            width: 100%;
-            height: 100%;
-            min-height: 400px;
-        }
+        /* --- KONTAKT (Bez emotek, czysty układ) --- */
+        .contact { background: var(--bg-color); padding: 100px 5% 140px; }
+        .contact-container { max-width: 1200px; margin: auto; display: grid; grid-template-columns: 1fr 1fr; background: var(--text-light); box-shadow: 0 20px 50px rgba(0,0,0,0.03); }
+        
+        .contact-info { padding: 80px; display: flex; flex-direction: column; justify-content: center; }
+        .contact-info h3 { font-size: 2.5rem; color: var(--primary); margin-bottom: 40px; font-weight: 600; }
+        
+        .info-group { margin-bottom: 35px; }
+        .info-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 8px; display: block; font-weight: 600; }
+        .info-text, .info-text a { font-size: 1.2rem; color: var(--text-dark); text-decoration: none; font-weight: 300; line-height: 1.6; }
+        
+        .map-container { width: 100%; height: 100%; min-height: 500px; background: #eaeaea; }
 
         /* --- FOOTER --- */
-        footer {
-            background: #080c17; /* Jeszcze ciemniejszy niż primary */
-            color: #94a3b8;
-            text-align: center;
-            padding: 40px 20px;
-        }
-        
-        footer p span {
-            color: var(--accent);
-            font-weight: bold;
-        }
+        footer { background: var(--primary); color: rgba(255,255,255,0.5); text-align: center; padding: 40px 20px; font-size: 0.9rem; font-weight: 300; letter-spacing: 1px; }
+        footer span { color: var(--text-light); }
 
-        /* --- RESPONSIVE DESIGN (Magia dla telefonów) --- */
+        /* --- RESPONSIVE --- */
         @media (max-width: 992px) {
-            .contact-container {
-                grid-template-columns: 1fr;
-            }
-            .map-container {
-                min-height: 350px;
-            }
-            .hero-content h1 {
-                font-size: 3.5rem;
-            }
+            .contact-container { grid-template-columns: 1fr; }
+            .map-container { min-height: 400px; }
+            .hero-content h1 { font-size: 3.5rem; }
         }
 
         @media (max-width: 768px) {
-            .hamburger {
-                display: block;
-            }
+            .hamburger { display: block; z-index: 1001; position: relative; }
+            .nav-links { position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: var(--glass-bg); backdrop-filter: blur(20px); flex-direction: column; justify-content: center; align-items: center; transition: 0.5s ease-in-out; gap: 30px; }
+            .nav-links.active { left: 0; }
+            .nav-links a { font-size: 1.2rem; }
 
-            .nav-links {
-                position: absolute;
-                top: 100%;
-                left: -100%;
-                width: 100%;
-                height: 100vh;
-                background: var(--primary);
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                transition: 0.4s ease-in-out;
-            }
-
-            .nav-links.active {
-                left: 0;
-            }
-
-            .nav-links li {
-                margin: 20px 0;
-            }
-
-            .hero-content h1 {
-                font-size: 2.8rem;
-            }
+            .service-item { flex-direction: column; padding: 40px 0; }
+            .service-item:hover { transform: translateX(0); }
+            .service-number { margin-bottom: 20px; font-size: 2.5rem; }
             
-            .section-title {
-                font-size: 2.5rem;
-            }
-
-            .contact-info {
-                padding: 40px 20px;
-            }
+            .contact-info { padding: 50px 30px; }
         }
     </style>
 </head>
@@ -520,16 +177,14 @@
 
     <header id="header">
         <nav>
-            <a href="#" class="logo">LUMEN<span>Optyk</span></a>
+            <a href="#" class="logo">LUMEN<span>.</span></a>
             <ul class="nav-links">
-                <li><a href="#home">Strona Główna</a></li>
-                <li><a href="#uslugi">Nasze Usługi</a></li>
-                <li><a href="#kontakt">Kontakt z nami</a></li>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#uslugi">Usługi</a></li>
+                <li><a href="#kontakt">Kontakt</a></li>
             </ul>
             <button class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
+                <span></span><span></span><span></span>
             </button>
         </nav>
     </header>
@@ -538,29 +193,41 @@
         <div class="hero-bg"></div>
         <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h1>Zadbaj o <span>Swoje Spojrzenie</span></h1>
-            <p>Ekskluzywne oprawki, precyzyjne badanie wzroku i pełen profesjonalizm. Poznaj nowy wymiar optyki w sercu Swarzędza.</p>
+            <h1>Zadbaj o <span>Spojrzenie</span></h1>
+            <p>Ekskluzywne oprawki, precyzyjne badanie wzroku i pełen profesjonalizm. Poznaj zupełnie nowy wymiar optyki.</p>
             <a href="#kontakt" class="btn">Umów Wizytę</a>
         </div>
     </section>
 
     <section id="uslugi" class="services">
-        <h2 class="section-title reveal">Zakres Usług</h2>
-        <div class="service-cards">
-            <div class="card reveal" style="transition-delay: 0.1s;">
-                <div class="card-icon">👁️</div>
-                <h3>Badanie Wzroku</h3>
-                <p>Korzystamy z najnowocześniejszego sprzętu diagnostycznego w branży, aby zapewnić absolutną precyzję pomiaru Twojej wady wzroku.</p>
+        <div class="section-header reveal">
+            <span class="section-subtitle">Zakres Usług</span>
+            <h2 class="section-title">Co możemy dla Ciebie zrobić</h2>
+        </div>
+        
+        <div class="service-list">
+            <div class="service-item reveal" style="transition-delay: 0.1s;">
+                <div class="service-number">01</div>
+                <div class="service-text">
+                    <h3>Badanie Wzroku</h3>
+                    <p>Korzystamy z najnowocześniejszego sprzętu diagnostycznego w branży, aby zapewnić absolutną precyzję pomiaru Twojej wady wzroku. Badanie odbywa się w komfortowych, bezstresowych warunkach.</p>
+                </div>
             </div>
-            <div class="card reveal" style="transition-delay: 0.2s;">
-                <div class="card-icon">👓</div>
-                <h3>Dobór Oprawek</h3>
-                <p>Nasi certyfikowani styliści pomogą Ci dopasować ekskluzywne oprawki idealnie współgrające z kształtem Twojej twarzy i stylem.</p>
+            
+            <div class="service-item reveal" style="transition-delay: 0.2s;">
+                <div class="service-number">02</div>
+                <div class="service-text">
+                    <h3>Dobór Oprawek</h3>
+                    <p>Nasi certyfikowani styliści pomogą Ci dopasować ekskluzywne oprawki idealnie współgrające z kształtem Twojej twarzy, typem urody oraz osobistym stylem. Posiadamy kolekcje od najlepszych światowych projektantów.</p>
+                </div>
             </div>
-            <div class="card reveal" style="transition-delay: 0.3s;">
-                <div class="card-icon">💧</div>
-                <h3>Soczewki Kontaktowe</h3>
-                <p>Bezpieczny dobór i profesjonalna nauka aplikacji nowoczesnych soczewek kontaktowych dla Twojego maksymalnego komfortu na co dzień.</p>
+            
+            <div class="service-item reveal" style="transition-delay: 0.3s;">
+                <div class="service-number">03</div>
+                <div class="service-text">
+                    <h3>Soczewki Kontaktowe</h3>
+                    <p>Bezpieczny dobór i profesjonalna nauka aplikacji nowoczesnych soczewek kontaktowych dla Twojego maksymalnego komfortu na co dzień. Oferujemy rozwiązania jednodniowe, miesięczne oraz specjalistyczne.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -568,57 +235,53 @@
     <section id="kontakt" class="contact">
         <div class="contact-container reveal">
             <div class="contact-info">
-                <h3>Odwiedź Nasz Salon</h3>
-                <div class="info-item">
-                    <div class="info-icon">📍</div>
-                    <p>ul. Graniczna 63/lok. 17<br>62-020 Swarzędz</p>
-                </div>
-                <div class="info-item">
-                    <div class="info-icon">📞</div>
-                    <p><a href="tel:+48539229977" style="color: var(--text-dark); text-decoration: none; font-weight: bold; font-size: 1.3rem;">+48 539 229 977</a></p>
+                <h3>Odwiedź Nas</h3>
+                
+                <div class="info-group">
+                    <span class="info-label">Adres</span>
+                    <p class="info-text">ul. Szafirowa 18<br>62-020 Swarzędz</p>
                 </div>
                 
-                <div class="hours-box">
-                    <h4 style="color: var(--primary); margin-bottom: 20px; font-size: 1.3rem; font-family: 'Playfair Display', serif;">Godziny Otwarcia</h4>
-                    <p><span>Poniedziałek - Piątek</span> <strong>10:00 - 18:00</strong></p>
-                    <p><span>Sobota</span> <strong>10:00 - 13:00</strong></p>
-                    <p><span style="color: #ef4444;">Niedziela</span> <strong style="color: #ef4444;">Zamknięte</strong></p>
+                <div class="info-group">
+                    <span class="info-label">Telefon</span>
+                    <p class="info-text"><a href="tel:+48500600700">+48 500 600 700</a></p>
+                </div>
+                
+                <div class="info-group">
+                    <span class="info-label">Godziny Otwarcia</span>
+                    <p class="info-text" style="font-size: 1rem;">
+                        Pon – Pt: 10:00 – 18:00<br>
+                        Sobota: 10:00 – 14:00<br>
+                        Niedziela: Zamknięte
+                    </p>
                 </div>
             </div>
+            
             <div class="map-container">
                 <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2433.0076936302837!2d17.067332276941164!3d52.42468754326572!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47045b4c4f346985%3A0x6d90a1bc36d8d69!2sGraniczna%2063%2C%2062-020%20Swarz%C4%99dz!5e0!3m2!1spl!2spl!4v1700000000000!5m2!1spl!2spl" 
+                    src="https://maps.google.com/maps?width=100%&amp;height=600&amp;hl=en&amp;q=Swarz%C4%99dz+(LUMEN)&amp;ie=UTF8&amp;t=&amp;z=13&amp;iwloc=B&amp;output=embed" 
                     width="100%" 
                     height="100%" 
                     style="border:0;" 
                     allowfullscreen="" 
-                    loading="lazy" 
-                    referrerpolicy="no-referrer-when-downgrade">
+                    loading="lazy">
                 </iframe>
             </div>
         </div>
     </section>
 
     <footer>
-        <p>&copy; 2026 <span>LUMEN Optyk</span>. Wszelkie prawa zastrzeżone.</p>
+        <p>© 2026 <span>LUMEN.</span> Wszelkie prawa zastrzeżone.</p>
     </footer>
 
     <script>
-        // 1. Znikający Preloader
         window.addEventListener('load', () => {
             const preloader = document.getElementById('preloader');
             preloader.style.opacity = '0';
-            setTimeout(() => {
-                preloader.style.visibility = 'hidden';
-            }, 600);
+            setTimeout(() => { preloader.style.visibility = 'hidden'; }, 600);
         });
 
-        // 2. Animacje przy przewijaniu
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: "0px 0px -50px 0px"
-        };
-
+        const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -628,34 +291,25 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.reveal').forEach((el) => {
-            observer.observe(el);
-        });
+        document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
 
-        // 3. Pomniejszający się Header + Menu Hamburger
         const header = document.getElementById('header');
         const hamburger = document.querySelector('.hamburger');
         const navLinks = document.querySelector('.nav-links');
         const links = document.querySelectorAll('.nav-links li a');
 
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
+            if (window.scrollY > 50) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
         });
 
-        // Obsługa menu mobilnego
         hamburger.addEventListener('click', () => {
             navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
         });
 
-        // Zamknij menu po kliknięciu w link na telefonie
         links.forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-            });
+            link.addEventListener('click', () => navLinks.classList.remove('active'));
         });
     </script>
 </body>
