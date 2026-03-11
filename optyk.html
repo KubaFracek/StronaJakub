@@ -3,21 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LUMEN Optyk | Ekskluzywna Optyka Swarzędz</title>
+    <title>LUMEN Optyk | Twój Ekspert od Wzroku</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --primary: #0f172a; 
-            --accent: #d4af37;  
-            --accent-hover: #b5952f;
-            --bg-color: #fcfcfc;
-            --text-dark: #1e293b;
+            --primary: #111827; /* Mocny, głęboki grafit */
+            --accent: #b45309;  /* Bursztynowy/Szylkretowy - klasyczny kolor oprawek */
+            --bg-color: #f8fafc;
+            --text-dark: #334155;
             --text-light: #ffffff;
-            --glass-bg: rgba(255, 255, 255, 0.95); /* Header jasny dla clean looku */
+            --glass-bg: rgba(255, 255, 255, 0.98);
         }
 
         * {
@@ -25,7 +24,7 @@
             font-family: 'Montserrat', sans-serif;
         }
 
-        h1, h2, h3, .logo, .service-number {
+        h1, h2, h3, .logo {
             font-family: 'Playfair Display', serif;
         }
 
@@ -35,221 +34,169 @@
             overflow-x: hidden;
         }
 
-        /* --- PRELOADER --- */
+        /* --- PRELOADER (Motyw soczewek) --- */
         #preloader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--primary);
+            background: var(--bg-color);
             display: flex; justify-content: center; align-items: center;
             z-index: 9999;
             transition: opacity 0.6s ease, visibility 0.6s;
         }
 
-        .loader {
-            width: 60px; height: 60px;
-            border: 2px solid rgba(212, 175, 55, 0.2);
-            border-top-color: var(--accent);
-            border-radius: 50%;
-            animation: spin 1s infinite cubic-bezier(0.55, 0.15, 0.45, 0.85);
+        .lens-loader {
+            position: relative;
+            width: 80px; height: 40px;
+        }
+        .lens-loader::before, .lens-loader::after {
+            content: ''; position: absolute; top: 0;
+            width: 40px; height: 40px; border-radius: 50%;
+            border: 2px solid var(--primary);
+            animation: focusLens 1.5s infinite ease-in-out alternate;
+        }
+        .lens-loader::before { left: 0; border-right-color: transparent; }
+        .lens-loader::after { right: 0; border-left-color: transparent; animation-delay: -0.75s; }
+
+        @keyframes focusLens {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            100% { transform: scale(1.1); opacity: 1; border-color: var(--accent); }
         }
 
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-
-        /* --- HEADER (Czysty, jasny) --- */
+        /* --- HEADER --- */
         header {
             position: fixed; top: 0; width: 100%;
             background: var(--glass-bg);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
             z-index: 1000;
-            transition: all 0.4s ease;
-            padding: 25px 0;
+            transition: all 0.3s ease;
+            padding: 20px 0;
         }
 
-        header.scrolled {
-            padding: 15px 0;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
-        }
+        header.scrolled { padding: 12px 0; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
 
         nav {
             display: flex; justify-content: space-between; align-items: center;
             padding: 0 5%; max-width: 1400px; margin: auto;
         }
 
-        .logo { font-size: 28px; font-weight: 800; color: var(--primary); text-decoration: none; letter-spacing: 2px; }
-        .logo span { color: var(--accent); }
+        /* Zmiana logo - wyraźny dopisek OPTYK */
+        .logo { font-size: 26px; font-weight: 700; color: var(--primary); text-decoration: none; letter-spacing: 1px; display: flex; flex-direction: column; line-height: 1; }
+        .logo span { font-family: 'Montserrat', sans-serif; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 4px; color: var(--accent); font-weight: 600; margin-top: 4px; }
 
-        .nav-links { list-style: none; display: flex; gap: 40px; }
-        .nav-links a { text-decoration: none; color: var(--primary); font-weight: 400; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; position: relative; padding-bottom: 5px; transition: color 0.3s; }
-        .nav-links a:hover { color: var(--accent); }
-        .nav-links a::after { content: ''; position: absolute; width: 0; height: 1px; bottom: 0; left: 0; background-color: var(--accent); transition: width 0.3s ease; }
+        .nav-links { list-style: none; display: flex; gap: 35px; }
+        .nav-links a { text-decoration: none; color: var(--primary); font-weight: 500; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; position: relative; padding-bottom: 4px; }
+        .nav-links a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: 0; left: 0; background-color: var(--accent); transition: width 0.3s ease; }
         .nav-links a:hover::after { width: 100%; }
 
         .hamburger { display: none; cursor: pointer; border: none; background: none; }
         .hamburger span { display: block; width: 30px; height: 2px; background-color: var(--primary); margin: 6px 0; transition: 0.4s; }
 
-        /* --- NOWY HERO VIEW (SPLIT-SCREEN) --- */
+        /* --- HERO Z EFEKTEM WYSTRZENIA (FOCUS) --- */
         .hero { 
-            position: relative; 
-            height: 100vh; 
-            display: grid;
-            grid-template-columns: 1fr 1fr; /* Podział pół na pół */
-            align-items: center; 
-            overflow: hidden; 
-            background: var(--bg-color);
+            position: relative; height: 100vh; display: flex; align-items: center; padding: 0 5%;
+            background: linear-gradient(to right, rgba(248, 250, 252, 0.95) 40%, rgba(248, 250, 252, 0.3)), 
+                        url('https://images.unsplash.com/photo-1574258495973-f010dfbb5371?auto=format&fit=crop&w=1920&q=80') center/cover;
         }
 
-        .hero-content-side {
-            padding: 0 10%;
-            color: var(--text-dark);
-            transform: translateY(40px);
+        .hero-content { max-width: 600px; z-index: 2; margin-left: 5%; }
+        
+        .hero-subtitle { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 4px; color: var(--accent); font-weight: 600; margin-bottom: 20px; display: block; }
+
+        /* Efekt ostrości tekstu */
+        .focus-text {
+            font-size: 4.5rem; color: var(--primary); font-weight: 700; line-height: 1.1; margin-bottom: 25px;
+            filter: blur(10px); /* Zaczyna się rozmazane */
             opacity: 0;
-            animation: fadeUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.5s;
+            animation: bringIntoFocus 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.8s;
         }
 
-        .hero-subtitle {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: var(--accent);
-            margin-bottom: 15px;
-            display: block;
-            font-weight: 600;
+        @keyframes bringIntoFocus {
+            100% { filter: blur(0); opacity: 1; }
         }
 
-        .hero-content-side h1 { 
-            font-size: 4.5rem; 
-            margin-bottom: 25px; 
-            font-weight: 600; 
-            line-height: 1.1; 
-            letter-spacing: -1px; 
-            color: var(--primary);
-        }
-        
-        .hero-content-side h1 span { font-style: italic; }
+        .hero p { font-size: 1.1rem; color: var(--text-dark); margin-bottom: 40px; line-height: 1.8; opacity: 0; animation: fadeUp 1s forwards 1.5s; }
 
-        .hero-content-side p { 
-            font-size: 1.15rem; 
-            margin-bottom: 50px; 
-            max-width: 500px; 
-            opacity: 0.8; 
-            font-weight: 300; 
-            line-height: 1.8; 
-            color: #64748b;
+        .btn {
+            padding: 16px 40px; background: var(--primary); color: var(--text-light); text-decoration: none; font-size: 0.9rem; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s ease; display: inline-block; opacity: 0; animation: fadeUp 1s forwards 1.7s;
         }
-
-        .btn { 
-            padding: 18px 50px; 
-            background: transparent; 
-            color: var(--primary); 
-            text-decoration: none; 
-            font-size: 0.9rem; 
-            font-weight: 600; 
-            text-transform: uppercase; 
-            letter-spacing: 2px; 
-            border-radius: 0; 
-            transition: all 0.4s ease; 
-            display: inline-block; 
-            border: 1px solid var(--accent); 
-            position: relative; 
-            overflow: hidden; 
-        }
-        
-        .btn::before { content: ''; position: absolute; top: 0; left: 0; width: 0%; height: 100%; background: var(--accent); transition: all 0.4s ease; z-index: -1; }
-        .btn:hover::before { width: 100%; }
-        .btn:hover { color: var(--text-light); }
-
-        /* Strona ze zdjęciem - wycięta i wpasowana */
-        .hero-image-side {
-            height: 100%;
-            width: 100%;
-            background: url('https://i.imgur.com/8N4pA5F.jpeg') center/cover; /* Tu wklej link do zdjęcia */
-            position: relative;
-        }
+        .btn:hover { background: var(--accent); }
 
         @keyframes fadeUp { to { transform: translateY(0); opacity: 1; } }
 
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        /* --- NOWA SEKCJA: KOLEKCJE (Jasny przekaz co sprzedajemy) --- */
+        .collections { padding: 100px 5%; max-width: 1400px; margin: auto; }
+        .section-header { margin-bottom: 60px; text-align: center; }
+        .section-title { font-size: 2.8rem; color: var(--primary); margin-bottom: 10px; }
+        .section-desc { color: var(--accent); text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem; font-weight: 600; }
+
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        
+        .collection-card { position: relative; overflow: hidden; height: 400px; background-color: #eee; cursor: pointer; }
+        .collection-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s ease; }
+        .collection-card:hover .collection-img { transform: scale(1.05); }
+        
+        .collection-info { position: absolute; bottom: 0; left: 0; width: 100%; padding: 30px; background: linear-gradient(transparent, rgba(17, 24, 39, 0.9)); color: white; display: flex; justify-content: space-between; align-items: flex-end; }
+        .collection-info h3 { font-size: 1.5rem; font-family: 'Montserrat', sans-serif; font-weight: 600; }
+        .collection-info span { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); }
+
+        /* --- USŁUGI OPTYCZNE (Lista) --- */
+        .services { padding: 80px 5% 120px; max-width: 1000px; margin: auto; }
+        .service-item { display: flex; padding: 40px 0; border-bottom: 1px solid #e2e8f0; transition: all 0.3s ease; }
+        .service-item:first-child { border-top: 1px solid #e2e8f0; }
+        
+        .service-tag { width: 150px; font-weight: 600; color: var(--accent); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; padding-top: 10px; flex-shrink: 0; }
+        .service-text h3 { font-size: 2rem; color: var(--primary); margin-bottom: 15px; }
+        .service-text p { line-height: 1.7; color: var(--text-dark); }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* --- CLEAN SERVICES SECTION (Bez zmian) --- */
-        .services { padding: 140px 5%; max-width: 1000px; margin: auto; }
+        /* --- KONTAKT --- */
+        .contact { background: var(--primary); color: white; padding: 100px 5%; }
+        .contact-wrap { max-width: 1200px; margin: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
         
-        .section-header { text-align: center; margin-bottom: 80px; }
-        .section-title { font-size: 3rem; color: var(--primary); font-weight: 600; }
-        .section-subtitle { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 3px; color: var(--accent); margin-bottom: 15px; display: block; }
+        .contact-data h2 { font-size: 3rem; margin-bottom: 40px; color: white; }
+        .c-row { margin-bottom: 30px; }
+        .c-label { display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 10px; }
+        .c-value { font-size: 1.2rem; font-weight: 300; line-height: 1.5; color: #cbd5e1; }
+        .c-value a { color: #cbd5e1; text-decoration: none; transition: color 0.3s; }
+        .c-value a:hover { color: white; }
 
-        .service-list { display: flex; flex-direction: column; }
-        
-        .service-item { display: flex; align-items: flex-start; padding: 50px 0; border-bottom: 1px solid rgba(15, 23, 42, 0.08); transition: all 0.4s ease; }
-        .service-item:first-child { border-top: 1px solid rgba(15, 23, 42, 0.08); }
-        .service-item:hover { transform: translateX(15px); }
-        
-        .service-number { font-size: 3rem; color: var(--accent); font-weight: 600; width: 120px; flex-shrink: 0; line-height: 1; opacity: 0.5; transition: opacity 0.4s ease; }
-        .service-item:hover .service-number { opacity: 1; }
-        
-        .service-text { flex-grow: 1; }
-        .service-text h3 { font-size: 2rem; color: var(--primary); margin-bottom: 20px; font-weight: 600; }
-        .service-text p { color: #64748b; line-height: 1.8; font-size: 1.05rem; font-weight: 300; max-width: 600px; }
+        .map-box { height: 450px; background: #334155; }
 
-        /* --- KONTAKT (Bez zmian) --- */
-        .contact { background: var(--bg-color); padding: 100px 5% 140px; }
-        .contact-container { max-width: 1200px; margin: auto; display: grid; grid-template-columns: 1fr 1fr; background: var(--text-light); box-shadow: 0 20px 50px rgba(0,0,0,0.03); }
-        
-        .contact-info { padding: 80px; display: flex; flex-direction: column; justify-content: center; }
-        .contact-info h3 { font-size: 2.5rem; color: var(--primary); margin-bottom: 40px; font-weight: 600; }
-        
-        .info-group { margin-bottom: 35px; }
-        .info-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 8px; display: block; font-weight: 600; }
-        .info-text, .info-text a { font-size: 1.2rem; color: var(--text-dark); text-decoration: none; font-weight: 300; line-height: 1.6; }
-        
-        .map-container { width: 100%; height: 100%; min-height: 500px; background: #eaeaea; }
-
-        /* --- FOOTER (Bez zmian) --- */
-        footer { background: var(--primary); color: rgba(255,255,255,0.5); text-align: center; padding: 40px 20px; font-size: 0.9rem; font-weight: 300; letter-spacing: 1px; }
-        footer span { color: var(--text-light); }
+        footer { text-align: center; padding: 30px; background: #0f172a; color: #64748b; font-size: 0.85rem; }
+        footer span { color: white; font-weight: 600; }
 
         /* --- RESPONSIVE --- */
-        @media (max-width: 1200px) {
-            .hero-content-side h1 { font-size: 3.5rem; }
-        }
-
         @media (max-width: 992px) {
-            .hero { grid-template-columns: 1fr; height: auto; padding-top: 120px; } /* Powrót do jednej kolumny na tablecie */
-            .hero-content-side { padding: 80px 5%; text-align: center; }
-            .hero-content-side p { margin-inline: auto; }
-            .hero-image-side { height: 50vh; } /* Zdjęcie pod spodem */
-
-            .contact-container { grid-template-columns: 1fr; }
-            .map-container { min-height: 400px; }
+            .contact-wrap { grid-template-columns: 1fr; }
+            .hero { background: linear-gradient(rgba(248, 250, 252, 0.9), rgba(248, 250, 252, 0.9)), url('https://images.unsplash.com/photo-1574258495973-f010dfbb5371?auto=format&fit=crop&w=1920&q=80') center/cover; justify-content: center; text-align: center; }
+            .hero-content { margin-left: 0; }
+            .service-item { flex-direction: column; }
+            .service-tag { margin-bottom: 15px; }
         }
 
         @media (max-width: 768px) {
-            .hamburger { display: block; z-index: 1001; position: relative; }
-            .nav-links { position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: rgba(255,255,255,0.98); backdrop-filter: blur(20px); flex-direction: column; justify-content: center; align-items: center; transition: 0.5s ease-in-out; gap: 30px; }
+            .hamburger { display: block; z-index: 1001; }
+            .nav-links { position: fixed; top: 0; left: -100%; width: 100%; height: 100vh; background: var(--glass-bg); flex-direction: column; justify-content: center; align-items: center; transition: 0.4s; }
             .nav-links.active { left: 0; }
-            .nav-links a { font-size: 1.2rem; color: var(--primary); }
-
-            .service-item { flex-direction: column; padding: 40px 0; }
-            .service-item:hover { transform: translateX(0); }
-            .service-number { margin-bottom: 20px; font-size: 2.5rem; }
-            
-            .contact-info { padding: 50px 30px; }
+            .focus-text { font-size: 3rem; }
+            .collection-card { height: 300px; }
         }
     </style>
 </head>
 <body>
 
     <div id="preloader">
-        <div class="loader"></div>
+        <div class="lens-loader"></div>
     </div>
 
     <header id="header">
         <nav>
-            <a href="#" class="logo">LUMEN<span>.</span></a>
+            <a href="#" class="logo">LUMEN <span>Salon Optyczny</span></a>
             <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#uslugi">Usługi</a></li>
+                <li><a href="#home">Strona Główna</a></li>
+                <li><a href="#kolekcje">Oprawki</a></li>
+                <li><a href="#uslugi">Badanie & Soczewki</a></li>
                 <li><a href="#kontakt">Kontakt</a></li>
             </ul>
             <button class="hamburger">
@@ -259,89 +206,93 @@
     </header>
 
     <section id="home" class="hero">
-        <div class="hero-content-side">
-            <span class="hero-subtitle">Ekskluzywna Optyka Swarzędz</span>
-            <h1>Wizja w <span>nowym</span> świetle.</h1>
-            <p>LUMEN to więcej niż salon optyczny. To Twoja jasna ścieżka do komfortu i nienagannego stylu. Poznaj najwyższą jakość badania i doboru premium.</p>
-            <a href="#kontakt" class="btn">Umów Wizytę Premium</a>
+        <div class="hero-content">
+            <span class="hero-subtitle">Precyzja i Styl</span>
+            <h1 class="focus-text">Zobacz świat<br>zupełnie ostro.</h1>
+            <p>Najlepszy sprzęt diagnostyczny, certyfikowani optometryści i selekcja ekskluzywnych oprawek. Zadbamy o Twój wzrok i wizerunek.</p>
+            <a href="#kontakt" class="btn">Umów wizytę w salonie</a>
         </div>
-        <div class="hero-image-side">
+    </section>
+
+    <section id="kolekcje" class="collections">
+        <div class="section-header reveal">
+            <span class="section-desc">Nasza Oferta</span>
+            <h2 class="section-title">Odkryj Kolekcje</h2>
+        </div>
+        <div class="grid-3">
+            <div class="collection-card reveal" style="transition-delay: 0.1s;">
+                <img src="https://images.unsplash.com/photo-1509695507497-903c140c43b0?auto=format&fit=crop&w=800&q=80" alt="Okulary korekcyjne" class="collection-img">
+                <div class="collection-info">
+                    <h3>Korekcyjne</h3>
+                    <span>Zobacz</span>
+                </div>
             </div>
+            <div class="collection-card reveal" style="transition-delay: 0.2s;">
+                <img src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=800&q=80" alt="Okulary przeciwsłoneczne" class="collection-img">
+                <div class="collection-info">
+                    <h3>Przeciwsłoneczne</h3>
+                    <span>Zobacz</span>
+                </div>
+            </div>
+            <div class="collection-card reveal" style="transition-delay: 0.3s;">
+                <img src="https://images.unsplash.com/photo-1527022136453-625d970e5a97?auto=format&fit=crop&w=800&q=80" alt="Akcesoria optyczne" class="collection-img">
+                <div class="collection-info">
+                    <h3>Akcesoria & Soczewki</h3>
+                    <span>Zobacz</span>
+                </div>
+            </div>
+        </div>
     </section>
 
     <section id="uslugi" class="services">
         <div class="section-header reveal">
-            <span class="section-subtitle">Zakres Usług</span>
-            <h2 class="section-title">Co możemy dla Ciebie zrobić</h2>
+            <span class="section-desc">Gabinet</span>
+            <h2 class="section-title">Profesjonalna Optyka</h2>
         </div>
         
         <div class="service-list">
-            <div class="service-item reveal" style="transition-delay: 0.1s;">
-                <div class="service-number">01</div>
+            <div class="service-item reveal">
+                <div class="service-tag">Badanie Wzroku</div>
                 <div class="service-text">
-                    <h3>Badanie Wzroku</h3>
-                    <p>Korzystamy z najnowocześniejszego sprzętu diagnostycznego w branży, aby zapewnić absolutną precyzję pomiaru Twojej wady wzroku. Badanie odbywa się w komfortowych, bezstresowych warunkach.</p>
+                    <h3>Komputerowe badanie i dobór dioptrii</h3>
+                    <p>Korzystamy z autorefraktometrów nowej generacji. Przeprowadzamy pełen wywiad i badanie ostrości widzenia, aby idealnie dopasować szkła korekcyjne do Twoich potrzeb i trybu życia.</p>
                 </div>
             </div>
-            
-            <div class="service-item reveal" style="transition-delay: 0.2s;">
-                <div class="service-number">02</div>
+            <div class="service-item reveal">
+                <div class="service-tag">Dobór Oprawek</div>
                 <div class="service-text">
-                    <h3>Dobór Oprawek</h3>
-                    <p>Nasi certyfikowani styliści pomogą Ci dopasować ekskluzywne oprawki idealnie współgrające z kształtem Twojej twarzy, typem urody oraz osobistym stylem. Posiadamy kolekcje od najlepszych światowych projektantów.</p>
-                </div>
-            </div>
-            
-            <div class="service-item reveal" style="transition-delay: 0.3s;">
-                <div class="service-number">03</div>
-                <div class="service-text">
-                    <h3>Soczewki Kontaktowe</h3>
-                    <p>Bezpieczny dobór i profesjonalna nauka aplikacji nowoczesnych soczewek kontaktowych dla Twojego maksymalnego komfortu na co dzień. Oferujemy rozwiązania jednodniowe, miesięczne oraz specjalistyczne.</p>
+                    <h3>Stylizacja oprawy okularowej</h3>
+                    <p>Okulary to biżuteria twarzy. Nasz doradca pomoże dobrać kształt, kolor i materiał oprawki do fizjonomii Twojej twarzy, koloru oczu i odcienia skóry, korzystając z marek premium.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <section id="kontakt" class="contact">
-        <div class="contact-container reveal">
-            <div class="contact-info">
-                <h3>Odwiedź Nas</h3>
-                
-                <div class="info-group">
-                    <span class="info-label">Adres</span>
-                    <p class="info-text">ul. Szafirowa 18<br>62-020 Swarzędz</p>
+        <div class="contact-wrap reveal">
+            <div class="contact-data">
+                <h2>Czekamy na Ciebie.</h2>
+                <div class="c-row">
+                    <span class="c-label">Salon Swarzędz</span>
+                    <div class="c-value">ul. Szafirowa 18<br>62-020 Swarzędz</div>
                 </div>
-                
-                <div class="info-group">
-                    <span class="info-label">Telefon</span>
-                    <p class="info-text"><a href="tel:+48500600700">+48 500 600 700</a></p>
+                <div class="c-row">
+                    <span class="c-label">Kontakt do gabinetu</span>
+                    <div class="c-value"><a href="tel:+48500600700">+48 500 600 700</a><br><a href="mailto:gabinet@lumenoptyk.pl">gabinet@lumenoptyk.pl</a></div>
                 </div>
-                
-                <div class="info-group">
-                    <span class="info-label">Godziny Otwarcia</span>
-                    <p class="info-text" style="font-size: 1rem;">
-                        Pon – Pt: 10:00 – 18:00<br>
-                        Sobota: 10:00 – 14:00<br>
-                        Niedziela: Zamknięte
-                    </p>
+                <div class="c-row">
+                    <span class="c-label">Godziny przyjęć</span>
+                    <div class="c-value">Poniedziałek – Piątek: 10:00 – 18:00<br>Sobota: 10:00 – 14:00</div>
                 </div>
             </div>
-            
-            <div class="map-container">
-                <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2433.6823522271!2d17.0694186120536!3d52.41243167192237!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47045b54a2a4b865%3A0xc34a66e640356c36!2sGraniczna%2063%2C%2062-020%20Swarz%C4%99dz!5e0!3m2!1spl!2spl!4v1711200000000!5m2!1spl!2spl" 
-                    width="100%" 
-                    height="100%" 
-                    style="border:0;" 
-                    allowfullscreen="" 
-                    loading="lazy">
-                </iframe>
+            <div class="map-box">
+                <iframe src="https://maps.google.com/maps?q=Swarzędz&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </div>
         </div>
     </section>
 
     <footer>
-        <p>© 2026 <span>LUMEN.</span> ul. Szafirowa 18, Swarzędz.</p>
+        <p>© 2026 <span>LUMEN Salon Optyczny</span>. Strona stworzona na potrzeby wizualizacji.</p>
     </footer>
 
     <script>
