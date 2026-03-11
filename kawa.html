@@ -269,7 +269,7 @@
             margin: auto;
             display: flex;
             flex-direction: column;
-            gap: 160px; /* Przestrzeń między produktami */
+            gap: 160px;
         }
 
         .product-item {
@@ -280,7 +280,6 @@
             gap: 10%;
         }
 
-        /* Zygzak: parzyste elementy mają zdjęcie po prawej */
         .product-item:nth-child(even) {
             flex-direction: row-reverse;
         }
@@ -302,10 +301,10 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
 
-        /* KLUCZOWY FIX: Dodane linki do zdjęć bezpośrednio w kodzie CSS */
-        .p1 { background-image: url('https://images.unsplash.com/photo-1559525839-cece31d10e05?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'); }
-        .p2 { background-image: url('https://images.unsplash.com/photo-1587734195503-904fca47e0e9?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'); }
-        .p3 { background-image: url('https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'); }
+        /* --- PODMIENIONE, PRAWDZIWE ZDJĘCIA KAWY --- */
+        .p1 { background-image: url('https://images.unsplash.com/photo-1595434091143-b375ace5d46d?q=80&w=800&auto=format&fit=crop'); } /* Drip / Jasne palenie */
+        .p2 { background-image: url('https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=800&auto=format&fit=crop'); } /* Ziarna espresso */
+        .p3 { background-image: url('https://images.unsplash.com/photo-1559056199-641a0ac8b55e?q=80&w=800&auto=format&fit=crop'); } /* Farmer / Ziarna */
 
         .product-item:hover .product-image {
             filter: grayscale(0%) brightness(1);
@@ -590,7 +589,6 @@
             .about-image { width: 100%; height: 300px; box-shadow: 10px 10px 0px var(--accent); }
             .about-image:hover { transform: none; }
             
-            /* Dopasowanie produktów do mobile (zyg-zag) */
             .product-item, .product-item:nth-child(even) {
                 flex-direction: column;
                 gap: 50px;
