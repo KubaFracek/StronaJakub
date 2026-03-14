@@ -47,7 +47,6 @@
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            /* Skrócony czas oczekiwania z 1.5s na 0.8s */
             animation: slideUpOut 0.8s cubic-bezier(0.77, 0, 0.175, 1) 0.8s forwards;
             padding: 0 20px;
         }
@@ -88,7 +87,7 @@
             filter: blur(80px);
             opacity: 0.3;
             animation: float 20s infinite ease-in-out alternate;
-            will-change: transform; /* Optymalizacja wydajności animacji */
+            will-change: transform;
         }
 
         .blob-1 {
@@ -114,7 +113,6 @@
             flex-direction: column;
             align-items: center;
             opacity: 0;
-            /* Zsynchronizowane z preloaderm, pojawia się szybciej */
             animation: fadeInContent 1s ease-out 1s forwards; 
         }
 
@@ -150,6 +148,19 @@
             margin: 0 auto;
         }
 
+        /* Klasa dla informacji o projektach demo */
+        .disclaimer {
+            display: inline-block;
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: rgba(209, 213, 219, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 5px 15px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(5px);
+        }
+
         /* --- IDEALNA SIATKA BENTO --- */
         .bento-grid {
             display: grid;
@@ -177,7 +188,6 @@
             --mouse-y: 50%;
         }
 
-        /* Poprawa dostępności: obsługa klawiatury */
         .card:focus-visible {
             outline: 2px solid var(--accent);
             outline-offset: 4px;
@@ -261,7 +271,6 @@
             letter-spacing: 1px;
         }
 
-        /* Układ siatki */
         .card:nth-child(1) { grid-column: span 2; grid-row: span 2; }
         .card:nth-child(1) h2 { font-size: 2.5rem; }
         .card:nth-child(2) { grid-column: span 1; grid-row: span 1; }
@@ -271,8 +280,62 @@
         .card:nth-child(6) { grid-column: span 2; grid-row: span 1; }
         .card:nth-child(7) { grid-column: span 2; grid-row: span 1; }
 
+        /* --- SEKCJA KONTAKTOWA --- */
+        .contact-section {
+            margin-top: 60px;
+            padding: 50px 30px;
+            background-color: rgba(20, 20, 23, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            text-align: center;
+            width: 100%;
+            max-width: 1200px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .contact-section:hover {
+            border-color: rgba(209, 213, 219, 0.2);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+        }
+
+        .contact-section h2 {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .contact-section p {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .email-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 15px 40px;
+            border: 1px solid var(--accent);
+            border-radius: 50px;
+            background: rgba(209, 213, 219, 0.05);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .email-btn:hover, .email-btn:focus-visible {
+            background: var(--text-main);
+            color: var(--bg-color);
+            transform: translateY(-5px) scale(1.05);
+            outline: none;
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
+        }
+
         footer {
-            margin-top: 80px;
+            margin-top: 60px;
             margin-bottom: 20px;
             color: var(--text-muted);
             font-size: 0.9rem;
@@ -299,6 +362,7 @@
             .card { grid-column: span 1 !important; grid-row: span 1 !important; }
             .card:nth-child(1) h2 { font-size: 1.8rem; }
             header { margin-bottom: 40px; }
+            .contact-section { padding: 40px 20px; }
         }
     </style>
 </head>
@@ -317,6 +381,7 @@
         <header>
             <h1>Jakub <span>Frąckiewicz</span></h1>
             <p>Projektuję i koduję profesjonalne, nowoczesne doświadczenia w sieci. Poniżej znajdziesz moje najnowsze realizacje.</p>
+            <span class="disclaimer">* Przedstawione realizacje to wersje demo projektów stworzonych dla nieistniejących firm.</span>
         </header>
 
         <main class="bento-grid">
@@ -377,21 +442,25 @@
             </a>
         </main>
 
+        <section class="contact-section">
+            <h2>Masz projekt na myśli?</h2>
+            <p>Zbudujmy razem coś wyjątkowego. Napisz do mnie!</p>
+            <a href="mailto:123@gmail.com" class="email-btn">123@gmail.com</a>
+        </section>
+
         <footer>
             <p>&copy; 2026 Jakub Frąckiewicz. Zbudowane za pomocą HTML, CSS & JavaScript.</p>
         </footer>
     </div>
 
     <script>
-        // Usuwamy preloader z DOM po zakończeniu animacji, żeby nie blokował kliknięć
         window.addEventListener('load', () => {
             const preloader = document.querySelector('.preloader');
             setTimeout(() => {
                 preloader.style.display = 'none';
-            }, 1600); // 800ms opóźnienia + 800ms trwania animacji
+            }, 1600);
         });
 
-        // Efekt śledzenia kursora na kartach
         document.querySelectorAll('.card').forEach(card => {
             card.addEventListener('mousemove', e => {
                 const rect = card.getBoundingClientRect();
