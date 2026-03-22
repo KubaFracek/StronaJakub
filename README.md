@@ -2,7 +2,7 @@
 
 > Designing and coding professional, modern web experiences.
 
-**🌐 Live demo:** [strona-jakub.vercel.app](https://strona-jakub.vercel.app)
+**Live demo:** [strona-jakub.vercel.app](https://strona-jakub.vercel.app)
 
 ---
 
@@ -18,13 +18,13 @@ All projects are built with pure **HTML, CSS & JavaScript** — no frameworks, n
 
 | Page | Style | File |
 |------|-------|------|
-| 🖼️ **PUNKT Galeria** | Horizontal scrolling gallery | `galeria.html` |
-| ✂️ **Siekiera & Brzytwa** | Poster / bold typographic | `barber.html` |
-| 🏛️ **Zielona Bryła** | Asymmetric architecture layout | `architekt.html` |
-| ☕ **Czarna Ziarnista** | Dark mode e-commerce | `kawa.html` |
-| 🚗 **APEX Detailing** | Dynamic backgrounds | `detailing.html` |
-| 👓 **LUMEN** | Glassmorphism & medical aesthetic | `optyk.html` |
-| 🍽️ **Nomen Fine Dining** | Editorial / magazine layout | `restauracja.html` |
+| **PUNKT Galeria** | Horizontal scrolling gallery | `galeria.html` |
+| **Siekiera & Brzytwa** | Poster / bold typographic | `barber.html` |
+| **Zielona Bryła** | Asymmetric architecture layout | `architekt.html` |
+| **Czarna Ziarnista** | Dark mode e-commerce | `kawa.html` |
+| **APEX Detailing** | Dynamic backgrounds | `detailing.html` |
+| **LUMEN** | Glassmorphism & medical aesthetic | `optyk.html` |
+| **Nomen Fine Dining** | Editorial / magazine layout | `restauracja.html` |
 
 ---
 
@@ -60,7 +60,7 @@ npx serve .
 
 Have a project in mind? Let's build something great together.
 
-📧 [Kontakt@jakubfrackiewicz.pl](mailto:Kontakt@jakubfrackiewicz.pl)
+[Kontakt@jakubfrackiewicz.pl](mailto:Kontakt@jakubfrackiewicz.pl)
 
 ---
 
