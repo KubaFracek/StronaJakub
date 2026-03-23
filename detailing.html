@@ -4,334 +4,288 @@
     <link rel="icon" type="image/png" href="/favicon1.png?v=1">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AGówno | Perfekcja Lakieru</title>
+    <title>APEX | Absolute Detailing</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;1,400&family=Manrope:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Outfit:wght@300;400;600&display=swap');
 
         :root {
-            --bg-dark: #050505;
-            --text-light: #ffffff;
-            --text-dim: #999999;
-            --accent: #e61919; /* Bardziej agresywna, "krwista" czerwień */
-            --border: #1a1a1a;
+            --bg: #030303;
+            --surface: rgba(255, 255, 255, 0.03);
+            --surface-hover: rgba(255, 255, 255, 0.08);
+            --accent: #00e5ff; /* Elektryczny Cyjan */
+            --accent-glow: rgba(0, 229, 255, 0.4);
+            --text-main: #ffffff;
+            --text-muted: #8a8a8a;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            cursor: none; /* Ukrywamy domyślny kursor! */
         }
 
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-light);
-            font-family: 'Manrope', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Outfit', sans-serif;
             overflow-x: hidden;
             scroll-behavior: smooth;
         }
 
-        h1, h2, h3, .brand, .step-number {
-            font-family: 'Barlow Condensed', sans-serif;
-            text-transform: uppercase;
+        /* --- OVERLAY Z SZUMEM (NOISE) --- */
+        .noise-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
-        /* --- ANIMACJE WEJŚCIA --- */
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* --- CUSTOM KURSOR --- */
+        .cursor-dot, .cursor-outline {
+            position: fixed;
+            top: 0; left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 10000;
+            pointer-events: none;
         }
 
-        @keyframes zoomIn {
-            from { transform: scale(1); }
-            to { transform: scale(1.1); }
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent);
+            box-shadow: 0 0 10px var(--accent);
         }
 
-        /* --- NAWIGACJA (Glassmorphism & Sticky) --- */
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--accent-glow);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        /* --- NAWIGACJA --- */
         nav {
             position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 20px 5%;
+            top: 0; width: 100%;
+            padding: 30px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 999;
-            background: rgba(5, 5, 5, 0.7);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            transition: padding 0.3s ease;
+            z-index: 100;
+            mix-blend-mode: difference; /* Magia - tekst dostosowuje się do tła */
         }
 
         .brand {
-            font-size: 2.5rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
             font-weight: 700;
-            color: var(--text-light);
+            color: var(--text-main);
             text-decoration: none;
-            letter-spacing: 2px;
+            letter-spacing: -1px;
         }
 
-        .brand span {
-            color: var(--accent);
-            text-shadow: 0 0 10px rgba(230, 25, 25, 0.5); /* Lekki glow */
-        }
+        .brand span { color: var(--accent); }
 
-        .contact-btn {
-            border: 1px solid var(--accent);
-            color: var(--text-light);
-            padding: 12px 35px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        .btn-glitch {
             position: relative;
-            overflow: hidden;
+            padding: 15px 30px;
             background: transparent;
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            border: 1px solid var(--surface-hover);
+            border-radius: 30px;
+            text-decoration: none;
+            overflow: hidden;
+            transition: 0.4s;
         }
 
-        .contact-btn::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+        .btn-glitch:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px var(--accent-glow);
             background: var(--accent);
-            transform: scaleX(0);
-            transform-origin: right;
-            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            z-index: -1;
+            color: #000;
         }
 
-        .contact-btn:hover::before {
-            transform: scaleX(1);
-            transform-origin: left;
-        }
-
-        .contact-btn:hover {
-            box-shadow: 0 0 20px rgba(230, 25, 25, 0.4);
-        }
-
-        /* --- HERO SECTION --- */
+        /* --- HERO Z EFEKTEM PARALLAX I TEKSTEM --- */
         .hero {
-            height: 100vh;
-            min-height: 700px;
-            display: flex;
-            align-items: center;
-            padding: 0 5%;
-            clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
             position: relative;
-            z-index: 2;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             overflow: hidden;
         }
 
-        /* Tło oddzielone dla animacji Kena Burnsa */
         .hero-bg {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to right, rgba(5,5,5,0.95) 0%, rgba(5,5,5,0.3) 100%), url('https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') center/cover;
-            z-index: -1;
-            animation: zoomIn 20s linear infinite alternate;
+            top: -10%; left: -10%; width: 120%; height: 120%;
+            background: url('https://images.unsplash.com/photo-1614200187524-dc4b892acf16?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') center/cover;
+            filter: brightness(0.4) contrast(1.2);
+            z-index: -2;
+            animation: breathe 15s ease-in-out infinite alternate;
         }
 
-        .hero-content {
-            max-width: 850px;
-            margin-top: 50px;
+        @keyframes breathe {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
         }
 
-        .hero h1 {
-            font-size: 7.5rem;
-            line-height: 0.9;
-            margin-bottom: 30px;
-            letter-spacing: -2px;
-            background: linear-gradient(180deg, #ffffff 0%, #aaaaaa 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            opacity: 0;
-            animation: fadeUp 1s cubic-bezier(0.165, 0.84, 0.44, 1) 0.2s forwards;
-        }
-
-        .hero p {
-            font-size: 1.3rem;
-            color: var(--text-dim);
-            margin-bottom: 50px;
-            max-width: 550px;
-            line-height: 1.6;
-            opacity: 0;
-            animation: fadeUp 1s cubic-bezier(0.165, 0.84, 0.44, 1) 0.4s forwards;
-        }
-
-        .hero-action {
-            opacity: 0;
-            animation: fadeUp 1s cubic-bezier(0.165, 0.84, 0.44, 1) 0.6s forwards;
-        }
-
-        /* --- USŁUGI --- */
-        .services-wrapper {
-            position: relative;
-            width: 100%;
-            min-height: 100vh;
-            background-color: var(--bg-dark);
-            margin-top: -12vh;
-            padding-top: 25vh;
-            padding-bottom: 15vh;
-            z-index: 1;
-        }
-
-        .bg-layer {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-size: cover;
-            background-position: center;
-            opacity: 0;
-            transform: scale(1.05); /* Przygotowanie do animacji */
-            transition: opacity 0.8s ease, transform 4s ease-out;
-            z-index: 1;
-        }
-
-        .bg-layer.active {
-            opacity: 0.4;
-            transform: scale(1);
-        }
-
-        .bg-default {
-            background-image: url('https://images.unsplash.com/photo-1552930294-6b595f4c2974?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
-            opacity: 0.15;
-            transform: scale(1);
-        }
-
-        .bg-1 { background-image: url('https://images.unsplash.com/photo-1601362840469-51e4d8d58785?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80'); }
-        .bg-2 { background-image: url('https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80'); }
-        .bg-3 { background-image: url('https://images.unsplash.com/photo-1623053676839-444498871ab4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80'); }
-        
-        .bg-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(180deg, rgba(5,5,5,1) 0%, rgba(5,5,5,0.7) 50%, rgba(5,5,5,1) 100%);
-            z-index: 2;
-        }
-
-        .services-content {
-            position: relative;
-            z-index: 3;
-            padding: 0 5%;
-        }
-
-        .section-label {
-            color: var(--accent);
+        .hero-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(4rem, 10vw, 12rem);
             font-weight: 700;
-            letter-spacing: 4px;
+            line-height: 0.8;
+            text-align: center;
             text-transform: uppercase;
-            margin-bottom: 60px;
+            color: transparent;
+            -webkit-text-stroke: 2px rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 1;
+            margin-bottom: 20px;
+        }
+
+        .hero-title span {
+            display: block;
+            color: var(--text-main);
+            -webkit-text-stroke: 0;
+            text-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--accent);
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+            font-weight: 600;
+        }
+
+        /* --- PŁYWAJĄCY PASEK (MARQUEE) --- */
+        .marquee-container {
+            position: absolute;
+            bottom: 50px;
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            border-top: 1px solid var(--surface-hover);
+            border-bottom: 1px solid var(--surface-hover);
+            padding: 15px 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .marquee-text {
             display: inline-block;
-            font-size: 0.9rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--text-main);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: marquee 20s linear infinite;
         }
 
-        .service-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 50px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            cursor: pointer;
-            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+        .marquee-text span {
+            color: var(--accent);
+            margin: 0 30px;
         }
 
-        .service-row:hover {
-            padding-left: 30px;
-            border-bottom-color: var(--accent);
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
 
-        .service-row h2 {
-            font-size: 4.5rem;
-            color: var(--text-dim);
-            transition: all 0.4s ease;
+        /* --- SEKCJA USŁUG (GLASSMORPHISM CARDS) --- */
+        .services {
+            padding: 150px 5%;
             position: relative;
         }
 
-        .service-row:hover h2 {
-            color: var(--text-light);
-            text-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+        .section-header {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 4rem;
+            margin-bottom: 80px;
+            text-transform: uppercase;
+            text-align: center;
         }
 
-        .service-desc {
-            width: 45%;
-            color: var(--text-dim);
-            font-size: 1.15rem;
-            line-height: 1.6;
-            opacity: 0;
-            transform: translateX(30px);
-            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+        .section-header span {
+            color: var(--accent);
         }
 
-        .service-row:hover .service-desc {
-            opacity: 1;
-            transform: translateX(0);
-            color: var(--text-light);
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            perspective: 1000px;
         }
 
-        /* --- PROCES --- */
-        .process {
-            padding: 120px 5%;
-            background-color: var(--bg-dark);
+        .glass-card {
+            background: var(--surface);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 50px 30px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: transform 0.5s ease, background 0.5s ease, border-color 0.5s ease;
             position: relative;
+            overflow: hidden;
         }
 
-        .process-grid {
-            display: flex;
-            gap: 60px;
-            margin-top: 80px;
-        }
-
-        .process-step {
-            flex: 1;
-            position: relative;
-        }
-
-        /* Kreska łącząca kroki na desktopie */
-        .process-step:not(:last-child)::after {
+        .glass-card::before {
             content: '';
             position: absolute;
-            top: 50px;
-            right: -40px;
-            width: 30px;
-            height: 1px;
-            background: var(--border);
+            top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            transform: skewX(-20deg);
+            transition: 0.5s;
         }
 
-        .step-number {
-            font-size: 7rem;
-            color: transparent;
-            -webkit-text-stroke: 1px var(--border);
-            line-height: 1;
+        .glass-card:hover {
+            transform: translateY(-15px) rotateX(5deg) rotateY(5deg);
+            background: var(--surface-hover);
+            border-color: var(--accent-glow);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 20px var(--accent-glow) inset;
+        }
+
+        .glass-card:hover::before {
+            left: 200%;
+            transition: 0.8s ease-in-out;
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            color: var(--accent);
             margin-bottom: 30px;
-            font-weight: 700;
-            transition: all 0.4s ease;
+            font-family: 'Space Grotesk', sans-serif;
         }
 
-        .process-step:hover .step-number {
-            -webkit-text-stroke: 1px var(--accent);
-            color: rgba(230, 25, 25, 0.1);
-            transform: translateY(-10px);
-        }
-
-        .process-step h3 {
-            font-size: 2.2rem;
+        .glass-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
             margin-bottom: 20px;
-            color: var(--text-light);
         }
 
-        .process-step p {
-            color: var(--text-dim);
-            line-height: 1.7;
-            font-size: 1.05rem;
+        .glass-card p {
+            color: var(--text-muted);
+            line-height: 1.6;
+            font-size: 1.1rem;
         }
 
-        /* --- SCROLL REVEAL KLASY --- */
+        /* --- EFEKTY SCROLLOWANIA --- */
         .reveal {
             opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+            transform: translateY(100px);
+            transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
         }
+
         .reveal.active {
             opacity: 1;
             transform: translateY(0);
@@ -339,152 +293,144 @@
 
         /* --- STOPKA --- */
         footer {
-            padding: 80px 5% 40px;
-            background-color: #020202;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            border-top: 1px solid var(--border);
+            padding: 100px 5% 50px;
+            border-top: 1px solid var(--surface);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
-        /* --- RESPONSIVE --- */
-        @media (max-width: 900px) {
-            .hero h1 { font-size: 4rem; }
-            .hero { clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%); }
-            .service-row { flex-direction: column; align-items: flex-start; gap: 20px; padding: 40px 0; }
-            .service-desc { width: 100%; opacity: 1; transform: none; font-size: 1rem; }
-            .service-row h2 { font-size: 3rem; color: var(--text-light); }
-            .service-row:hover { padding-left: 0; }
-            .process-grid { flex-direction: column; gap: 50px; }
-            .process-step:not(:last-child)::after { display: none; }
-            nav { padding: 15px 5%; }
+        .footer-glow {
+            position: absolute;
+            bottom: -50%; left: 50%;
+            transform: translateX(-50%);
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .footer-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(3rem, 6vw, 6rem);
+            margin-bottom: 30px;
+        }
+
+        /* Responsywność */
+        @media (max-width: 768px) {
+            * { cursor: auto; } /* Na telefonach wyłączamy custom kursor */
+            .cursor-dot, .cursor-outline, .noise-overlay { display: none; }
+            .hero-title { font-size: 4rem; }
+            .glass-card:hover { transform: translateY(-5px); }
         }
     </style>
 </head>
 <body>
 
+    <div class="noise-overlay"></div>
+
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-outline" id="cursor-outline"></div>
+
     <nav>
-        <a href="#" class="brand">APEX<span>.</span></a>
-        <a href="#" class="contact-btn">Umów wycenę</a>
+        <a href="#" class="brand hover-target">APEX<span>.</span></a>
+        <a href="#" class="btn-glitch hover-target">Zarezerwuj Termin</a>
     </nav>
 
     <header class="hero">
         <div class="hero-bg"></div>
-        <div class="hero-content">
-            <h1>Przywracamy<br>Salonowy Blask.</h1>
-            <p>Specjalizujemy się w wieloetapowej korekcie lakieru i aplikacji certyfikowanych powłok ceramicznych. Bezkompromisowa jakość, która zabezpieczy Twoją inwestycję na lata.</p>
-            <div class="hero-action">
-                <a href="#" class="contact-btn" style="padding: 15px 40px; font-size: 1rem;">Odkryj Ofertę</a>
+        <p class="hero-subtitle reveal active">Absolutna Perfekcja</p>
+        <h1 class="hero-title reveal active">
+            Wyzwól<br><span>Blask.</span>
+        </h1>
+        
+        <div class="marquee-container">
+            <div class="marquee-text">
+                KOREKTA LAKIERU <span>//</span> CERAMIKA 9H <span>//</span> FOLIE PPF <span>//</span> DETAILING WNĘTRZA <span>//</span> NIEWIDZIALNA WYCIERACZKA <span>//</span> KOREKTA LAKIERU <span>//</span> CERAMIKA 9H <span>//</span> FOLIE PPF <span>//</span> DETAILING WNĘTRZA <span>//</span> NIEWIDZIALNA WYCIERACZKA
             </div>
         </div>
     </header>
 
-    <section class="services-wrapper">
+    <section class="services">
+        <h2 class="section-header reveal">Panel <span>Usług</span></h2>
         
-        <div class="bg-layer bg-default" id="bg-default"></div>
-        <div class="bg-layer bg-1" id="bg-1"></div>
-        <div class="bg-layer bg-2" id="bg-2"></div>
-        <div class="bg-layer bg-3" id="bg-3"></div>
-        <div class="bg-overlay"></div>
-
-        <div class="services-content">
-            <span class="section-label reveal">01 // Panel Usług</span>
-            
-            <div class="service-row reveal" data-bg="bg-1">
-                <h2>Korekta Lakieru</h2>
-                <div class="service-desc">Usuwamy do 95% zarysowań, zmatowień i hologramów. Wieloetapowy proces polerowania przywracający idealną głębię koloru i lustrzane odbicie, którego nie osiągniesz w żadnej myjni.</div>
+        <div class="cards-grid">
+            <div class="glass-card reveal hover-target">
+                <div class="card-icon">01</div>
+                <h3>Korekta Lakieru</h3>
+                <p>Usuwamy mikrozarysowania, hologramy i zmatowienia. Wyciągamy z lakieru 100% głębi koloru, tworząc efekt tafli szkła, którego nie da się zignorować na ulicy.</p>
             </div>
 
-            <div class="service-row reveal" data-bg="bg-2">
-                <h2>Powłoki Ceramiczne</h2>
-                <div class="service-desc">Aplikacja powłok elastomerowych i ceramicznych o twardości 9H. Bezkonkurencyjna ochrona przed chemią drogową, mikrozarysowaniami i promieniowaniem UV nawet do 5 lat.</div>
+            <div class="glass-card reveal hover-target" style="transition-delay: 0.1s;">
+                <div class="card-icon">02</div>
+                <h3>Ceramika 9H</h3>
+                <p>Aplikujemy zaawansowane powłoki elastomerowe i ceramiczne. Twój samochód zyskuje potężną barierę przed chemią, solą i zarysowaniami na całe lata.</p>
             </div>
 
-            <div class="service-row reveal" data-bg="bg-3">
-                <h2>Detailing Wnętrza</h2>
-                <div class="service-desc">Pranie ekstrakcyjne tapicerki, wieloetapowe czyszczenie i impregnacja skór, ozonowanie oraz zabezpieczenie tworzyw sztucznych antystatycznymi dressingami premium.</div>
-            </div>
-        </div>
-    </section>
-
-    <section class="process">
-        <span class="section-label reveal">02 // Jak pracujemy</span>
-        
-        <div class="process-grid">
-            <div class="process-step reveal">
-                <div class="step-number">01</div>
-                <h3>Inspekcja</h3>
-                <p>Sprawdzamy grubość powłoki lakierniczej miernikiem, oceniamy stopień uszkodzeń w świetle inspekcyjnym i dobieramy odpowiednie pady oraz pasty polerskie do Twojego auta.</p>
-            </div>
-            <div class="process-step reveal" style="transition-delay: 0.2s;">
-                <div class="step-number">02</div>
-                <h3>Dekontaminacja</h3>
-                <p>Chemiczne i mechaniczne oczyszczenie lakieru z opiłków metalu, lotnej rdzy, smoły i żywicy przy użyciu aktywnej piany i profesjonalnej glinki detalingowej.</p>
-            </div>
-            <div class="process-step reveal" style="transition-delay: 0.4s;">
-                <div class="step-number">03</div>
-                <h3>Zabezpieczenie</h3>
-                <p>Po procesie cięcia i polerowania, lakier zostaje podwójnie odtłuszczony, a następnie aplikowana jest wybrana powłoka ochronna w ściśle kontrolowanych warunkach.</p>
+            <div class="glass-card reveal hover-target" style="transition-delay: 0.2s;">
+                <div class="card-icon">03</div>
+                <h3>Folie PPF</h3>
+                <p>Bezkompromisowa ochrona. Samoregenerująca się, bezbarwna folia poliuretanowa, która przyjmuje na siebie uderzenia kamieni i zarysowania parkingowe.</p>
             </div>
         </div>
     </section>
 
     <footer>
-        <div class="brand">APEX<span>.</span></div>
-        <div style="color: var(--text-dim); text-align: right; line-height: 1.6;">
-            Swarzędz, ul. Motoryzacyjna 8<br>
-            <strong style="color: var(--text-light);">T: +48 111 222 333</strong>
-        </div>
+        <div class="footer-glow"></div>
+        <h2 class="footer-title">GOTOWY NA <span style="color: var(--accent)">WOW?</span></h2>
+        <a href="#" class="btn-glitch hover-target" style="display: inline-block; font-size: 1.2rem; padding: 20px 50px;">Skontaktuj się</a>
+        <p style="margin-top: 50px; color: var(--text-muted);">APEX Detailing | Swarzędz, ul. Motoryzacyjna 8</p>
     </footer>
 
     <script>
-        // --- LOGIKA TŁA W USŁUGACH ---
-        const rows = document.querySelectorAll('.service-row');
-        const backgrounds = document.querySelectorAll('.bg-layer');
+        // --- CUSTOM KURSOR LOGIKA ---
+        const cursorDot = document.getElementById('cursor-dot');
+        const cursorOutline = document.getElementById('cursor-outline');
+        const hoverTargets = document.querySelectorAll('.hover-target');
 
-        rows.forEach(row => {
-            row.addEventListener('mouseenter', () => {
-                const targetBgId = row.getAttribute('data-bg');
-                
-                backgrounds.forEach(bg => {
-                    bg.classList.remove('active');
-                });
+        window.addEventListener('mousemove', function(e) {
+            const posX = e.clientX;
+            const posY = e.clientY;
 
-                const targetBg = document.getElementById(targetBgId);
-                if (targetBg) {
-                    targetBg.classList.add('active');
-                }
+            // Kropka podąża natychmiast
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            // Obwódka podąża z lekkim, płynnym opóźnieniem (animacja)
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        // Efekt najechania na linki/karty
+        hoverTargets.forEach(target => {
+            target.addEventListener('mouseenter', () => {
+                cursorOutline.style.width = '60px';
+                cursorOutline.style.height = '60px';
+                cursorOutline.style.backgroundColor = 'rgba(0, 229, 255, 0.1)';
             });
-
-            row.addEventListener('mouseleave', () => {
-                backgrounds.forEach(bg => {
-                    bg.classList.remove('active');
-                });
+            target.addEventListener('mouseleave', () => {
+                cursorOutline.style.width = '40px';
+                cursorOutline.style.height = '40px';
+                cursorOutline.style.backgroundColor = 'transparent';
             });
         });
 
-        // --- SCROLL REVEAL ANIMACJE ---
+        // --- SCROLL REVEAL (POJAWIANIE ELEMENTÓW) ---
         const revealElements = document.querySelectorAll('.reveal');
 
-        const revealOptions = {
-            threshold: 0.15, // Odpali się gdy 15% elementu będzie widoczne
-            rootMargin: "0px 0px -50px 0px"
-        };
-
-        const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+        const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (!entry.isIntersecting) {
-                    return;
-                } else {
+                if (entry.isIntersecting) {
                     entry.target.classList.add('active');
-                    observer.unobserve(entry.target); // Przestaje obserwować po pierwszej animacji
                 }
             });
-        }, revealOptions);
-
-        revealElements.forEach(el => {
-            revealOnScroll.observe(el);
+        }, {
+            threshold: 0.1
         });
+
+        revealElements.forEach(el => observer.observe(el));
     </script>
 </body>
 </html>
