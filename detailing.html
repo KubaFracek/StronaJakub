@@ -3,17 +3,17 @@
 <head>
     <link rel="icon" type="image/png" href="/favicon1.png?v=1">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=1200">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>APEX Detailing | Perfekcja Lakieru</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;1,400&family=Manrope:wght@300;400;700&display=swap');
 
         :root {
-            --bg-dark: #070707;
-            --text-light: #f0f0f0;
-            --text-dim: #888888;
-            --accent: #d91c1c; /* Wyścigowa czerwień */
-            --border: #222222;
+            --bg-dark: #050505;
+            --text-light: #ffffff;
+            --text-dim: #999999;
+            --accent: #e61919; /* Bardziej agresywna, "krwista" czerwień */
+            --border: #1a1a1a;
         }
 
         * {
@@ -27,23 +27,40 @@
             color: var(--text-light);
             font-family: 'Manrope', sans-serif;
             overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
-        h1, h2, h3, .brand {
+        h1, h2, h3, .brand, .step-number {
             font-family: 'Barlow Condensed', sans-serif;
             text-transform: uppercase;
         }
 
-        /* --- NAWIGACJA --- */
+        /* --- ANIMACJE WEJŚCIA --- */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+
+        /* --- NAWIGACJA (Glassmorphism & Sticky) --- */
         nav {
-            position: absolute;
+            position: fixed;
             top: 0;
             width: 100%;
-            padding: 30px 5%;
+            padding: 20px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 100;
+            z-index: 999;
+            background: rgba(5, 5, 5, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: padding 0.3s ease;
         }
 
         .brand {
@@ -56,85 +73,132 @@
 
         .brand span {
             color: var(--accent);
+            text-shadow: 0 0 10px rgba(230, 25, 25, 0.5); /* Lekki glow */
         }
 
         .contact-btn {
-            border: 2px solid var(--accent);
+            border: 1px solid var(--accent);
             color: var(--text-light);
-            padding: 10px 30px;
+            padding: 12px 35px;
             text-decoration: none;
             font-weight: 700;
+            font-size: 0.9rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
+            letter-spacing: 2px;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+            overflow: hidden;
+            background: transparent;
+        }
+
+        .contact-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            z-index: -1;
+        }
+
+        .contact-btn:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
         }
 
         .contact-btn:hover {
-            background-color: var(--accent);
+            box-shadow: 0 0 20px rgba(230, 25, 25, 0.4);
         }
 
-        /* --- HERO SECTION (Kąty ostre) --- */
+        /* --- HERO SECTION --- */
         .hero {
             height: 100vh;
             min-height: 700px;
-            background: linear-gradient(to right, rgba(7,7,7,0.9) 0%, rgba(7,7,7,0.4) 100%), url('https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') center/cover;
             display: flex;
             align-items: center;
             padding: 0 5%;
-            /* Magia CSS: ścinamy prawy dolny róg sekcji */
-            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+            clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
             position: relative;
             z-index: 2;
+            overflow: hidden;
+        }
+
+        /* Tło oddzielone dla animacji Kena Burnsa */
+        .hero-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to right, rgba(5,5,5,0.95) 0%, rgba(5,5,5,0.3) 100%), url('https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') center/cover;
+            z-index: -1;
+            animation: zoomIn 20s linear infinite alternate;
         }
 
         .hero-content {
-            max-width: 800px;
+            max-width: 850px;
+            margin-top: 50px;
         }
 
         .hero h1 {
-            font-size: 7rem;
+            font-size: 7.5rem;
             line-height: 0.9;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             letter-spacing: -2px;
+            background: linear-gradient(180deg, #ffffff 0%, #aaaaaa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0;
+            animation: fadeUp 1s cubic-bezier(0.165, 0.84, 0.44, 1) 0.2s forwards;
         }
 
         .hero p {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: var(--text-dim);
-            margin-bottom: 40px;
-            max-width: 500px;
+            margin-bottom: 50px;
+            max-width: 550px;
+            line-height: 1.6;
+            opacity: 0;
+            animation: fadeUp 1s cubic-bezier(0.165, 0.84, 0.44, 1) 0.4s forwards;
         }
 
-        /* --- USŁUGI (Interaktywna lista na pełną szerokość) --- */
+        .hero-action {
+            opacity: 0;
+            animation: fadeUp 1s cubic-bezier(0.165, 0.84, 0.44, 1) 0.6s forwards;
+        }
+
+        /* --- USŁUGI --- */
         .services-wrapper {
             position: relative;
             width: 100%;
             min-height: 100vh;
             background-color: var(--bg-dark);
-            margin-top: -10vh; /* Wsuwamy pod uciętą krawędź hero */
-            padding-top: 20vh;
-            padding-bottom: 10vh;
+            margin-top: -12vh;
+            padding-top: 25vh;
+            padding-bottom: 15vh;
             z-index: 1;
         }
 
-        /* Kontenery na dynamiczne tła */
         .bg-layer {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             background-size: cover;
             background-position: center;
             opacity: 0;
-            transition: opacity 0.6s ease;
+            transform: scale(1.05); /* Przygotowanie do animacji */
+            transition: opacity 0.8s ease, transform 4s ease-out;
             z-index: 1;
         }
 
-        /* Domyślne tło */
-        .bg-default {
-            background-image: url('https://images.unsplash.com/photo-1552930294-6b595f4c2974?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
-            opacity: 0.2;
+        .bg-layer.active {
+            opacity: 0.4;
+            transform: scale(1);
         }
 
-        /* Tła przypisane do usług */
+        .bg-default {
+            background-image: url('https://images.unsplash.com/photo-1552930294-6b595f4c2974?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+            opacity: 0.15;
+            transform: scale(1);
+        }
+
         .bg-1 { background-image: url('https://images.unsplash.com/photo-1601362840469-51e4d8d58785?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80'); }
         .bg-2 { background-image: url('https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80'); }
         .bg-3 { background-image: url('https://images.unsplash.com/photo-1623053676839-444498871ab4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80'); }
@@ -142,7 +206,7 @@
         .bg-overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(7, 7, 7, 0.85);
+            background: linear-gradient(180deg, rgba(5,5,5,1) 0%, rgba(5,5,5,0.7) 50%, rgba(5,5,5,1) 100%);
             z-index: 2;
         }
 
@@ -155,92 +219,131 @@
         .section-label {
             color: var(--accent);
             font-weight: 700;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             text-transform: uppercase;
-            margin-bottom: 50px;
-            display: block;
+            margin-bottom: 60px;
+            display: inline-block;
+            font-size: 0.9rem;
         }
 
         .service-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 40px 0;
-            border-bottom: 1px solid var(--border);
+            padding: 50px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             cursor: pointer;
-            transition: padding-left 0.4s ease;
+            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
         .service-row:hover {
-            padding-left: 20px;
+            padding-left: 30px;
             border-bottom-color: var(--accent);
         }
 
         .service-row h2 {
-            font-size: 4rem;
+            font-size: 4.5rem;
             color: var(--text-dim);
-            transition: color 0.4s ease;
+            transition: all 0.4s ease;
+            position: relative;
         }
 
         .service-row:hover h2 {
             color: var(--text-light);
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
         }
 
         .service-desc {
-            width: 40%;
+            width: 45%;
             color: var(--text-dim);
-            font-size: 1.1rem;
+            font-size: 1.15rem;
+            line-height: 1.6;
             opacity: 0;
-            transform: translateX(20px);
-            transition: all 0.4s ease;
+            transform: translateX(30px);
+            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
         .service-row:hover .service-desc {
             opacity: 1;
             transform: translateX(0);
+            color: var(--text-light);
         }
 
-        /* --- PROCES (Zamiast kafelków - wielka typografia) --- */
+        /* --- PROCES --- */
         .process {
             padding: 120px 5%;
             background-color: var(--bg-dark);
+            position: relative;
         }
 
         .process-grid {
             display: flex;
-            gap: 50px;
-            margin-top: 60px;
+            gap: 60px;
+            margin-top: 80px;
         }
 
         .process-step {
             flex: 1;
+            position: relative;
+        }
+
+        /* Kreska łącząca kroki na desktopie */
+        .process-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 50px;
+            right: -40px;
+            width: 30px;
+            height: 1px;
+            background: var(--border);
         }
 
         .step-number {
-            font-family: 'Barlow Condensed', sans-serif;
-            font-size: 6rem;
-            color: var(--border);
+            font-size: 7rem;
+            color: transparent;
+            -webkit-text-stroke: 1px var(--border);
             line-height: 1;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             font-weight: 700;
+            transition: all 0.4s ease;
+        }
+
+        .process-step:hover .step-number {
+            -webkit-text-stroke: 1px var(--accent);
+            color: rgba(230, 25, 25, 0.1);
+            transform: translateY(-10px);
         }
 
         .process-step h3 {
-            font-size: 2rem;
-            margin-bottom: 15px;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
             color: var(--text-light);
         }
 
         .process-step p {
             color: var(--text-dim);
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+
+        /* --- SCROLL REVEAL KLASY --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* --- STOPKA --- */
         footer {
-            padding: 60px 5%;
-            background-color: #030303;
+            padding: 80px 5% 40px;
+            background-color: #020202;
             display: flex;
             justify-content: space-between;
+            align-items: flex-end;
             border-top: 1px solid var(--border);
         }
 
@@ -248,10 +351,13 @@
         @media (max-width: 900px) {
             .hero h1 { font-size: 4rem; }
             .hero { clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%); }
-            .service-row { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .service-row { flex-direction: column; align-items: flex-start; gap: 20px; padding: 40px 0; }
             .service-desc { width: 100%; opacity: 1; transform: none; font-size: 1rem; }
-            .service-row h2 { font-size: 2.5rem; color: var(--text-light); }
-            .process-grid { flex-direction: column; }
+            .service-row h2 { font-size: 3rem; color: var(--text-light); }
+            .service-row:hover { padding-left: 0; }
+            .process-grid { flex-direction: column; gap: 50px; }
+            .process-step:not(:last-child)::after { display: none; }
+            nav { padding: 15px 5%; }
         }
     </style>
 </head>
@@ -263,98 +369,121 @@
     </nav>
 
     <header class="hero">
+        <div class="hero-bg"></div>
         <div class="hero-content">
             <h1>Przywracamy<br>Salonowy Blask.</h1>
-            <p>Specjalizujemy się w wieloetapowej korekcie lakieru i aplikacji certyfikowanych powłok ceramicznych. Zabezpiecz swoją inwestycję na lata.</p>
+            <p>Specjalizujemy się w wieloetapowej korekcie lakieru i aplikacji certyfikowanych powłok ceramicznych. Bezkompromisowa jakość, która zabezpieczy Twoją inwestycję na lata.</p>
+            <div class="hero-action">
+                <a href="#" class="contact-btn" style="padding: 15px 40px; font-size: 1rem;">Odkryj Ofertę</a>
+            </div>
         </div>
     </header>
 
     <section class="services-wrapper">
         
-        <div class="bg-layer bg-default" style="opacity: 0.3;"></div>
+        <div class="bg-layer bg-default" id="bg-default"></div>
         <div class="bg-layer bg-1" id="bg-1"></div>
         <div class="bg-layer bg-2" id="bg-2"></div>
         <div class="bg-layer bg-3" id="bg-3"></div>
         <div class="bg-overlay"></div>
 
         <div class="services-content">
-            <span class="section-label">01 // Panel Usług</span>
+            <span class="section-label reveal">01 // Panel Usług</span>
             
-            <div class="service-row" data-bg="bg-1">
+            <div class="service-row reveal" data-bg="bg-1">
                 <h2>Korekta Lakieru</h2>
-                <div class="service-desc">Usuwamy do 95% zarysowań, zmatowień i hologramów. Wieloetapowy proces polerowania przywracający idealną głębię koloru i lustrzane odbicie.</div>
+                <div class="service-desc">Usuwamy do 95% zarysowań, zmatowień i hologramów. Wieloetapowy proces polerowania przywracający idealną głębię koloru i lustrzane odbicie, którego nie osiągniesz w żadnej myjni.</div>
             </div>
 
-            <div class="service-row" data-bg="bg-2">
+            <div class="service-row reveal" data-bg="bg-2">
                 <h2>Powłoki Ceramiczne</h2>
-                <div class="service-desc">Aplikacja powłok elastomerowych i ceramicznych o twardości 9H. Ochrona przed chemią drogową, mikrozarysowaniami i promieniowaniem UV nawet do 5 lat.</div>
+                <div class="service-desc">Aplikacja powłok elastomerowych i ceramicznych o twardości 9H. Bezkonkurencyjna ochrona przed chemią drogową, mikrozarysowaniami i promieniowaniem UV nawet do 5 lat.</div>
             </div>
 
-            <div class="service-row" data-bg="bg-3">
+            <div class="service-row reveal" data-bg="bg-3">
                 <h2>Detailing Wnętrza</h2>
-                <div class="service-desc">Pranie ekstrakcyjne tapicerki, czyszczenie i impregnacja skór, ozonowanie oraz zabezpieczenie tworzyw sztucznych antystatycznymi dressingami.</div>
+                <div class="service-desc">Pranie ekstrakcyjne tapicerki, wieloetapowe czyszczenie i impregnacja skór, ozonowanie oraz zabezpieczenie tworzyw sztucznych antystatycznymi dressingami premium.</div>
             </div>
         </div>
     </section>
 
     <section class="process">
-        <span class="section-label">02 // Jak pracujemy</span>
+        <span class="section-label reveal">02 // Jak pracujemy</span>
         
         <div class="process-grid">
-            <div class="process-step">
+            <div class="process-step reveal">
                 <div class="step-number">01</div>
                 <h3>Inspekcja</h3>
-                <p>Sprawdzamy grubość powłoki lakierniczej miernikiem, oceniamy stopień uszkodzeń i dobieramy odpowiednie pady oraz pasty polerskie.</p>
+                <p>Sprawdzamy grubość powłoki lakierniczej miernikiem, oceniamy stopień uszkodzeń w świetle inspekcyjnym i dobieramy odpowiednie pady oraz pasty polerskie do Twojego auta.</p>
             </div>
-            <div class="process-step">
+            <div class="process-step reveal" style="transition-delay: 0.2s;">
                 <div class="step-number">02</div>
                 <h3>Dekontaminacja</h3>
-                <p>Chemiczne i mechaniczne oczyszczenie lakieru z opiłków metalu, smoły i żywicy przy użyciu aktywnej piany i glinki.</p>
+                <p>Chemiczne i mechaniczne oczyszczenie lakieru z opiłków metalu, lotnej rdzy, smoły i żywicy przy użyciu aktywnej piany i profesjonalnej glinki detalingowej.</p>
             </div>
-            <div class="process-step">
+            <div class="process-step reveal" style="transition-delay: 0.4s;">
                 <div class="step-number">03</div>
                 <h3>Zabezpieczenie</h3>
-                <p>Po procesie cięcia i polerowania, lakier zostaje odtłuszczony, a następnie aplikowana jest wybrana powłoka ochronna w kontrolowanych warunkach.</p>
+                <p>Po procesie cięcia i polerowania, lakier zostaje podwójnie odtłuszczony, a następnie aplikowana jest wybrana powłoka ochronna w ściśle kontrolowanych warunkach.</p>
             </div>
         </div>
     </section>
 
     <footer>
         <div class="brand">APEX<span>.</span></div>
-        <div style="color: var(--text-dim);">Swarzędz, ul. Motoryzacyjna 8<br>T: +48 111 222 333</div>
+        <div style="color: var(--text-dim); text-align: right; line-height: 1.6;">
+            Swarzędz, ul. Motoryzacyjna 8<br>
+            <strong style="color: var(--text-light);">T: +48 111 222 333</strong>
+        </div>
     </footer>
 
     <script>
+        // --- LOGIKA TŁA W USŁUGACH ---
         const rows = document.querySelectorAll('.service-row');
         const backgrounds = document.querySelectorAll('.bg-layer');
 
         rows.forEach(row => {
             row.addEventListener('mouseenter', () => {
-                // Pobierz ID tła z atrybutu data-bg najechanego wiersza
                 const targetBgId = row.getAttribute('data-bg');
                 
-                // Ukryj wszystkie tła
                 backgrounds.forEach(bg => {
-                    if(!bg.classList.contains('bg-default')) {
-                        bg.style.opacity = '0';
-                    }
+                    bg.classList.remove('active');
                 });
 
-                // Pokaż odpowiednie tło
                 const targetBg = document.getElementById(targetBgId);
                 if (targetBg) {
-                    targetBg.style.opacity = '0.5'; // Półprzezroczystość, żeby tekst był czytelny
+                    targetBg.classList.add('active');
                 }
             });
 
             row.addEventListener('mouseleave', () => {
-                // Po zjechaniu myszką, wygaszamy tła
                 backgrounds.forEach(bg => {
-                    if(!bg.classList.contains('bg-default')) {
-                        bg.style.opacity = '0';
-                    }
+                    bg.classList.remove('active');
                 });
             });
+        });
+
+        // --- SCROLL REVEAL ANIMACJE ---
+        const revealElements = document.querySelectorAll('.reveal');
+
+        const revealOptions = {
+            threshold: 0.15, // Odpali się gdy 15% elementu będzie widoczne
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) {
+                    return;
+                } else {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // Przestaje obserwować po pierwszej animacji
+                }
+            });
+        }, revealOptions);
+
+        revealElements.forEach(el => {
+            revealOnScroll.observe(el);
         });
     </script>
 </body>
