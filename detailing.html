@@ -13,7 +13,7 @@
             --surface: #111111;
             --text-light: #ffffff;
             --text-dim: #888888;
-            --accent: #d91c1c; /* Elegancka, wyścigowa czerwień */
+            --accent: #d91c1c;
             --border: #222222;
         }
 
@@ -28,7 +28,6 @@
             color: var(--text-light);
             font-family: 'Manrope', sans-serif;
             overflow-x: hidden;
-            /* Na start blokujemy scrollowanie, odblokuje to JS po opadnięciu kurtyny */
             overflow-y: hidden; 
         }
 
@@ -37,7 +36,7 @@
             text-transform: uppercase;
         }
 
-        /* --- OPADAJĄCY EKRAN STARTOWY (KURTYNA) --- */
+        /* --- OPADAJĄCY EKRAN STARTOWY --- */
         .intro-screen {
             position: fixed;
             top: 0; left: 0;
@@ -47,7 +46,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            /* Ta animacja zrzuca ekran w dół */
             animation: dropDown 1.2s cubic-bezier(0.8, 0, 0.2, 1) 2.2s forwards;
         }
 
@@ -56,13 +54,10 @@
             font-weight: 700;
             letter-spacing: 4px;
             opacity: 0;
-            /* Logo pojawia się, lekko pulsuje i znika tuż przed opadnięciem ekranu */
             animation: fadeInOut 2s ease-in-out forwards;
         }
 
-        .intro-logo span {
-            color: var(--accent);
-        }
+        .intro-logo span { color: var(--accent); }
 
         @keyframes fadeInOut {
             0% { opacity: 0; transform: scale(0.95); filter: blur(10px); }
@@ -76,14 +71,13 @@
             100% { transform: translateY(100vh); visibility: hidden; }
         }
 
-        /* --- ANIMACJE WEJŚCIA DLA TREŚCI --- */
+        /* --- ANIMACJE WEJŚCIA --- */
         .fade-up {
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(40px);
             transition: opacity 1s ease, transform 1s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
         
-        /* Klasa dodawana przez JS gdy element wchodzi w ekran */
         .fade-up.visible {
             opacity: 1;
             transform: translateY(0);
@@ -145,7 +139,6 @@
             top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(to right, rgba(7,7,7,0.95) 0%, rgba(7,7,7,0.4) 100%), url('https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') center/cover;
             z-index: -1;
-            /* Delikatne przybliżenie tła nadaje ekskluzywności */
             animation: slowZoom 20s linear infinite alternate;
         }
 
@@ -157,7 +150,6 @@
         .hero-content {
             max-width: 800px;
             z-index: 2;
-            /* Opóźniamy start animacji tekstu, by zgrał się z opadnięciem kurtyny */
             animation-delay: 2.5s; 
         }
 
@@ -168,9 +160,7 @@
             letter-spacing: -2px;
         }
 
-        .hero h1 span {
-            color: var(--accent);
-        }
+        .hero h1 span { color: var(--accent); }
 
         .hero p {
             font-size: 1.2rem;
@@ -180,9 +170,9 @@
             line-height: 1.6;
         }
 
-        /* --- USŁUGI (Ekskluzywne karty zamiast listy) --- */
+        /* --- USŁUGI (ASYMETRYCZNY UKŁAD SCHODKOWY) --- */
         .services-section {
-            padding: 120px 5%;
+            padding: 150px 5%;
             background-color: var(--surface);
             position: relative;
         }
@@ -192,56 +182,104 @@
             font-weight: 700;
             letter-spacing: 3px;
             text-transform: uppercase;
-            margin-bottom: 60px;
+            margin-bottom: 80px;
             display: block;
         }
 
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(3, 1fr); /* Sztywno 3 kolumny na desktopie */
+            gap: 40px;
+            align-items: start;
+        }
+
+        /* Łamanie układu poziomego */
+        .service-card:nth-child(2) {
+            margin-top: 100px; /* Środkowy kafelek mocno w dół */
+        }
+
+        .service-card:nth-child(3) {
+            margin-top: 50px; /* Prawy kafelek lekko w dół */
         }
 
         .service-card {
             background: var(--bg-dark);
-            border: 1px solid var(--border);
-            padding: 50px 40px;
-            transition: all 0.4s ease;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            padding: 80px 50px;
+            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
             position: relative;
             overflow: hidden;
+            min-height: 480px; /* Robimy z nich wysokie monolity */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end; /* Tekst na dole */
         }
 
-        /* Subtelny czerwony pasek na dole karty, który rośnie po najechaniu */
+        /* Tło z gradientem dla efektu premium */
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at top right, rgba(255,255,255,0.05) 0%, transparent 60%);
+            z-index: 1;
+        }
+
+        /* Subtelny czerwony pasek na dole */
         .service-card::after {
             content: '';
             position: absolute;
-            bottom: 0; left: 0; width: 100%; height: 3px;
+            bottom: 0; left: 0; width: 100%; height: 4px;
             background: var(--accent);
             transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s ease;
+            transform-origin: right;
+            transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            z-index: 2;
+        }
+
+        /* Gigantyczny numer w tle karty */
+        .bg-number {
+            position: absolute;
+            top: -20px;
+            right: 20px;
+            font-size: 15rem;
+            font-family: 'Barlow Condensed', sans-serif;
+            color: rgba(255, 255, 255, 0.02);
+            font-weight: 700;
+            line-height: 1;
+            z-index: 0;
+            transition: color 0.5s ease, transform 0.5s ease;
         }
 
         .service-card:hover {
-            transform: translateY(-10px);
-            border-color: #333;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            transform: translateY(-15px);
+            border-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
         }
 
         .service-card:hover::after {
             transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .service-card:hover .bg-number {
+            color: rgba(217, 28, 28, 0.05); /* Leciutko czerwony numer po najechaniu */
+            transform: translateY(-10px);
         }
 
         .service-card h2 {
-            font-size: 3rem;
+            font-size: 3.5rem;
             color: var(--text-light);
             margin-bottom: 20px;
+            position: relative;
+            z-index: 3;
         }
 
         .service-card p {
             color: var(--text-dim);
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             line-height: 1.6;
+            position: relative;
+            z-index: 3;
         }
 
         /* --- PROCES --- */
@@ -302,10 +340,14 @@
         }
 
         /* --- RESPONSIVE --- */
-        @media (max-width: 900px) {
-            .hero h1 { font-size: 4rem; }
+        @media (max-width: 1024px) {
+            .hero h1 { font-size: 5rem; }
+            /* Na mniejszych ekranach wyłączamy schodki, robimy zwykły stack */
+            .services-grid { grid-template-columns: 1fr; gap: 30px; }
+            .service-card:nth-child(2), .service-card:nth-child(3) { margin-top: 0; }
+            .service-card { min-height: 350px; padding: 40px 30px; }
+            .bg-number { font-size: 10rem; }
             .process-grid { flex-direction: column; gap: 40px; }
-            .service-card { padding: 40px 30px; }
         }
     </style>
 </head>
@@ -333,16 +375,19 @@
         
         <div class="services-grid">
             <div class="service-card fade-up">
+                <div class="bg-number">01</div>
                 <h2>Korekta</h2>
                 <p>Usuwamy do 95% zarysowań, zmatowień i hologramów. Wieloetapowy proces polerowania przywracający idealną głębię koloru i lustrzane odbicie.</p>
             </div>
 
             <div class="service-card fade-up" style="transition-delay: 0.1s;">
+                <div class="bg-number">02</div>
                 <h2>Ceramika</h2>
                 <p>Aplikacja powłok elastomerowych i ceramicznych o twardości 9H. Ochrona przed chemią drogową, mikrozarysowaniami i promieniowaniem UV.</p>
             </div>
 
             <div class="service-card fade-up" style="transition-delay: 0.2s;">
+                <div class="bg-number">03</div>
                 <h2>Wnętrze</h2>
                 <p>Pranie ekstrakcyjne tapicerki, czyszczenie i impregnacja skór, ozonowanie oraz zabezpieczenie tworzyw sztucznych antystatycznymi dressingami.</p>
             </div>
@@ -380,29 +425,23 @@
     </footer>
 
     <script>
-        // LOGIKA DLA EKRANU STARTOWEGO
         document.addEventListener("DOMContentLoaded", () => {
-            // Po 2.4 sekundach (gdy kurtyna opadnie) odblokowujemy scrollowanie strony
             setTimeout(() => {
                 document.body.style.overflowY = 'auto';
-                
-                // Ręcznie aktywujemy animację tekstu w Hero Section tuż po opadnięciu kurtyny
                 document.getElementById('hero-text').classList.add('visible');
             }, 2400); 
         });
 
-        // LOGIKA POJAWIANIA SIĘ ELEMENTÓW PRZY SCROLLOWANIU
         const fadeElements = document.querySelectorAll('.fade-up:not(#hero-text)');
-
         const scrollObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
-                    observer.unobserve(entry.target); // Animacja odpala się tylko raz
+                    observer.unobserve(entry.target); 
                 }
             });
         }, {
-            threshold: 0.1, // Odpal animację, gdy widać chociaż 10% elementu
+            threshold: 0.1, 
             rootMargin: "0px 0px -50px 0px"
         });
 
