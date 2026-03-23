@@ -4,433 +4,409 @@
     <link rel="icon" type="image/png" href="/favicon1.png?v=1">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>APEX | Absolute Detailing</title>
+    <title>APEX Detailing | Perfekcja Lakieru</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Outfit:wght@300;400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,700;1,400&family=Manrope:wght@300;400;700&display=swap');
 
         :root {
-            --bg: #030303;
-            --surface: rgba(255, 255, 255, 0.03);
-            --surface-hover: rgba(255, 255, 255, 0.08);
-            --accent: #00e5ff; /* Elektryczny Cyjan */
-            --accent-glow: rgba(0, 229, 255, 0.4);
-            --text-main: #ffffff;
-            --text-muted: #8a8a8a;
+            --bg-dark: #070707;
+            --surface: #111111;
+            --text-light: #ffffff;
+            --text-dim: #888888;
+            --accent: #d91c1c; /* Elegancka, wyścigowa czerwień */
+            --border: #222222;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none; /* Ukrywamy domyślny kursor! */
         }
 
         body {
-            background-color: var(--bg);
-            color: var(--text-main);
-            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: 'Manrope', sans-serif;
             overflow-x: hidden;
-            scroll-behavior: smooth;
+            /* Na start blokujemy scrollowanie, odblokuje to JS po opadnięciu kurtyny */
+            overflow-y: hidden; 
         }
 
-        /* --- OVERLAY Z SZUMEM (NOISE) --- */
-        .noise-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            pointer-events: none;
-            z-index: 9999;
-            opacity: 0.04;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        h1, h2, h3, .brand, .step-number {
+            font-family: 'Barlow Condensed', sans-serif;
+            text-transform: uppercase;
         }
 
-        /* --- CUSTOM KURSOR --- */
-        .cursor-dot, .cursor-outline {
+        /* --- OPADAJĄCY EKRAN STARTOWY (KURTYNA) --- */
+        .intro-screen {
             position: fixed;
             top: 0; left: 0;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
+            width: 100vw; height: 100vh;
+            background-color: #000000;
             z-index: 10000;
-            pointer-events: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Ta animacja zrzuca ekran w dół */
+            animation: dropDown 1.2s cubic-bezier(0.8, 0, 0.2, 1) 2.2s forwards;
         }
 
-        .cursor-dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--accent);
-            box-shadow: 0 0 10px var(--accent);
+        .intro-logo {
+            font-size: 5rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            opacity: 0;
+            /* Logo pojawia się, lekko pulsuje i znika tuż przed opadnięciem ekranu */
+            animation: fadeInOut 2s ease-in-out forwards;
         }
 
-        .cursor-outline {
-            width: 40px;
-            height: 40px;
-            border: 1px solid var(--accent-glow);
-            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        .intro-logo span {
+            color: var(--accent);
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: scale(0.95); filter: blur(10px); }
+            30% { opacity: 1; transform: scale(1); filter: blur(0); }
+            70% { opacity: 1; transform: scale(1); filter: blur(0); }
+            100% { opacity: 0; transform: scale(1.05); filter: blur(10px); }
+        }
+
+        @keyframes dropDown {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(100vh); visibility: hidden; }
+        }
+
+        /* --- ANIMACJE WEJŚCIA DLA TREŚCI --- */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s ease, transform 1s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        
+        /* Klasa dodawana przez JS gdy element wchodzi w ekran */
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* --- NAWIGACJA --- */
         nav {
-            position: fixed;
+            position: absolute;
             top: 0; width: 100%;
             padding: 30px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 100;
-            mix-blend-mode: difference; /* Magia - tekst dostosowuje się do tła */
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
         .brand {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 2rem;
+            font-size: 2.5rem;
             font-weight: 700;
-            color: var(--text-main);
+            color: var(--text-light);
             text-decoration: none;
-            letter-spacing: -1px;
+            letter-spacing: 2px;
         }
 
         .brand span { color: var(--accent); }
 
-        .btn-glitch {
-            position: relative;
-            padding: 15px 30px;
-            background: transparent;
-            color: var(--text-main);
-            font-family: 'Space Grotesk', sans-serif;
+        .contact-btn {
+            border: 2px solid var(--accent);
+            color: var(--text-light);
+            padding: 12px 35px;
+            text-decoration: none;
             font-weight: 700;
             text-transform: uppercase;
-            border: 1px solid var(--surface-hover);
-            border-radius: 30px;
-            text-decoration: none;
-            overflow: hidden;
-            transition: 0.4s;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            background: transparent;
         }
 
-        .btn-glitch:hover {
-            border-color: var(--accent);
-            box-shadow: 0 0 20px var(--accent-glow);
-            background: var(--accent);
-            color: #000;
+        .contact-btn:hover {
+            background-color: var(--accent);
+            color: white;
+            box-shadow: 0 10px 20px rgba(217, 28, 28, 0.2);
+            transform: translateY(-2px);
         }
 
-        /* --- HERO Z EFEKTEM PARALLAX I TEKSTEM --- */
+        /* --- HERO SECTION --- */
         .hero {
-            position: relative;
             height: 100vh;
+            min-height: 700px;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
-            overflow: hidden;
+            padding: 0 5%;
+            position: relative;
         }
 
         .hero-bg {
             position: absolute;
-            top: -10%; left: -10%; width: 120%; height: 120%;
-            background: url('https://images.unsplash.com/photo-1614200187524-dc4b892acf16?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') center/cover;
-            filter: brightness(0.4) contrast(1.2);
-            z-index: -2;
-            animation: breathe 15s ease-in-out infinite alternate;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to right, rgba(7,7,7,0.95) 0%, rgba(7,7,7,0.4) 100%), url('https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') center/cover;
+            z-index: -1;
+            /* Delikatne przybliżenie tła nadaje ekskluzywności */
+            animation: slowZoom 20s linear infinite alternate;
         }
 
-        @keyframes breathe {
+        @keyframes slowZoom {
             0% { transform: scale(1); }
-            100% { transform: scale(1.05); }
+            100% { transform: scale(1.08); }
         }
 
-        .hero-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(4rem, 10vw, 12rem);
-            font-weight: 700;
-            line-height: 0.8;
-            text-align: center;
-            text-transform: uppercase;
-            color: transparent;
-            -webkit-text-stroke: 2px rgba(255, 255, 255, 0.1);
-            position: relative;
-            z-index: 1;
-            margin-bottom: 20px;
+        .hero-content {
+            max-width: 800px;
+            z-index: 2;
+            /* Opóźniamy start animacji tekstu, by zgrał się z opadnięciem kurtyny */
+            animation-delay: 2.5s; 
         }
 
-        .hero-title span {
-            display: block;
-            color: var(--text-main);
-            -webkit-text-stroke: 0;
-            text-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+        .hero h1 {
+            font-size: 7rem;
+            line-height: 0.9;
+            margin-bottom: 25px;
+            letter-spacing: -2px;
         }
 
-        .hero-subtitle {
+        .hero h1 span {
+            color: var(--accent);
+        }
+
+        .hero p {
             font-size: 1.2rem;
-            color: var(--accent);
-            letter-spacing: 5px;
-            text-transform: uppercase;
+            color: var(--text-dim);
             margin-bottom: 40px;
-            font-weight: 600;
+            max-width: 500px;
+            line-height: 1.6;
         }
 
-        /* --- PŁYWAJĄCY PASEK (MARQUEE) --- */
-        .marquee-container {
-            position: absolute;
-            bottom: 50px;
-            width: 100%;
-            overflow: hidden;
-            white-space: nowrap;
-            border-top: 1px solid var(--surface-hover);
-            border-bottom: 1px solid var(--surface-hover);
-            padding: 15px 0;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(5px);
-        }
-
-        .marquee-text {
-            display: inline-block;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 300;
-            color: var(--text-main);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            animation: marquee 20s linear infinite;
-        }
-
-        .marquee-text span {
-            color: var(--accent);
-            margin: 0 30px;
-        }
-
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
-        /* --- SEKCJA USŁUG (GLASSMORPHISM CARDS) --- */
-        .services {
-            padding: 150px 5%;
+        /* --- USŁUGI (Ekskluzywne karty zamiast listy) --- */
+        .services-section {
+            padding: 120px 5%;
+            background-color: var(--surface);
             position: relative;
         }
 
-        .section-header {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 4rem;
-            margin-bottom: 80px;
-            text-transform: uppercase;
-            text-align: center;
-        }
-
-        .section-header span {
+        .section-label {
             color: var(--accent);
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 60px;
+            display: block;
         }
 
-        .cards-grid {
+        .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            perspective: 1000px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
         }
 
-        .glass-card {
-            background: var(--surface);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 50px 30px;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            transition: transform 0.5s ease, background 0.5s ease, border-color 0.5s ease;
+        .service-card {
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            padding: 50px 40px;
+            transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
         }
 
-        .glass-card::before {
+        /* Subtelny czerwony pasek na dole karty, który rośnie po najechaniu */
+        .service-card::after {
             content: '';
             position: absolute;
-            top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
-            transform: skewX(-20deg);
-            transition: 0.5s;
+            bottom: 0; left: 0; width: 100%; height: 3px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
         }
 
-        .glass-card:hover {
-            transform: translateY(-15px) rotateX(5deg) rotateY(5deg);
-            background: var(--surface-hover);
-            border-color: var(--accent-glow);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 20px var(--accent-glow) inset;
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: #333;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
 
-        .glass-card:hover::before {
-            left: 200%;
-            transition: 0.8s ease-in-out;
+        .service-card:hover::after {
+            transform: scaleX(1);
         }
 
-        .card-icon {
+        .service-card h2 {
             font-size: 3rem;
-            color: var(--accent);
-            margin-bottom: 30px;
-            font-family: 'Space Grotesk', sans-serif;
-        }
-
-        .glass-card h3 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 2rem;
+            color: var(--text-light);
             margin-bottom: 20px;
         }
 
-        .glass-card p {
-            color: var(--text-muted);
-            line-height: 1.6;
+        .service-card p {
+            color: var(--text-dim);
             font-size: 1.1rem;
+            line-height: 1.6;
         }
 
-        /* --- EFEKTY SCROLLOWANIA --- */
-        .reveal {
-            opacity: 0;
-            transform: translateY(100px);
-            transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+        /* --- PROCES --- */
+        .process {
+            padding: 120px 5%;
+            background-color: var(--bg-dark);
         }
 
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
+        .process-grid {
+            display: flex;
+            gap: 50px;
+            margin-top: 60px;
+        }
+
+        .process-step {
+            flex: 1;
+            padding-top: 30px;
+            border-top: 1px solid var(--border);
+            transition: border-color 0.3s ease;
+        }
+
+        .process-step:hover {
+            border-top-color: var(--accent);
+        }
+
+        .step-number {
+            font-size: 5rem;
+            color: var(--border);
+            line-height: 1;
+            margin-bottom: 20px;
+            font-weight: 700;
+            transition: color 0.3s ease;
+        }
+
+        .process-step:hover .step-number {
+            color: var(--text-light);
+        }
+
+        .process-step h3 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--text-light);
+        }
+
+        .process-step p {
+            color: var(--text-dim);
+            line-height: 1.6;
         }
 
         /* --- STOPKA --- */
         footer {
-            padding: 100px 5% 50px;
-            border-top: 1px solid var(--surface);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
+            padding: 80px 5% 40px;
+            background-color: #030303;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-top: 1px solid var(--border);
         }
 
-        .footer-glow {
-            position: absolute;
-            bottom: -50%; left: 50%;
-            transform: translateX(-50%);
-            width: 600px; height: 600px;
-            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-            z-index: -1;
-            opacity: 0.3;
-        }
-
-        .footer-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(3rem, 6vw, 6rem);
-            margin-bottom: 30px;
-        }
-
-        /* Responsywność */
-        @media (max-width: 768px) {
-            * { cursor: auto; } /* Na telefonach wyłączamy custom kursor */
-            .cursor-dot, .cursor-outline, .noise-overlay { display: none; }
-            .hero-title { font-size: 4rem; }
-            .glass-card:hover { transform: translateY(-5px); }
+        /* --- RESPONSIVE --- */
+        @media (max-width: 900px) {
+            .hero h1 { font-size: 4rem; }
+            .process-grid { flex-direction: column; gap: 40px; }
+            .service-card { padding: 40px 30px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="noise-overlay"></div>
-
-    <div class="cursor-dot" id="cursor-dot"></div>
-    <div class="cursor-outline" id="cursor-outline"></div>
+    <div class="intro-screen">
+        <div class="intro-logo brand">APEX<span>.</span></div>
+    </div>
 
     <nav>
-        <a href="#" class="brand hover-target">APEX<span>.</span></a>
-        <a href="#" class="btn-glitch hover-target">Zarezerwuj Termin</a>
+        <a href="#" class="brand">APEX<span>.</span></a>
+        <a href="#" class="contact-btn">Umów wycenę</a>
     </nav>
 
     <header class="hero">
         <div class="hero-bg"></div>
-        <p class="hero-subtitle reveal active">Absolutna Perfekcja</p>
-        <h1 class="hero-title reveal active">
-            Wyzwól<br><span>Blask.</span>
-        </h1>
-        
-        <div class="marquee-container">
-            <div class="marquee-text">
-                KOREKTA LAKIERU <span>//</span> CERAMIKA 9H <span>//</span> FOLIE PPF <span>//</span> DETAILING WNĘTRZA <span>//</span> NIEWIDZIALNA WYCIERACZKA <span>//</span> KOREKTA LAKIERU <span>//</span> CERAMIKA 9H <span>//</span> FOLIE PPF <span>//</span> DETAILING WNĘTRZA <span>//</span> NIEWIDZIALNA WYCIERACZKA
-            </div>
+        <div class="hero-content fade-up" id="hero-text">
+            <h1>Perfekcja<br><span>Lakieru.</span></h1>
+            <p>Specjalizujemy się w wieloetapowej korekcie lakieru i aplikacji certyfikowanych powłok ceramicznych. Zabezpiecz swoją inwestycję na lata.</p>
         </div>
     </header>
 
-    <section class="services">
-        <h2 class="section-header reveal">Panel <span>Usług</span></h2>
+    <section class="services-section">
+        <span class="section-label fade-up">01 // Panel Usług</span>
         
-        <div class="cards-grid">
-            <div class="glass-card reveal hover-target">
-                <div class="card-icon">01</div>
-                <h3>Korekta Lakieru</h3>
-                <p>Usuwamy mikrozarysowania, hologramy i zmatowienia. Wyciągamy z lakieru 100% głębi koloru, tworząc efekt tafli szkła, którego nie da się zignorować na ulicy.</p>
+        <div class="services-grid">
+            <div class="service-card fade-up">
+                <h2>Korekta</h2>
+                <p>Usuwamy do 95% zarysowań, zmatowień i hologramów. Wieloetapowy proces polerowania przywracający idealną głębię koloru i lustrzane odbicie.</p>
             </div>
 
-            <div class="glass-card reveal hover-target" style="transition-delay: 0.1s;">
-                <div class="card-icon">02</div>
-                <h3>Ceramika 9H</h3>
-                <p>Aplikujemy zaawansowane powłoki elastomerowe i ceramiczne. Twój samochód zyskuje potężną barierę przed chemią, solą i zarysowaniami na całe lata.</p>
+            <div class="service-card fade-up" style="transition-delay: 0.1s;">
+                <h2>Ceramika</h2>
+                <p>Aplikacja powłok elastomerowych i ceramicznych o twardości 9H. Ochrona przed chemią drogową, mikrozarysowaniami i promieniowaniem UV.</p>
             </div>
 
-            <div class="glass-card reveal hover-target" style="transition-delay: 0.2s;">
-                <div class="card-icon">03</div>
-                <h3>Folie PPF</h3>
-                <p>Bezkompromisowa ochrona. Samoregenerująca się, bezbarwna folia poliuretanowa, która przyjmuje na siebie uderzenia kamieni i zarysowania parkingowe.</p>
+            <div class="service-card fade-up" style="transition-delay: 0.2s;">
+                <h2>Wnętrze</h2>
+                <p>Pranie ekstrakcyjne tapicerki, czyszczenie i impregnacja skór, ozonowanie oraz zabezpieczenie tworzyw sztucznych antystatycznymi dressingami.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="process">
+        <span class="section-label fade-up">02 // Jak pracujemy</span>
+        
+        <div class="process-grid">
+            <div class="process-step fade-up">
+                <div class="step-number">01</div>
+                <h3>Inspekcja</h3>
+                <p>Sprawdzamy grubość powłoki lakierniczej miernikiem, oceniamy stopień uszkodzeń i dobieramy odpowiednie pady oraz pasty polerskie.</p>
+            </div>
+            <div class="process-step fade-up" style="transition-delay: 0.1s;">
+                <div class="step-number">02</div>
+                <h3>Dekontaminacja</h3>
+                <p>Chemiczne i mechaniczne oczyszczenie lakieru z opiłków metalu, smoły i żywicy przy użyciu aktywnej piany i glinki.</p>
+            </div>
+            <div class="process-step fade-up" style="transition-delay: 0.2s;">
+                <div class="step-number">03</div>
+                <h3>Zabezpieczenie</h3>
+                <p>Po procesie cięcia i polerowania, lakier zostaje odtłuszczony, a następnie aplikowana jest wybrana powłoka ochronna.</p>
             </div>
         </div>
     </section>
 
     <footer>
-        <div class="footer-glow"></div>
-        <h2 class="footer-title">GOTOWY NA <span style="color: var(--accent)">WOW?</span></h2>
-        <a href="#" class="btn-glitch hover-target" style="display: inline-block; font-size: 1.2rem; padding: 20px 50px;">Skontaktuj się</a>
-        <p style="margin-top: 50px; color: var(--text-muted);">APEX Detailing | Swarzędz, ul. Motoryzacyjna 8</p>
+        <div class="brand fade-up">APEX<span>.</span></div>
+        <div class="fade-up" style="color: var(--text-dim); text-align: right;">
+            Swarzędz, ul. Motoryzacyjna 8<br>
+            <strong style="color: var(--text-light);">T: +48 111 222 333</strong>
+        </div>
     </footer>
 
     <script>
-        // --- CUSTOM KURSOR LOGIKA ---
-        const cursorDot = document.getElementById('cursor-dot');
-        const cursorOutline = document.getElementById('cursor-outline');
-        const hoverTargets = document.querySelectorAll('.hover-target');
-
-        window.addEventListener('mousemove', function(e) {
-            const posX = e.clientX;
-            const posY = e.clientY;
-
-            // Kropka podąża natychmiast
-            cursorDot.style.left = `${posX}px`;
-            cursorDot.style.top = `${posY}px`;
-
-            // Obwódka podąża z lekkim, płynnym opóźnieniem (animacja)
-            cursorOutline.animate({
-                left: `${posX}px`,
-                top: `${posY}px`
-            }, { duration: 500, fill: "forwards" });
+        // LOGIKA DLA EKRANU STARTOWEGO
+        document.addEventListener("DOMContentLoaded", () => {
+            // Po 2.4 sekundach (gdy kurtyna opadnie) odblokowujemy scrollowanie strony
+            setTimeout(() => {
+                document.body.style.overflowY = 'auto';
+                
+                // Ręcznie aktywujemy animację tekstu w Hero Section tuż po opadnięciu kurtyny
+                document.getElementById('hero-text').classList.add('visible');
+            }, 2400); 
         });
 
-        // Efekt najechania na linki/karty
-        hoverTargets.forEach(target => {
-            target.addEventListener('mouseenter', () => {
-                cursorOutline.style.width = '60px';
-                cursorOutline.style.height = '60px';
-                cursorOutline.style.backgroundColor = 'rgba(0, 229, 255, 0.1)';
-            });
-            target.addEventListener('mouseleave', () => {
-                cursorOutline.style.width = '40px';
-                cursorOutline.style.height = '40px';
-                cursorOutline.style.backgroundColor = 'transparent';
-            });
-        });
+        // LOGIKA POJAWIANIA SIĘ ELEMENTÓW PRZY SCROLLOWANIU
+        const fadeElements = document.querySelectorAll('.fade-up:not(#hero-text)');
 
-        // --- SCROLL REVEAL (POJAWIANIE ELEMENTÓW) ---
-        const revealElements = document.querySelectorAll('.reveal');
-
-        const observer = new IntersectionObserver((entries) => {
+        const scrollObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // Animacja odpala się tylko raz
                 }
             });
         }, {
-            threshold: 0.1
+            threshold: 0.1, // Odpal animację, gdy widać chociaż 10% elementu
+            rootMargin: "0px 0px -50px 0px"
         });
 
-        revealElements.forEach(el => observer.observe(el));
+        fadeElements.forEach(el => scrollObserver.observe(el));
     </script>
 </body>
 </html>
