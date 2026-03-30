@@ -60,7 +60,7 @@
         .logo {
             font-size: 22px;
             font-weight: 700;
-            color: var(--primary); /* Logo jest na jasnym tle, zostaje zielone */
+            color: var(--primary);
             text-decoration: none;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -75,17 +75,17 @@
 
         .nav-links a {
             text-decoration: none;
-            color: var(--text-light); /* BIAŁE NA START (na zdjęciu) */
+            color: var(--text-light);
             font-weight: 500;
             font-size: 14px;
             text-transform: uppercase;
             letter-spacing: 1px;
             position: relative;
             padding: 5px 0;
-            transition: color 0.4s ease; /* Płynna zmiana koloru */
+            transition: color 0.4s ease;
         }
         
-        /* Zmieniony kolor wyłącznie dla napisu Projekty, tak jak prosiłeś */
+        /* Zmieniony kolor wyłącznie dla napisu Projekty */
         .nav-links .projekty-link {
             color: var(--primary);
         }
@@ -97,11 +97,10 @@
             height: 2px;
             bottom: 0;
             left: 0;
-            background-color: var(--text-light); /* BIAŁA LINIA NA START */
+            background-color: var(--text-light);
             transition: width 0.3s ease, background-color 0.4s ease;
         }
 
-        /* Ciemna linia dla linku projekty (logo color) */
         .nav-links .projekty-link::after {
             background-color: var(--primary);
         }
@@ -110,7 +109,6 @@
             width: 100%;
         }
 
-        /* KOLORY LINKÓW PO SCROLLU (NA BEŻOWYM TLE) */
         nav.scrolled .nav-links a {
             color: var(--primary);
         }
@@ -119,7 +117,6 @@
             background-color: var(--secondary);
         }
 
-        /* USUNIĘTO HAMBURGERA */
         .hamburger {
             display: none !important;
         }
@@ -139,7 +136,7 @@
             justify-content: center;
             padding: 0 5% 0 10%;
             background-color: var(--bg-color);
-            z-index: 2;
+            z-index: 2; /* Ważne: tekst jest zawsze na wierzchu */
         }
 
         .hero-text h1 {
@@ -192,14 +189,14 @@
             position: relative;
         }
 
-        /* Desktopowy skos - pseudoelement */
+        /* TUTEJ JEST FIX - Przesunięto mocno w lewo i poszerzono */
         .hero-image::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -80px;
-            width: 150px;
-            height: 100%;
+            top: -50px; /* Zapas na górze */
+            left: -300px; /* Wsunięte głęboko pod lewą stronę */
+            width: 450px; /* Szeroki pasek, który na 100% zablokuje szparę */
+            height: calc(100% + 100px); /* Zapas na dole */
             background-color: var(--bg-color);
             transform: skewX(-6deg);
             z-index: 1;
@@ -445,7 +442,7 @@
         }
 
         /* --- STOPKA --- */
-        <footer>
+        footer {
             background-color: #1a291f;
             color: var(--secondary);
             text-align: center;
@@ -481,15 +478,13 @@
         /* --- RESPONSIVE --- */
         @media (max-width: 960px) {
             
-            /* FIX: Całkowicie solidne tło nawigacji na urządzeniach mobilnych ZAWSZE, żeby nie prześwitywały zdjęcia */
             nav, nav.scrolled {
                 background: var(--bg-color); 
                 backdrop-filter: none;
                 -webkit-backdrop-filter: none;
-                padding: 15px 5%; /* Spójny padding na mobilu */
+                padding: 15px 5%;
             }
 
-            /* PRZYWRÓCONO KOLORY LINKÓW NA BEŻOWYM TLE NA MOBILE DLA CAŁEJ NAWIGACJI */
             nav .nav-links a, nav.scrolled .nav-links a {
                 color: var(--primary);
             }
@@ -498,7 +493,6 @@
                 background-color: var(--secondary);
             }
 
-            /* USUNIĘTO HAMBURGERA - menu jest zawsze otwarte */
             .hamburger {
                 display: none !important;
             }
@@ -510,57 +504,26 @@
                 top: auto;
                 background-color: transparent;
                 display: flex;
-                flex-direction: row; /* Przywrócono układ poziomy */
+                flex-direction: row; 
                 align-items: center;
-                justify-content: flex-end; /* Wyrównano do prawej */
+                justify-content: flex-end; 
                 width: auto;
-                transform: none; /* Usunięto ukrywanie menu */
+                transform: none; 
                 transition: none;
-                gap: 20px; /* Zmniejszono odstępy, żeby się zmieściły na mobile */
+                gap: 20px; 
             }
 
             .nav-links li a {
-                font-size: 13px; /* Zmniejszono czcionkę na mobile, żeby się zmieściły */
-            }
-
-            /* UKŁAD HERO NA MOBILU (SZERSZYM, JAK NA ZRZUTACH EKRANU) */
-            .hero {
-                display: flex; /* Wymuś flexbox */
-                flex-direction: row !important; /* Wymuś układ obok siebie */
-                height: 100vh; /* Pełna wysokość dla paralaksy */
+                font-size: 13px; 
             }
             
+            /* Usunąłem wymuszone stackowanie obrazka pod tekst dla sekcji Hero, 
+               żeby zachować układ obok siebie tak jak na Twoim screenie */
             .hero-text {
-                flex: 1; /* Proporcje z desktopu */
                 padding: 150px 5% 80px 5%;
-                text-align: left; /* Wyrównanie do lewej dla spójności */
-                z-index: 2; /* Nad clip-path */
-                background-color: var(--bg-color); /* Beżowe tło */
             }
-
             .hero-text h1 {
-                font-size: 3rem; /* Rozmiar z mobilu */
-            }
-
-            .btn {
-                align-self: flex-start; /* Wyrównanie do lewej */
-            }
-
-            .hero-image {
-                flex: 1.2; /* Proporcje z desktopu */
-                min-height: 100vh; /* Pełna wysokość */
-                background-attachment: fixed; /* Paralaksa */
-                /* FIX: Nowy clip-path ucinający lewą krawędź obrazu o 150px, co tworzy skos mobilny i zakrywa fragment u góry */
-                clip-path: polygon(150px 0, 100% 0, 100% 100%, 0% 100%);
-            }
-
-            /* Wylaczono desktopowy ::before, aby nie interferował z clip-path na mobilu */
-            .hero-image::before {
-                display: none !important;
-            }
-            
-            .scroll-down {
-                display: none;
+                font-size: 3rem;
             }
             
             .project-row, .project-row.reverse {
