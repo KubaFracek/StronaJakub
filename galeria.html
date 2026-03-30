@@ -191,18 +191,44 @@
         }
         .art-info p { line-height: 1.8; color: #444; }
 
-        /* --- PANEL 4 --- */
+        /* --- PANEL 4 (NOWY WYGLĄD) --- */
         .panel-4 { background-color: var(--text-color); color: var(--bg-color); }
         .contact-content {
-            width: 100%; display: flex; justify-content: space-between; align-items: flex-end;
+            width: 100%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; /* Wyśrodkowanie w pionie tak jak na screenie */
+            gap: 40px;
         }
         .contact-text h2 {
-            font-size: clamp(3rem, 8vw, 8rem); line-height: 1; margin-bottom: 40px; color: var(--bg-color);
+            font-size: clamp(4rem, 9vw, 11rem); /* Gigantyczny font */
+            line-height: 0.95; 
+            color: var(--bg-color);
         }
-        .contact-details p { font-size: 1.2rem; margin-bottom: 10px; }
+        
+        .contact-details {
+            max-width: 450px;
+            text-align: left;
+        }
+        
+        .contact-details p { 
+            font-size: 1rem; /* Mniejszy, zgrabny font dla adresu */
+            margin-bottom: 8px; 
+            color: #d0d0d0; /* Lekko przygaszony szary dla lepszego kontrastu */
+        }
+        
+        .contact-details p.media-contact {
+            margin-top: 35px; /* Duży odstęp przed sekcją maila */
+        }
+        
         .contact-details a {
-            color: var(--accent-color); text-decoration: none;
-            font-size: clamp(1.5rem, 3vw, 3rem); font-weight: 700; position: relative;
+            display: inline-block;
+            color: var(--accent-color); 
+            text-decoration: none;
+            font-size: clamp(1.5rem, 2.5vw, 2.5rem); /* Zmniejszony względem reszty, dopasowany do makiety */
+            font-weight: 700; 
+            position: relative;
+            margin-top: 5px;
         }
         .contact-details a::after {
             content: ''; position: absolute; bottom: -5px; left: 0; width: 0%; height: 2px;
@@ -217,18 +243,16 @@
             
             nav { mix-blend-mode: normal; color: var(--text-color); background: rgba(222, 220, 215, 0.9); padding: 20px; }
             
-            /* Przebudowujemy WNĘTRZE slajdów, ale zostawiamy je jako poziome panele! */
             .panel { padding: 100px 5vw 40px; justify-content: center; }
             
             .exhibition-layout { flex-direction: column; justify-content: center; gap: 30px; }
             .art-image { width: 90vw; height: 40svh; margin-bottom: 10px; }
             .art-info { text-align: left; max-width: 100%; }
-            .panel-3 .art-info { text-align: left !important; order: 2; } /* Żeby tekst był zawsze pod obrazkiem na telefonie */
+            .panel-3 .art-info { text-align: left !important; order: 2; } 
             .panel-3 .art-image { order: 1; }
             
             .scroll-indicator { display: none; }
             
-            /* Twardy reset sekcji kontaktowej, żeby się nie nakładała na ostatnim slajdzie */
             .contact-content { 
                 flex-direction: column; 
                 align-items: flex-start; 
@@ -237,11 +261,11 @@
             }
             .contact-text h2 {
                 font-size: 3.5rem; 
-                margin-bottom: 0; 
                 line-height: 1.1;
             }
-            .contact-details p { margin-bottom: 15px; }
-            .contact-details a { font-size: 1.5rem; }
+            .contact-details p { margin-bottom: 10px; font-size: 1.1rem; }
+            .contact-details p.media-contact { margin-top: 25px; }
+            .contact-details a { font-size: 1.8rem; }
         }
     </style>
 </head>
@@ -294,14 +318,14 @@
             <section class="panel panel-4">
                 <div class="contact-content reveal">
                     <div class="contact-text">
-                        <h2>Odwiedź<br>Nas</h2>
+                        <h2>ODWIEDŹ<br>NAS</h2>
                     </div>
                     <div class="contact-details">
                         <p>ul. Fabryczna 42, Łódź</p>
                         <p>Wtorek - Niedziela: 12:00 - 20:00</p>
-                        <br>
-                        <p>Kontakt dla mediów i kolekcjonerów:</p>
-                        <a href="#">hello@punktgaleria.pl</a>
+                        
+                        <p class="media-contact">Kontakt dla mediów i kolekcjonerów:</p>
+                        <a href="mailto:hello@punktgaleria.pl">hello@punktgaleria.pl</a>
                     </div>
                 </div>
             </section>
@@ -344,11 +368,9 @@
         // --- OBSŁUGA POZIOMEGO SCROLLA ---
         const container = document.getElementById('scroll-container');
         
-        // Zapisujemy stałą wysokość okna, żeby pasek adresu nie psuł obliczeń
         let viewportWidth = window.innerWidth;
         let viewportHeight = window.innerHeight;
 
-        // Aktualizujemy wysokość tylko gdy zmienia się SZEROKOŚĆ ekranu (np. obrót telefonu)
         window.addEventListener('resize', () => {
             if (window.innerWidth !== viewportWidth) {
                 viewportWidth = window.innerWidth;
@@ -358,12 +380,9 @@
         });
         
         function updateScroll() {
-            // maxScroll liczymy na podstawie zablokowanego viewportHeight
             const maxScroll = document.body.scrollHeight - viewportHeight;
             const currentScroll = window.scrollY;
             
-            // Math.min upewnia się, że nawet jeśli pasek adresu się schowa i przewiniesz "za daleko",
-            // slajd zatrzyma się idealnie na 100% (czyli ostatnim ekranie).
             const clampedPercentage = Math.min(Math.max(currentScroll / maxScroll, 0), 1);
             container.style.transform = `translateX(${clampedPercentage * -75}%)`;
         }
