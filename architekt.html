@@ -73,10 +73,9 @@
             gap: 40px;
         }
 
-        /* Domyślnie wszystkie linki (w tym Projekty) są białe na komputerze */
         .nav-links a {
             text-decoration: none;
-            color: var(--text-light); 
+            color: var(--text-light); /* NA KOMPUTERZE STARTUJE JAKO BIAŁY */
             font-weight: 500;
             font-size: 14px;
             text-transform: uppercase;
@@ -101,6 +100,7 @@
             width: 100%;
         }
 
+        /* PO SCROLLU WSZYSTKIE ROBIĄ SIĘ ZIELONE */
         nav.scrolled .nav-links a {
             color: var(--primary);
         }
@@ -181,6 +181,7 @@
             position: relative;
         }
 
+        /* Skośny pasek tła */
         .hero-image::before {
             content: '';
             position: absolute;
@@ -469,13 +470,13 @@
         /* --- RESPONSIVE --- */
         @media (max-width: 960px) {
             
-            /* Ciemny napis Projekty aktywowany tylko na telefonach, bo tu wypada na beżowym tle */
-            .nav-links .projekty-link {
-                color: var(--primary);
+            /* TO JEST KLUCZOWY FIX: na telefonie wymuszamy zielony kolor napisu Projekty */
+            .nav-links a.projekty-link {
+                color: var(--primary) !important;
             }
 
-            .nav-links .projekty-link::after {
-                background-color: var(--primary);
+            .nav-links a.projekty-link::after {
+                background-color: var(--primary) !important;
             }
 
             .hamburger {
@@ -630,7 +631,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Animacje na scrollu
             const observerOptions = {
                 threshold: 0.15,
                 rootMargin: "0px 0px -50px 0px"
@@ -653,7 +653,6 @@
                 document.querySelectorAll('.hero-text .fade-up').forEach(el => el.classList.add('visible'));
             }, 100);
 
-            // Glassmorphism i zmiana kolorów Navbaru
             const navbar = document.getElementById('navbar');
             window.addEventListener('scroll', () => {
                 if (window.scrollY > 50) {
