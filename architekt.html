@@ -461,10 +461,16 @@
             transform: translate(0);
         }
 
-/* --- RESPONSIVE FIX --- */
+/* --- RESPONSIVE FIX (Z POPRAWKĄ SKOSU) --- */
 @media (max-width: 960px) {
     
-    /* Nadajemy nawigacji stałe tło na telefonie, żeby napisy zawsze były widoczne */
+    /* FIX NR 1: Usuwamy wystający kremowy skos na mobile, 
+       który zachodził na białą sekcję portfolio */
+    .hero-image::before {
+        content: none !important;
+    }
+
+    /* FIX NR 2: Stałe tło dla nawigacji na telefonie, żeby napisy zawsze były widoczne */
     nav {
         background: var(--glass-bg) !important;
         backdrop-filter: blur(10px);
