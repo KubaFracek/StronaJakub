@@ -75,7 +75,7 @@
 
         .nav-links a {
             text-decoration: none;
-            color: var(--text-light); /* NA KOMPUTERZE STARTUJE JAKO BIAŁY */
+            color: var(--text-light); /* Domyślnie biały na desktopie */
             font-weight: 500;
             font-size: 14px;
             text-transform: uppercase;
@@ -100,7 +100,7 @@
             width: 100%;
         }
 
-        /* PO SCROLLU WSZYSTKIE ROBIĄ SIĘ ZIELONE */
+        /* Po scrollu (beżowy pasek) - wszystkie linki na ciemnozielony */
         nav.scrolled .nav-links a {
             color: var(--primary);
         }
@@ -181,7 +181,7 @@
             position: relative;
         }
 
-        /* Skośny pasek tła */
+        /* Skośny pasek zakrywający dziurę */
         .hero-image::before {
             content: '';
             position: absolute;
@@ -470,13 +470,13 @@
         /* --- RESPONSIVE --- */
         @media (max-width: 960px) {
             
-            /* TO JEST KLUCZOWY FIX: na telefonie wymuszamy zielony kolor napisu Projekty */
-            .nav-links a.projekty-link {
-                color: var(--primary) !important;
+            /* SUPER-FIX: Bardzo specyficzny selektor wymuszający kolor zielony na mobilu dla napisu Projekty */
+            nav .nav-links li a.projekty-link {
+                color: #2b4535 !important;
             }
 
-            .nav-links a.projekty-link::after {
-                background-color: var(--primary) !important;
+            nav .nav-links li a.projekty-link::after {
+                background-color: #2b4535 !important;
             }
 
             .hamburger {
