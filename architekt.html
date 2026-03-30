@@ -3,7 +3,7 @@
 <head>
     <link rel="icon" type="image/png" href="/favicon1.png?v=1">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Zielona Bryła | Architektura i Natura</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap');
@@ -44,6 +44,7 @@
             position: fixed;
             width: 100%;
             top: 0;
+            left: 0;
             z-index: 1000;
             transition: background 0.4s ease, padding 0.4s ease, box-shadow 0.4s ease;
         }
@@ -51,6 +52,7 @@
         nav.scrolled {
             background: var(--glass-bg);
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             padding: 15px 5%;
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
         }
@@ -116,15 +118,9 @@
         .hamburger div {
             width: 25px;
             height: 2px;
-            background-color: var(--text-light); /* BIAŁY NA START */
+            background-color: var(--primary); /* FIX: Na mobile tło jest beżowe, więc hamburger musi być ciemny na start */
             margin: 5px;
             transition: all 0.3s ease;
-        }
-
-        /* HAMBURGER CIEMNY PO SCROLLU ALBO JAK OTWORZYMY MENU (krzyżyk) */
-        nav.scrolled .hamburger div,
-        .hamburger.toggle div {
-            background-color: var(--primary);
         }
 
         /* --- HERO SECTION --- */
@@ -482,6 +478,14 @@
 
         /* --- RESPONSIVE --- */
         @media (max-width: 960px) {
+            
+            /* FIX: Całkowicie solidne tło nawigacji na urządzeniach mobilnych, żeby nie prześwitywały zdjęcia */
+            nav.scrolled {
+                background: var(--bg-color); 
+                backdrop-filter: none;
+                -webkit-backdrop-filter: none;
+            }
+
             .hero {
                 flex-direction: column;
                 height: auto;
