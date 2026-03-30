@@ -87,7 +87,7 @@
         .hero h1 span { display: block; font-weight: 400; font-style: italic; font-size: 0.6em; color: var(--accent); }
 
         /* --- PRODUCTS --- */
-        .swipe-indicator { display: none; } /* Domyślnie ukryte na PC */
+        .swipe-indicator { display: none; }
 
         .shop-container { padding: 120px 5%; }
         .product-item {
@@ -193,53 +193,84 @@
             .menu-toggle.active span:nth-child(2) { opacity: 0; }
             .menu-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
-            /* Wskaźnik swipowania */
+            /* BARDZIEJ WYRAZISTY WSKAŹNIK */
+            .swipe-indicator-wrapper {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                padding-top: 100px;
+                margin-bottom: -60px;
+            }
             .swipe-indicator {
-                display: block;
-                text-align: center;
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid rgba(196, 139, 71, 0.3);
+                padding: 10px 20px;
+                border-radius: 30px;
                 font-size: 10px;
-                letter-spacing: 3px;
+                letter-spacing: 2px;
                 text-transform: uppercase;
-                color: var(--text-muted);
-                padding-top: 80px;
-                margin-bottom: -50px; /* nachodzi lekko na padding slidera */
+                color: var(--text-main);
+                animation: pulseGlow 2s infinite;
             }
             .swipe-indicator span {
-                display: inline-block;
                 color: var(--accent);
-                animation: swipeHint 1.5s infinite ease-in-out;
-            }
-            @keyframes swipeHint {
-                0%, 100% { transform: translateX(0); }
-                50% { transform: translateX(10px); }
+                font-size: 16px;
+                animation: swipeRight 1.5s infinite ease-in-out;
             }
 
+            @keyframes pulseGlow {
+                0%, 100% { box-shadow: 0 0 0 0 rgba(196, 139, 71, 0); }
+                50% { box-shadow: 0 0 15px 0 rgba(196, 139, 71, 0.2); }
+            }
+            @keyframes swipeRight {
+                0%, 100% { transform: translateX(0); }
+                50% { transform: translateX(8px); }
+            }
+
+            /* SLIDER Z WIDOCZNYM PASKIEM POSTĘPU */
             .shop-container { 
-                padding: 80px 5% 100px 5%; 
+                padding: 80px 5% 40px 5%; 
                 display: flex; 
                 flex-direction: row; 
                 overflow-x: auto; 
                 scroll-snap-type: x mandatory; 
                 -webkit-overflow-scrolling: touch; 
-                gap: 20px;
+                gap: 15px; /* Mniejsza przerwa, żeby karty były bliżej siebie */
                 scroll-padding: 0 5%;
             }
-            .shop-container::-webkit-scrollbar { display: none; }
-            .shop-container { -ms-overflow-style: none; scrollbar-width: none; }
+
+            /* Stylizowany pasek scrolla dla estetyki premium */
+            .shop-container::-webkit-scrollbar { 
+                display: block; 
+                height: 4px; 
+            }
+            .shop-container::-webkit-scrollbar-track { 
+                background: rgba(255, 255, 255, 0.05); 
+                border-radius: 10px;
+                margin: 0 5%; /* Pasek nie dotyka samych krawędzi ekranu */
+            }
+            .shop-container::-webkit-scrollbar-thumb { 
+                background: var(--accent); 
+                border-radius: 10px; 
+            }
 
             .product-item, .product-item:nth-child(even) { 
                 flex-direction: column; 
                 text-align: center; 
                 margin-bottom: 0; 
                 gap: 20px;
-                min-width: 80vw; /* Zmniejszone z 85vw, żeby pokazać więcej następnego produktu */
+                /* Karta dużo węższa (75vw) - od razu widać obok 25% następnego produktu! */
+                min-width: 75vw; 
                 scroll-snap-align: center;
             }
             .product-visual, .product-info { width: 100%; max-width: 500px; margin: 0 auto;}
             
             .product-number { font-size: clamp(6rem, 25vw, 10rem); top: -25px; left: 0 !important; right: 0 !important; text-align: center; width: 100%; }
             
-            #about { padding: 80px 5%; }
+            #about { padding: 80px 5%; margin-top: 40px;}
             #contact { flex-direction: column-reverse; gap: 50px; text-align: center; padding: 80px 5%; }
             .contact-info { padding: 0; }
             
@@ -281,7 +312,9 @@
         </div>
     </section>
 
-    <div class="swipe-indicator reveal">Przesuń, aby zobaczyć więcej <span>&rarr;</span></div>
+    <div class="swipe-indicator-wrapper reveal">
+        <div class="swipe-indicator">Przesuń po więcej <span>&rarr;</span></div>
+    </div>
 
     <div id="shop" class="shop-container">
         <div class="product-item reveal">
