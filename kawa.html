@@ -87,6 +87,8 @@
         .hero h1 span { display: block; font-weight: 400; font-style: italic; font-size: 0.6em; color: var(--accent); }
 
         /* --- PRODUCTS --- */
+        .swipe-indicator { display: none; } /* Domyślnie ukryte na PC */
+
         .shop-container { padding: 120px 5%; }
         .product-item {
             display: flex;
@@ -143,11 +145,11 @@
         #contact { padding: 120px 5%; display: flex; gap: 80px; align-items: center;}
         .contact-form { flex: 1.2; display: flex; flex-direction: column; gap: 15px; width: 100%; }
         .contact-form input, .contact-form textarea {
-            width: 100%; padding: 22px; background: #121212; border: 1px solid #222; color: white; border-radius: 4px; font-family: inherit; font-size: 16px; /* 16px to minimum dla wygody i blokady auto-zoomu na iOS */
+            width: 100%; padding: 22px; background: #121212; border: 1px solid #222; color: white; border-radius: 4px; font-family: inherit; font-size: 16px; 
             transition: 0.3s;
             -webkit-appearance: none;
         }
-        .contact-form textarea { min-height: 160px; resize: vertical; } /* Zwiększone okienko wiadomości */
+        .contact-form textarea { min-height: 160px; resize: vertical; }
         .contact-form input:focus, .contact-form textarea:focus { outline: none; border-color: var(--accent); background: #151515; }
 
         .contact-info { flex: 1; }
@@ -191,9 +193,29 @@
             .menu-toggle.active span:nth-child(2) { opacity: 0; }
             .menu-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
-            /* NOWE ZACHOWANIE DLA PRODUKTÓW NA TELEFONIE - SLIDER POZIOMY */
+            /* Wskaźnik swipowania */
+            .swipe-indicator {
+                display: block;
+                text-align: center;
+                font-size: 10px;
+                letter-spacing: 3px;
+                text-transform: uppercase;
+                color: var(--text-muted);
+                padding-top: 80px;
+                margin-bottom: -50px; /* nachodzi lekko na padding slidera */
+            }
+            .swipe-indicator span {
+                display: inline-block;
+                color: var(--accent);
+                animation: swipeHint 1.5s infinite ease-in-out;
+            }
+            @keyframes swipeHint {
+                0%, 100% { transform: translateX(0); }
+                50% { transform: translateX(10px); }
+            }
+
             .shop-container { 
-                padding: 100px 5%; 
+                padding: 80px 5% 100px 5%; 
                 display: flex; 
                 flex-direction: row; 
                 overflow-x: auto; 
@@ -202,7 +224,6 @@
                 gap: 20px;
                 scroll-padding: 0 5%;
             }
-            /* Ukrywamy pasek scrolla dla estetyki */
             .shop-container::-webkit-scrollbar { display: none; }
             .shop-container { -ms-overflow-style: none; scrollbar-width: none; }
 
@@ -211,7 +232,7 @@
                 text-align: center; 
                 margin-bottom: 0; 
                 gap: 20px;
-                min-width: 85vw; /* Pokazuje kawałek następnego produktu, by zasugerować przewijanie */
+                min-width: 80vw; /* Zmniejszone z 85vw, żeby pokazać więcej następnego produktu */
                 scroll-snap-align: center;
             }
             .product-visual, .product-info { width: 100%; max-width: 500px; margin: 0 auto;}
@@ -222,10 +243,9 @@
             #contact { flex-direction: column-reverse; gap: 50px; text-align: center; padding: 80px 5%; }
             .contact-info { padding: 0; }
             
-            /* Formularz na maksa rozciągnięty */
             .contact-form { width: 100%; }
             .contact-form input, .contact-form textarea { padding: 18px; font-size: 16px; }
-            .btn-premium { width: 100%; } /* Przycisk wysyłania również na pełną szerokość na telefonie */
+            .btn-premium { width: 100%; }
         }
     </style>
 </head>
@@ -260,6 +280,8 @@
             <a href="#shop" class="btn-premium" style="width: auto;">Odkryj kolekcję</a>
         </div>
     </section>
+
+    <div class="swipe-indicator reveal">Przesuń, aby zobaczyć więcej <span>&rarr;</span></div>
 
     <div id="shop" class="shop-container">
         <div class="product-item reveal">
