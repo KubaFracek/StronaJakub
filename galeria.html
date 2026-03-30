@@ -25,7 +25,7 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             font-family: 'Space Grotesk', sans-serif;
-            height: 400svh; /* Używamy svh dla stabilności wysokości */
+            height: 400svh;
             overflow-x: hidden;
             scrollbar-width: none;
         }
@@ -191,17 +191,17 @@
         }
         .art-info p { line-height: 1.8; color: #444; }
 
-        /* --- PANEL 4 (NOWY WYGLĄD) --- */
+        /* --- PANEL 4 --- */
         .panel-4 { background-color: var(--text-color); color: var(--bg-color); }
         .contact-content {
             width: 100%; 
             display: flex; 
             justify-content: space-between; 
-            align-items: center; /* Wyśrodkowanie w pionie tak jak na screenie */
+            align-items: center; 
             gap: 40px;
         }
         .contact-text h2 {
-            font-size: clamp(4rem, 9vw, 11rem); /* Gigantyczny font */
+            font-size: clamp(4rem, 9vw, 11rem); 
             line-height: 0.95; 
             color: var(--bg-color);
         }
@@ -212,20 +212,20 @@
         }
         
         .contact-details p { 
-            font-size: 1rem; /* Mniejszy, zgrabny font dla adresu */
+            font-size: 1rem; 
             margin-bottom: 8px; 
-            color: #d0d0d0; /* Lekko przygaszony szary dla lepszego kontrastu */
+            color: #d0d0d0; 
         }
         
         .contact-details p.media-contact {
-            margin-top: 35px; /* Duży odstęp przed sekcją maila */
+            margin-top: 35px; 
         }
         
         .contact-details a {
             display: inline-block;
             color: var(--accent-color); 
             text-decoration: none;
-            font-size: clamp(1.5rem, 2.5vw, 2.5rem); /* Zmniejszony względem reszty, dopasowany do makiety */
+            font-size: clamp(1.5rem, 2.5vw, 2.5rem); 
             font-weight: 700; 
             position: relative;
             margin-top: 5px;
@@ -253,19 +253,27 @@
             
             .scroll-indicator { display: none; }
             
+            /* NOWY UKŁAD KONTAKTU NA TELEFONY: Obok siebie */
             .contact-content { 
-                flex-direction: column; 
-                align-items: flex-start; 
-                justify-content: center;
-                gap: 40px; 
+                flex-direction: row; /* Wymusza układ kolumnowy poziomy */
+                align-items: center; 
+                justify-content: space-between;
+                gap: 4vw; /* Zmniejszona przerwa, żeby się zmieściło */
+            }
+            .contact-text {
+                flex: 1; /* Pozwala nagłówkowi zająć lewą część */
             }
             .contact-text h2 {
-                font-size: 3.5rem; 
+                font-size: 9vw; /* Dynamiczny font na podstawie szerokości ekranu telefonu */
                 line-height: 1.1;
+                margin-bottom: 0;
             }
-            .contact-details p { margin-bottom: 10px; font-size: 1.1rem; }
-            .contact-details p.media-contact { margin-top: 25px; }
-            .contact-details a { font-size: 1.8rem; }
+            .contact-details {
+                max-width: 50%; /* Prawa kolumna zajmie max pół ekranu */
+            }
+            .contact-details p { margin-bottom: 6px; font-size: 0.75rem; }
+            .contact-details p.media-contact { margin-top: 20px; }
+            .contact-details a { font-size: 4vw; word-break: break-word; } /* Mail ładnie się zeskaluje */
         }
     </style>
 </head>
