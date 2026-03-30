@@ -19,7 +19,6 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        /* Aktywujemy ukryty kursor tylko dla myszek */
         @media (hover: hover) and (pointer: fine) {
             * { cursor: none; }
         }
@@ -142,12 +141,13 @@
 
         /* --- KONTAKT --- */
         #contact { padding: 120px 5%; display: flex; gap: 80px; align-items: center;}
-        .contact-form { flex: 1.2; display: flex; flex-direction: column; gap: 15px; }
+        .contact-form { flex: 1.2; display: flex; flex-direction: column; gap: 15px; width: 100%; }
         .contact-form input, .contact-form textarea {
-            padding: 22px; background: #121212; border: 1px solid #222; color: white; border-radius: 2px; font-family: inherit; font-size: 14px;
+            width: 100%; padding: 22px; background: #121212; border: 1px solid #222; color: white; border-radius: 4px; font-family: inherit; font-size: 16px; /* 16px to minimum dla wygody i blokady auto-zoomu na iOS */
             transition: 0.3s;
-            -webkit-appearance: none; /* Poprawka dla iOS */
+            -webkit-appearance: none;
         }
+        .contact-form textarea { min-height: 160px; resize: vertical; } /* Zwiększone okienko wiadomości */
         .contact-form input:focus, .contact-form textarea:focus { outline: none; border-color: var(--accent); background: #151515; }
 
         .contact-info { flex: 1; }
@@ -158,7 +158,7 @@
         .btn-premium {
             padding: 18px 45px; background: var(--accent); color: #000; border: none; font-weight: 700;
             text-transform: uppercase; letter-spacing: 2px; transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1); text-decoration: none; display: inline-block;
-            font-size: 12px; border-radius: 2px;
+            font-size: 12px; border-radius: 2px; text-align: center;
         }
         .btn-premium:hover { background: #fff; transform: translateY(-4px); box-shadow: 0 10px 20px rgba(255,255,255,0.1); }
 
@@ -187,20 +187,45 @@
             .nav-links li { margin: 20px 0; }
             .nav-links a { font-size: 18px; }
             
-            /* Animacja hamburgera */
             .menu-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
             .menu-toggle.active span:nth-child(2) { opacity: 0; }
             .menu-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
-            .shop-container { padding: 80px 5%; }
-            .product-item, .product-item:nth-child(even) { flex-direction: column; text-align: center; margin-bottom: 100px; gap: 30px;}
+            /* NOWE ZACHOWANIE DLA PRODUKTÓW NA TELEFONIE - SLIDER POZIOMY */
+            .shop-container { 
+                padding: 100px 5%; 
+                display: flex; 
+                flex-direction: row; 
+                overflow-x: auto; 
+                scroll-snap-type: x mandatory; 
+                -webkit-overflow-scrolling: touch; 
+                gap: 20px;
+                scroll-padding: 0 5%;
+            }
+            /* Ukrywamy pasek scrolla dla estetyki */
+            .shop-container::-webkit-scrollbar { display: none; }
+            .shop-container { -ms-overflow-style: none; scrollbar-width: none; }
+
+            .product-item, .product-item:nth-child(even) { 
+                flex-direction: column; 
+                text-align: center; 
+                margin-bottom: 0; 
+                gap: 20px;
+                min-width: 85vw; /* Pokazuje kawałek następnego produktu, by zasugerować przewijanie */
+                scroll-snap-align: center;
+            }
             .product-visual, .product-info { width: 100%; max-width: 500px; margin: 0 auto;}
             
-            .product-number { font-size: clamp(6rem, 25vw, 10rem); top: -30px; left: 0 !important; right: 0 !important; text-align: center; width: 100%; }
+            .product-number { font-size: clamp(6rem, 25vw, 10rem); top: -25px; left: 0 !important; right: 0 !important; text-align: center; width: 100%; }
             
             #about { padding: 80px 5%; }
             #contact { flex-direction: column-reverse; gap: 50px; text-align: center; padding: 80px 5%; }
             .contact-info { padding: 0; }
+            
+            /* Formularz na maksa rozciągnięty */
+            .contact-form { width: 100%; }
+            .contact-form input, .contact-form textarea { padding: 18px; font-size: 16px; }
+            .btn-premium { width: 100%; } /* Przycisk wysyłania również na pełną szerokość na telefonie */
         }
     </style>
 </head>
@@ -219,7 +244,7 @@
             </ul>
         </nav>
         <div class="header-actions">
-            <button class="btn-premium" style="padding: 10px 18px; font-size: 10px;" onclick="alert('Sklep w przygotowaniu.')">
+            <button class="btn-premium" style="padding: 10px 18px; font-size: 10px; width: auto;" onclick="alert('Sklep w przygotowaniu.')">
                 Koszyk (<span id="cart-count">0</span>)
             </button>
             <div class="menu-toggle" id="mobile-menu" onclick="toggleMenu()">
@@ -232,7 +257,7 @@
         <div class="hero-content reveal">
             <h1>WYBRANE<span>Z rzemieślniczą pasją</span>DLA CIEBIE</h1>
             <p style="letter-spacing: 6px; opacity: 0.5; margin-bottom: 40px; font-size: 11px; text-transform: uppercase;">Wypalamy sercem, pakujemy ręcznie</p>
-            <a href="#shop" class="btn-premium">Odkryj kolekcję</a>
+            <a href="#shop" class="btn-premium" style="width: auto;">Odkryj kolekcję</a>
         </div>
     </section>
 
@@ -286,7 +311,7 @@
         <form class="contact-form">
             <input type="text" placeholder="Twoje Imię" required>
             <input type="email" placeholder="Twój Adres Email" required>
-            <textarea rows="6" placeholder="O czym chciałbyś porozmawiać?" required></textarea>
+            <textarea placeholder="O czym chciałbyś porozmawiać?" required></textarea>
             <button class="btn-premium" type="submit">Wyślij wiadomość</button>
         </form>
         <div class="contact-info">
@@ -303,11 +328,9 @@
     </footer>
 
     <script>
-        // Kursor (działa tylko, jeśli CSS na to pozwala)
         const cursor = document.getElementById('cursor');
         const follower = document.getElementById('cursor-follower');
         
-        // Zabezpieczenie przed rzucaniem błędów na dotyku, optymalizacja pod wydajność
         if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
             document.addEventListener('mousemove', (e) => {
                 cursor.style.left = e.clientX + 'px';
@@ -317,19 +340,16 @@
             });
         }
 
-        // Obsługa menu mobilnego
         function toggleMenu() {
             const navLinks = document.getElementById('nav-links');
             const mobileMenu = document.getElementById('mobile-menu');
             
-            // Tylko na mniejszych ekranach
             if (window.innerWidth <= 1000) {
                 navLinks.classList.toggle('active');
                 mobileMenu.classList.toggle('active');
             }
         }
 
-        // Scroll & Reveal (Płynny Header i animacje wejścia)
         window.addEventListener('scroll', () => {
             const header = document.getElementById('header');
             header.classList.toggle('scrolled', window.scrollY > 50);
@@ -345,7 +365,6 @@
             document.getElementById('cart-count').innerText = count;
         }
 
-        // Start reveal on load
         window.dispatchEvent(new Event('scroll'));
     </script>
 </body>
