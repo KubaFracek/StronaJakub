@@ -73,9 +73,10 @@
             gap: 40px;
         }
 
+        /* Domyślnie wszystkie linki (w tym Projekty) są białe na komputerze */
         .nav-links a {
             text-decoration: none;
-            color: var(--text-light); /* BIAŁE NA START */
+            color: var(--text-light); 
             font-weight: 500;
             font-size: 14px;
             text-transform: uppercase;
@@ -83,11 +84,6 @@
             position: relative;
             padding: 5px 0;
             transition: color 0.4s ease;
-        }
-        
-        /* Ciemny napis Projekty */
-        .nav-links .projekty-link {
-            color: var(--primary);
         }
 
         .nav-links a::after {
@@ -99,10 +95,6 @@
             left: 0;
             background-color: var(--text-light);
             transition: width 0.3s ease, background-color 0.4s ease;
-        }
-
-        .nav-links .projekty-link::after {
-            background-color: var(--primary);
         }
 
         .nav-links a:hover::after {
@@ -189,13 +181,12 @@
             position: relative;
         }
 
-        /* TUTEJ JEST FIX - Skrócono pasek, żeby krył szparę, ale omijał menu */
         .hero-image::before {
             content: '';
             position: absolute;
             top: -50px;
-            left: -150px; /* Przesunięte w lewo */
-            width: 220px; /* Węższy, idealnie docięty */
+            left: -150px; 
+            width: 220px; 
             height: calc(100% + 100px);
             background-color: var(--bg-color);
             transform: skewX(-6deg);
@@ -478,6 +469,15 @@
         /* --- RESPONSIVE --- */
         @media (max-width: 960px) {
             
+            /* Ciemny napis Projekty aktywowany tylko na telefonach, bo tu wypada na beżowym tle */
+            .nav-links .projekty-link {
+                color: var(--primary);
+            }
+
+            .nav-links .projekty-link::after {
+                background-color: var(--primary);
+            }
+
             .hamburger {
                 display: none !important;
             }
