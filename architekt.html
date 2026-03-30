@@ -75,7 +75,7 @@
 
         .nav-links a {
             text-decoration: none;
-            color: var(--text-light); 
+            color: var(--text-light); /* Domyślnie biały (na komputerze) */
             font-weight: 500;
             font-size: 14px;
             text-transform: uppercase;
@@ -94,10 +94,6 @@
             left: 0;
             background-color: var(--text-light);
             transition: width 0.3s ease, background-color 0.4s ease;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
         }
 
         nav.scrolled .nav-links a {
@@ -180,7 +176,7 @@
             position: relative;
         }
 
-        /* Skos zakrywający lukę */
+        /* Skos hero */
         .hero-image::before {
             content: '';
             position: absolute;
@@ -469,16 +465,21 @@
         /* --- RESPONSIVE --- */
         @media (max-width: 960px) {
             
-            /* ULTRAPIERWSZEŃSTWO: Wymuszamy zielony kolor dla Projektów na mobilu za wszelką cenę */
-            #navbar .nav-links li a[href="#projekty"], 
+            /* TO JEST FIX OSTATECZNY: 
+               Wymuszamy zielony kolor dla napisu Projekty na mobilu od razu na starcie.
+               Używamy id #navbar aby mieć najwyższy priorytet nad innymi stylami. */
             #navbar .nav-links li a.projekty-link {
                 color: #2b4535 !important;
             }
 
-            #navbar .nav-links li a[href="#projekty"]::after, 
             #navbar .nav-links li a.projekty-link::after {
                 background-color: #2b4535 !important;
             }
+
+            /* Pozostałe napisy (Filozofia, Kontakt) lądują na ciemnym drzewie na mobilu,
+               więc mogą zostać białe, ale jeśli chcesz je też widzieć lepiej,
+               odkomentuj poniższą linię: */
+            /* #navbar .nav-links li a { color: #2b4535 !important; } */
 
             .hamburger {
                 display: none !important;
@@ -497,7 +498,7 @@
                 width: auto;
                 transform: none; 
                 transition: none;
-                gap: 20px; 
+                gap: 15px; /* Delikatnie mniej miejsca na wąskich ekranach */
             }
 
             .nav-links li a {
@@ -508,7 +509,7 @@
                 padding: 150px 5% 80px 5%;
             }
             .hero-text h1 {
-                font-size: 3rem;
+                font-size: 2.8rem;
             }
             
             .project-row, .project-row.reverse {
