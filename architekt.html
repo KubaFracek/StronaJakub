@@ -85,7 +85,7 @@
             transition: color 0.4s ease; /* Płynna zmiana koloru */
         }
         
-        /* Zmieniony kolor wyłącznie dla napisu Projekty */
+        /* Zmieniony kolor wyłącznie dla napisu Projekty, tak jak prosiłeś */
         .nav-links .projekty-link {
             color: var(--primary);
         }
@@ -192,6 +192,7 @@
             position: relative;
         }
 
+        /* Desktopowy skos - pseudoelement */
         .hero-image::before {
             content: '';
             position: absolute;
@@ -485,6 +486,7 @@
                 background: var(--bg-color); 
                 backdrop-filter: none;
                 -webkit-backdrop-filter: none;
+                padding: 15px 5%; /* Spójny padding na mobilu */
             }
 
             /* PRZYWRÓCONO KOLORY LINKÓW NA BEŻOWYM TLE NA MOBILE DLA CAŁEJ NAWIGACJI */
@@ -521,29 +523,42 @@
                 font-size: 13px; /* Zmniejszono czcionkę na mobile, żeby się zmieściły */
             }
 
+            /* UKŁAD HERO NA MOBILU (SZERSZYM, JAK NA ZRZUTACH EKRANU) */
             .hero {
-                flex-direction: column;
-                height: auto;
+                display: flex; /* Wymuś flexbox */
+                flex-direction: row !important; /* Wymuś układ obok siebie */
+                height: 100vh; /* Pełna wysokość dla paralaksy */
             }
+            
             .hero-text {
+                flex: 1; /* Proporcje z desktopu */
                 padding: 150px 5% 80px 5%;
-                text-align: center;
-                /* Dodano ukośny clip-path pod tekstem, gdy zdjęcie jest poniżej */
-                clip-path: polygon(0 0, 100% 0, 100% 90%, 0% 100%);
+                text-align: left; /* Wyrównanie do lewej dla spójności */
+                z-index: 2; /* Nad clip-path */
+                background-color: var(--bg-color); /* Beżowe tło */
             }
+
             .hero-text h1 {
-                font-size: 3rem;
+                font-size: 3rem; /* Rozmiar z mobilu */
             }
+
             .btn {
-                align-self: center;
+                align-self: flex-start; /* Wyrównanie do lewej */
             }
+
             .hero-image {
-                min-height: 50vh;
-                background-attachment: scroll;
+                flex: 1.2; /* Proporcje z desktopu */
+                min-height: 100vh; /* Pełna wysokość */
+                background-attachment: fixed; /* Paralaksa */
+                /* FIX: Nowy clip-path ucinający lewą krawędź obrazu o 150px, co tworzy skos mobilny i zakrywa fragment u góry */
+                clip-path: polygon(150px 0, 100% 0, 100% 100%, 0% 100%);
             }
+
+            /* Wylaczono desktopowy ::before, aby nie interferował z clip-path na mobilu */
             .hero-image::before {
-                display: none; /* Wyłączono skos w układzie pionowym */
+                display: none !important;
             }
+            
             .scroll-down {
                 display: none;
             }
