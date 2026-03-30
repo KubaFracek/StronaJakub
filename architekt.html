@@ -84,6 +84,11 @@
             padding: 5px 0;
             transition: color 0.4s ease; /* Płynna zmiana koloru */
         }
+        
+        /* Zmieniony kolor wyłącznie dla napisu Projekty */
+        .nav-links .projekty-link {
+            color: var(--primary);
+        }
 
         .nav-links a::after {
             content: '';
@@ -94,6 +99,11 @@
             left: 0;
             background-color: var(--text-light); /* BIAŁA LINIA NA START */
             transition: width 0.3s ease, background-color 0.4s ease;
+        }
+
+        /* Ciemna linia dla linku projekty (logo color) */
+        .nav-links .projekty-link::after {
+            background-color: var(--primary);
         }
 
         .nav-links a:hover::after {
@@ -434,7 +444,7 @@
         }
 
         /* --- STOPKA --- */
-        footer {
+        <footer>
             background-color: #1a291f;
             color: var(--secondary);
             text-align: center;
@@ -470,19 +480,19 @@
         /* --- RESPONSIVE --- */
         @media (max-width: 960px) {
             
-            /* FIX: Całkowicie solidne tło nawigacji na urządzeniach mobilnych, żeby nie prześwitywały zdjęcia */
-            nav.scrolled {
+            /* FIX: Całkowicie solidne tło nawigacji na urządzeniach mobilnych ZAWSZE, żeby nie prześwitywały zdjęcia */
+            nav, nav.scrolled {
                 background: var(--bg-color); 
                 backdrop-filter: none;
                 -webkit-backdrop-filter: none;
             }
 
-            /* PRZYWRÓCONO KOLORY LINKÓW NA BEŻOWYM TLE NA MOBILE */
-            nav.scrolled .nav-links a {
+            /* PRZYWRÓCONO KOLORY LINKÓW NA BEŻOWYM TLE NA MOBILE DLA CAŁEJ NAWIGACJI */
+            nav .nav-links a, nav.scrolled .nav-links a {
                 color: var(--primary);
             }
             
-            nav.scrolled .nav-links a::after {
+            nav .nav-links a::after, nav.scrolled .nav-links a::after {
                 background-color: var(--secondary);
             }
 
@@ -563,7 +573,7 @@
     <nav id="navbar">
         <a href="#" class="logo">Zielona Bryła</a>
         <ul class="nav-links">
-            <li><a href="#projekty">Projekty</a></li>
+            <li><a href="#projekty" class="projekty-link">Projekty</a></li>
             <li><a href="#filozofia">Filozofia</a></li>
             <li><a href="#kontakt">Kontakt</a></li>
         </ul>
@@ -681,8 +691,6 @@
             setTimeout(() => {
                 document.querySelectorAll('.hero-text .fade-up').forEach(el => el.classList.add('visible'));
             }, 100);
-
-            // USUNIĘTO LOGIKĘ DLA HAMBURGERA
 
             // Glassmorphism i zmiana kolorów Navbaru
             const navbar = document.getElementById('navbar');
