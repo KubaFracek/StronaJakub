@@ -461,52 +461,54 @@
             transform: translate(0);
         }
 
-        /* --- RESPONSIVE (POPRAWKI) --- */
-        @media (max-width: 960px) {
-            
-            /* FIX: Wymuszamy ciemny kolor dla WSZYSTKICH linków na mobilu, by były widoczne na jasnym tle */
-            .nav-links a {
-                color: var(--primary) !important;
-                font-size: 13px; 
-            }
+/* --- RESPONSIVE FIX --- */
+@media (max-width: 960px) {
+    
+    /* Nadajemy nawigacji stałe tło na telefonie, żeby napisy zawsze były widoczne */
+    nav {
+        background: var(--glass-bg) !important;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        padding: 15px 5% !important; /* Mniejszy padding od razu */
+        box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+    }
 
-            .nav-links a::after {
-                background-color: var(--secondary) !important;
-            }
+    /* Wymuszamy ciemny kolor logo i linków - koniec z "znikaniem" przy zoomie */
+    .logo, 
+    .nav-links a {
+        color: var(--primary) !important;
+    }
 
-            .nav-links {
-                position: relative;
-                display: flex;
-                flex-direction: row; 
-                gap: 15px;
-            }
+    /* Kolor podkreślenia linków */
+    .nav-links a::after {
+        background-color: var(--secondary) !important;
+    }
 
-            .hero-text {
-                padding: 150px 5% 80px 5%;
-            }
+    /* Reszta Twoich ustawień mobilnych */
+    .hamburger {
+        display: none !important;
+    }
 
-            .hero-text h1 {
-                font-size: 2.8rem;
-            }
-            
-            .project-row, .project-row.reverse {
-                flex-direction: column;
-                gap: 30px;
-            }
-            
-            .project-image img {
-                min-height: 300px;
-            }
-            
-            .project-info {
-                padding: 0;
-                text-align: center;
-            }
+    .nav-links {
+        position: relative;
+        display: flex;
+        flex-direction: row; 
+        gap: 15px;
+        background: transparent !important;
+    }
 
-            .contact-container {
-                grid-template-columns: 1fr;
-            }
-        }
+    .nav-links li a {
+        font-size: 12px; 
+    }
+    
+    .hero-text {
+        padding: 120px 5% 60px 5%; /* Skorygowany margines pod stały navbar */
+    }
+
+    .hero-text h1 {
+        font-size: 2.6rem;
+    }
+}
     </style>
 </head>
 <body>
