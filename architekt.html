@@ -75,7 +75,7 @@
 
         .nav-links a {
             text-decoration: none;
-            color: var(--text-light); /* Domyślnie biały na desktopie */
+            color: var(--text-light); 
             font-weight: 500;
             font-size: 14px;
             text-transform: uppercase;
@@ -100,7 +100,6 @@
             width: 100%;
         }
 
-        /* Po scrollu (beżowy pasek) - wszystkie linki na ciemnozielony */
         nav.scrolled .nav-links a {
             color: var(--primary);
         }
@@ -181,7 +180,7 @@
             position: relative;
         }
 
-        /* Skośny pasek zakrywający dziurę */
+        /* Skos zakrywający lukę */
         .hero-image::before {
             content: '';
             position: absolute;
@@ -470,12 +469,14 @@
         /* --- RESPONSIVE --- */
         @media (max-width: 960px) {
             
-            /* SUPER-FIX: Bardzo specyficzny selektor wymuszający kolor zielony na mobilu dla napisu Projekty */
-            nav .nav-links li a.projekty-link {
+            /* ULTRAPIERWSZEŃSTWO: Wymuszamy zielony kolor dla Projektów na mobilu za wszelką cenę */
+            #navbar .nav-links li a[href="#projekty"], 
+            #navbar .nav-links li a.projekty-link {
                 color: #2b4535 !important;
             }
 
-            nav .nav-links li a.projekty-link::after {
+            #navbar .nav-links li a[href="#projekty"]::after, 
+            #navbar .nav-links li a.projekty-link::after {
                 background-color: #2b4535 !important;
             }
 
