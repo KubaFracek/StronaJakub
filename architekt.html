@@ -109,18 +109,9 @@
             background-color: var(--secondary);
         }
 
+        /* USUNIĘTO HAMBURGERA */
         .hamburger {
-            display: none;
-            cursor: pointer;
-            z-index: 1001;
-        }
-
-        .hamburger div {
-            width: 25px;
-            height: 2px;
-            background-color: var(--primary); /* FIX: Na mobile tło jest beżowe, więc hamburger musi być ciemny na start */
-            margin: 5px;
-            transition: all 0.3s ease;
+            display: none !important;
         }
 
         /* --- HERO SECTION --- */
@@ -195,13 +186,12 @@
             content: '';
             position: absolute;
             top: 0;
-            left: -150px; /* Zwiększone przesunięcie */
-            width: 300px; /* Szerszy pasek, żeby zakrył dziurę z nawiązką */
+            left: -80px;
+            width: 150px;
             height: 100%;
             background-color: var(--bg-color);
             transform: skewX(-6deg);
             z-index: 1;
-        }
         }
 
         .scroll-down {
@@ -478,13 +468,48 @@
         }
 
         /* --- RESPONSIVE --- */
-        @media (max-width: 1200px) {  /* <-- Tutaj zmieniamy z 960 na 1200 */
+        @media (max-width: 960px) {
+            
+            /* FIX: Całkowicie solidne tło nawigacji na urządzeniach mobilnych, żeby nie prześwitywały zdjęcia */
             nav.scrolled {
                 background: var(--bg-color); 
                 backdrop-filter: none;
                 -webkit-backdrop-filter: none;
             }
-            /* ... reszta kodu zostaje bez zmian ... */
+
+            /* PRZYWRÓCONO KOLORY LINKÓW NA BEŻOWYM TLE NA MOBILE */
+            nav.scrolled .nav-links a {
+                color: var(--primary);
+            }
+            
+            nav.scrolled .nav-links a::after {
+                background-color: var(--secondary);
+            }
+
+            /* USUNIĘTO HAMBURGERA - menu jest zawsze otwarte */
+            .hamburger {
+                display: none !important;
+            }
+
+            .nav-links {
+                position: relative;
+                right: auto;
+                height: auto;
+                top: auto;
+                background-color: transparent;
+                display: flex;
+                flex-direction: row; /* Przywrócono układ poziomy */
+                align-items: center;
+                justify-content: flex-end; /* Wyrównano do prawej */
+                width: auto;
+                transform: none; /* Usunięto ukrywanie menu */
+                transition: none;
+                gap: 20px; /* Zmniejszono odstępy, żeby się zmieściły na mobile */
+            }
+
+            .nav-links li a {
+                font-size: 13px; /* Zmniejszono czcionkę na mobile, żeby się zmieściły */
+            }
 
             .hero {
                 flex-direction: column;
@@ -493,6 +518,8 @@
             .hero-text {
                 padding: 150px 5% 80px 5%;
                 text-align: center;
+                /* Dodano ukośny clip-path pod tekstem, gdy zdjęcie jest poniżej */
+                clip-path: polygon(0 0, 100% 0, 100% 90%, 0% 100%);
             }
             .hero-text h1 {
                 font-size: 3rem;
@@ -505,7 +532,7 @@
                 background-attachment: scroll;
             }
             .hero-image::before {
-                display: none;
+                display: none; /* Wyłączono skos w układzie pionowym */
             }
             .scroll-down {
                 display: none;
@@ -528,50 +555,6 @@
             .contact-container {
                 grid-template-columns: 1fr;
             }
-            
-            /* MENU MOBILNE */
-            .nav-links {
-                position: absolute;
-                right: 0px;
-                height: 100vh;
-                top: 0;
-                background-color: var(--bg-color);
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                width: 100%;
-                transform: translateX(100%);
-                transition: transform 0.5s ease-in-out;
-            }
-            
-            .nav-links.nav-active {
-                transform: translateX(0%);
-            }
-            
-            /* WYMUSZENIE CIEMNEGO KOLORU W MENU MOBILNYM NA BEŻOWYM TLE */
-            .nav-links.nav-active a {
-                color: var(--primary) !important;
-                font-size: 20px;
-            }
-            
-            .nav-links.nav-active a::after {
-                background-color: var(--secondary) !important;
-            }
-
-            .hamburger {
-                display: block;
-            }
-
-            .toggle .line1 {
-                transform: rotate(-45deg) translate(-5px, 5px);
-            }
-            .toggle .line2 {
-                opacity: 0;
-            }
-            .toggle .line3 {
-                transform: rotate(45deg) translate(-5px, -5px);
-            }
         }
     </style>
 </head>
@@ -584,12 +567,7 @@
             <li><a href="#filozofia">Filozofia</a></li>
             <li><a href="#kontakt">Kontakt</a></li>
         </ul>
-        <div class="hamburger">
-            <div class="line1"></div>
-            <div class="line2"></div>
-            <div class="line3"></div>
-        </div>
-    </nav>
+        </nav>
 
     <header class="hero">
         <div class="hero-text">
@@ -704,22 +682,7 @@
                 document.querySelectorAll('.hero-text .fade-up').forEach(el => el.classList.add('visible'));
             }, 100);
 
-            // Menu mobilne
-            const hamburger = document.querySelector('.hamburger');
-            const navLinks = document.querySelector('.nav-links');
-            const links = document.querySelectorAll('.nav-links li');
-
-            hamburger.addEventListener('click', () => {
-                navLinks.classList.toggle('nav-active');
-                hamburger.classList.toggle('toggle');
-            });
-
-            links.forEach(link => {
-                link.addEventListener('click', () => {
-                    navLinks.classList.remove('nav-active');
-                    hamburger.classList.remove('toggle');
-                });
-            });
+            // USUNIĘTO LOGIKĘ DLA HAMBURGERA
 
             // Glassmorphism i zmiana kolorów Navbaru
             const navbar = document.getElementById('navbar');
