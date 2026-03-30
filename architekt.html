@@ -195,12 +195,13 @@
             content: '';
             position: absolute;
             top: 0;
-            left: -80px;
-            width: 150px;
+            left: -150px; /* Zwiększone przesunięcie */
+            width: 300px; /* Szerszy pasek, żeby zakrył dziurę z nawiązką */
             height: 100%;
             background-color: var(--bg-color);
             transform: skewX(-6deg);
             z-index: 1;
+        }
         }
 
         .scroll-down {
@@ -477,14 +478,13 @@
         }
 
         /* --- RESPONSIVE --- */
-        @media (max-width: 960px) {
-            
-            /* FIX: Całkowicie solidne tło nawigacji na urządzeniach mobilnych, żeby nie prześwitywały zdjęcia */
+        @media (max-width: 1200px) {  /* <-- Tutaj zmieniamy z 960 na 1200 */
             nav.scrolled {
                 background: var(--bg-color); 
                 backdrop-filter: none;
                 -webkit-backdrop-filter: none;
             }
+            /* ... reszta kodu zostaje bez zmian ... */
 
             .hero {
                 flex-direction: column;
