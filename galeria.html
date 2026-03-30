@@ -25,9 +25,7 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             font-family: 'Space Grotesk', sans-serif;
-            
-            /* FIX: svh zapobiega skakaniu i tworzeniu pustej przestrzeni przez paski adresu */
-            height: 400svh; 
+            height: 400svh; /* Używamy svh dla stabilności wysokości */
             overflow-x: hidden;
             scrollbar-width: none;
         }
@@ -110,8 +108,7 @@
         .sticky-wrapper {
             position: sticky;
             top: 0; left: 0;
-            width: 100vw; 
-            height: 100svh; /* FIX: sztywne 100svh zapobiega skakaniu przy końcu strony */
+            width: 100vw; height: 100svh;
             overflow: hidden;
         }
 
@@ -123,8 +120,7 @@
         }
 
         .panel {
-            width: 100vw; 
-            height: 100svh; /* FIX: idealne wymiary dla każdego panelu */
+            width: 100vw; height: 100svh;
             flex-shrink: 0;
             display: flex;
             align-items: center;
@@ -143,64 +139,105 @@
             transform: translateY(0);
         }
 
-        /* --- PANELE DESKTOPOWE --- */
+        /* --- PANEL 1 --- */
         .panel-1 { justify-content: center; text-align: center; }
-        .panel-1 h1 { font-size: clamp(3rem, 8vw, 10rem); line-height: 0.9; letter-spacing: -5px; margin-bottom: 20px; }
-        .panel-1 p { font-size: clamp(1rem, 1.5vw, 2rem); max-width: 600px; margin: 0 auto; color: #555; }
+        .panel-1 h1 {
+            font-size: clamp(3rem, 8vw, 10rem);
+            line-height: 0.9;
+            letter-spacing: -5px;
+            margin-bottom: 20px;
+        }
+        .panel-1 p {
+            font-size: clamp(1rem, 1.5vw, 2rem);
+            max-width: 600px; margin: 0 auto; color: #555;
+        }
 
         .scroll-indicator {
-            position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%);
-            display: flex; align-items: center; gap: 15px; font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase;
+            position: absolute;
+            bottom: 50px; left: 50%;
+            transform: translateX(-50%);
+            display: flex; align-items: center; gap: 15px;
+            font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase;
         }
-        .scroll-line { width: 50px; height: 1px; background-color: var(--text-color); animation: stretch 2s infinite ease-in-out; transform-origin: left; }
-        @keyframes stretch { 0% { transform: scaleX(0.2); } 50% { transform: scaleX(1); } 100% { transform: scaleX(0.2); } }
+        .scroll-line {
+            width: 50px; height: 1px;
+            background-color: var(--text-color);
+            animation: stretch 2s infinite ease-in-out;
+            transform-origin: left;
+        }
+        @keyframes stretch {
+            0% { transform: scaleX(0.2); }
+            50% { transform: scaleX(1); }
+            100% { transform: scaleX(0.2); }
+        }
 
-        .exhibition-layout { display: flex; gap: 5vw; align-items: center; width: 100%; }
-        .art-image { width: 45vw; height: 70vh; object-fit: cover; filter: grayscale(100%) contrast(1.2); transition: all 0.7s ease; }
-        .art-image:hover { filter: grayscale(0%) contrast(1); transform: scale(1.02); }
-        
+        /* --- PANELE 2 & 3 --- */
+        .exhibition-layout {
+            display: flex; gap: 5vw; align-items: center; width: 100%;
+        }
+        .art-image {
+            width: 45vw; height: 70vh; object-fit: cover;
+            filter: grayscale(100%) contrast(1.2); transition: all 0.7s ease;
+        }
+        .art-image:hover {
+            filter: grayscale(0%) contrast(1); transform: scale(1.02);
+        }
         .art-info { max-width: 400px; }
         .art-info h2 { font-size: clamp(2rem, 4vw, 4rem); margin-bottom: 20px; word-wrap: break-word; }
-        .art-info .artist { color: var(--accent-color); font-weight: 700; margin-bottom: 30px; display: inline-block; letter-spacing: 2px; padding: 5px 10px; border: 1px solid var(--accent-color); }
+        .art-info .artist {
+            color: var(--accent-color); font-weight: 700;
+            margin-bottom: 30px; display: inline-block;
+            letter-spacing: 2px; padding: 5px 10px; border: 1px solid var(--accent-color);
+        }
         .art-info p { line-height: 1.8; color: #444; }
 
+        /* --- PANEL 4 --- */
         .panel-4 { background-color: var(--text-color); color: var(--bg-color); }
-        .contact-content { width: 100%; display: flex; justify-content: space-between; align-items: flex-end; }
-        .contact-text h2 { font-size: clamp(3rem, 8vw, 8rem); line-height: 1; margin-bottom: 40px; color: var(--bg-color); }
+        .contact-content {
+            width: 100%; display: flex; justify-content: space-between; align-items: flex-end;
+        }
+        .contact-text h2 {
+            font-size: clamp(3rem, 8vw, 8rem); line-height: 1; margin-bottom: 40px; color: var(--bg-color);
+        }
         .contact-details p { font-size: 1.2rem; margin-bottom: 10px; }
-        .contact-details a { color: var(--accent-color); text-decoration: none; font-size: clamp(1.5rem, 3vw, 3rem); font-weight: 700; position: relative; }
-        .contact-details a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0%; height: 2px; background-color: var(--accent-color); transition: width 0.3s ease; }
+        .contact-details a {
+            color: var(--accent-color); text-decoration: none;
+            font-size: clamp(1.5rem, 3vw, 3rem); font-weight: 700; position: relative;
+        }
+        .contact-details a::after {
+            content: ''; position: absolute; bottom: -5px; left: 0; width: 0%; height: 2px;
+            background-color: var(--accent-color); transition: width 0.3s ease;
+        }
         .contact-details a:hover::after { width: 100%; }
 
-        /* --- RESPONSIVE DLA TELEFONÓW (PODNIESIONY PRÓG DO 1024px) --- */
+        /* --- RESPONSIVE DLA TELEFONÓW --- */
         @media (max-width: 1024px) {
             * { cursor: auto; }
             .cursor-dot, .cursor-ring { display: none !important; } 
             
-            body { height: auto !important; overflow-y: auto !important; overflow-x: hidden !important; }
             nav { mix-blend-mode: normal; color: var(--text-color); background: rgba(222, 220, 215, 0.9); padding: 20px; }
             
-            .sticky-wrapper { position: relative !important; height: auto !important; }
-            .horizontal-container { width: 100vw !important; flex-direction: column !important; transform: none !important; display: flex !important; }
+            /* Przebudowujemy WNĘTRZE slajdów, ale zostawiamy je jako poziome panele! */
+            .panel { padding: 100px 5vw 40px; justify-content: center; }
             
-            /* Twardy reset dla paneli - idealnie na ekran telefonu */
-            .panel { padding: 120px 5vw 50px !important; height: auto !important; min-height: 100svh !important; width: 100vw !important; justify-content: center; }
+            .exhibition-layout { flex-direction: column; justify-content: center; gap: 30px; }
+            .art-image { width: 90vw; height: 40svh; margin-bottom: 10px; }
+            .art-info { text-align: left; max-width: 100%; }
+            .panel-3 .art-info { text-align: left !important; order: 2; } /* Żeby tekst był zawsze pod obrazkiem na telefonie */
+            .panel-3 .art-image { order: 1; }
             
-            .exhibition-layout { flex-direction: column !important; }
-            .art-image { width: 100% !important; height: 50vh !important; margin-bottom: 30px !important; }
-            .art-info { text-align: left !important; max-width: 100% !important; }
-            .scroll-indicator { display: none !important; }
+            .scroll-indicator { display: none; }
             
-            /* Naprawiona sekcja kontaktowa - wymuszony układ pionowy z dużym odstępem */
+            /* Twardy reset sekcji kontaktowej, żeby się nie nakładała na ostatnim slajdzie */
             .contact-content { 
-                flex-direction: column !important; 
-                align-items: flex-start !important; 
-                justify-content: center !important;
-                gap: 50px !important; 
+                flex-direction: column; 
+                align-items: flex-start; 
+                justify-content: center;
+                gap: 40px; 
             }
             .contact-text h2 {
-                font-size: 3.5rem !important; 
-                margin-bottom: 0 !important; 
+                font-size: 3.5rem; 
+                margin-bottom: 0; 
                 line-height: 1.1;
             }
             .contact-details p { margin-bottom: 15px; }
@@ -307,19 +344,31 @@
         // --- OBSŁUGA POZIOMEGO SCROLLA ---
         const container = document.getElementById('scroll-container');
         
-        function updateScroll() {
-            // FIX: Skrypt wyłącza poziomy scroll dla wszystkich urządzeń do 1024px szerokości
-            if (window.innerWidth <= 1024) {
-                container.style.transform = 'none'; return;
+        // Zapisujemy stałą wysokość okna, żeby pasek adresu nie psuł obliczeń
+        let viewportWidth = window.innerWidth;
+        let viewportHeight = window.innerHeight;
+
+        // Aktualizujemy wysokość tylko gdy zmienia się SZEROKOŚĆ ekranu (np. obrót telefonu)
+        window.addEventListener('resize', () => {
+            if (window.innerWidth !== viewportWidth) {
+                viewportWidth = window.innerWidth;
+                viewportHeight = window.innerHeight;
+                updateScroll();
             }
-            const maxScroll = document.body.scrollHeight - window.innerHeight;
+        });
+        
+        function updateScroll() {
+            // maxScroll liczymy na podstawie zablokowanego viewportHeight
+            const maxScroll = document.body.scrollHeight - viewportHeight;
             const currentScroll = window.scrollY;
+            
+            // Math.min upewnia się, że nawet jeśli pasek adresu się schowa i przewiniesz "za daleko",
+            // slajd zatrzyma się idealnie na 100% (czyli ostatnim ekranie).
             const clampedPercentage = Math.min(Math.max(currentScroll / maxScroll, 0), 1);
             container.style.transform = `translateX(${clampedPercentage * -75}%)`;
         }
 
         window.addEventListener('scroll', () => requestAnimationFrame(updateScroll));
-        window.addEventListener('resize', updateScroll);
         updateScroll();
 
         // --- ANIMACJE POJAWIANIA SIĘ ELEMENTÓW ---
