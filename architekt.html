@@ -75,7 +75,7 @@
 
         .nav-links a {
             text-decoration: none;
-            color: var(--text-light); /* Domyślnie biały na desktopie */
+            color: var(--text-light); /* Domyślnie biały (na komputerze) */
             font-weight: 500;
             font-size: 14px;
             text-transform: uppercase;
@@ -176,6 +176,7 @@
             position: relative;
         }
 
+        /* Skos hero */
         .hero-image::before {
             content: '';
             position: absolute;
@@ -437,7 +438,7 @@
             letter-spacing: 1px;
         }
 
-        /* --- ANIMACJE --- */
+        /* --- ANIMACJE SCROLLOWANIA --- */
         .fade-up {
             opacity: 0;
             transform: translateY(50px);
@@ -461,60 +462,81 @@
             transform: translate(0);
         }
 
-/* --- RESPONSIVE FIX (Z POPRAWKĄ SKOSU) --- */
-@media (max-width: 960px) {
-    
-    /* FIX NR 1: Usuwamy wystający kremowy skos na mobile, 
-       który zachodził na białą sekcję portfolio */
-    .hero-image::before {
-        content: none !important;
-    }
+        /* --- RESPONSIVE --- */
+        @media (max-width: 960px) {
+            
+            /* TO JEST FIX OSTATECZNY: 
+               Wymuszamy zielony kolor dla napisu Projekty na mobilu od razu na starcie.
+               Używamy id #navbar aby mieć najwyższy priorytet nad innymi stylami. */
+            #navbar .nav-links li a.projekty-link {
+                color: #2b4535 !important;
+            }
 
-    /* FIX NR 2: Stałe tło dla nawigacji na telefonie, żeby napisy zawsze były widoczne */
-    nav {
-        background: var(--glass-bg) !important;
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        padding: 15px 5% !important; /* Mniejszy padding od razu */
-        box-shadow: 0 2px 15px rgba(0,0,0,0.05);
-    }
+            #navbar .nav-links li a.projekty-link::after {
+                background-color: #2b4535 !important;
+            }
 
-    /* Wymuszamy ciemny kolor logo i linków - koniec z "znikaniem" przy zoomie */
-    .logo, 
-    .nav-links a {
-        color: var(--primary) !important;
-    }
+            /* Pozostałe napisy (Filozofia, Kontakt) lądują na ciemnym drzewie na mobilu,
+               więc mogą zostać białe, ale jeśli chcesz je też widzieć lepiej,
+               odkomentuj poniższą linię: */
+            /* #navbar .nav-links li a { color: #2b4535 !important; } */
 
-    /* Kolor podkreślenia linków */
-    .nav-links a::after {
-        background-color: var(--secondary) !important;
-    }
+            .hamburger {
+                display: none !important;
+            }
 
-    /* Reszta Twoich ustawień mobilnych */
-    .hamburger {
-        display: none !important;
-    }
+            .nav-links {
+                position: relative;
+                right: auto;
+                height: auto;
+                top: auto;
+                background-color: transparent;
+                display: flex;
+                flex-direction: row; 
+                align-items: center;
+                justify-content: flex-end; 
+                width: auto;
+                transform: none; 
+                transition: none;
+                gap: 15px; /* Delikatnie mniej miejsca na wąskich ekranach */
+            }
 
-    .nav-links {
-        position: relative;
-        display: flex;
-        flex-direction: row; 
-        gap: 15px;
-        background: transparent !important;
-    }
+            .nav-links li a {
+                font-size: 13px; 
+            }
+            
+            .hero-text {
+                padding: 150px 5% 80px 5%;
+            }
+            .hero-text h1 {
+                font-size: 2.8rem;
+            }
 
-    .nav-links li a {
-        font-size: 12px; 
-    }
-    
-    .hero-text {
-        padding: 120px 5% 60px 5%; /* Skorygowany margines pod stały navbar */
-    }
+            /* POPRAWKA UKOSU DLA MOBILE: 
+               Obcinamy wszystko, co wystaje poza kontener ze zdjęciem, 
+               aby ukos nie wchodził na białe tło sekcji niżej. */
+            .hero-image {
+                overflow: hidden;
+            }
+            
+            .project-row, .project-row.reverse {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .project-image img {
+                min-height: 300px;
+            }
+            
+            .project-info {
+                padding: 0;
+                text-align: center;
+            }
 
-    .hero-text h1 {
-        font-size: 2.6rem;
-    }
-}
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -522,11 +544,11 @@
     <nav id="navbar">
         <a href="#" class="logo">Zielona Bryła</a>
         <ul class="nav-links">
-            <li><a href="#projekty">Projekty</a></li>
+            <li><a href="#projekty" class="projekty-link">Projekty</a></li>
             <li><a href="#filozofia">Filozofia</a></li>
             <li><a href="#kontakt">Kontakt</a></li>
         </ul>
-    </nav>
+        </nav>
 
     <header class="hero">
         <div class="hero-text">
@@ -542,6 +564,7 @@
         <div class="section-title fade-up">
             <h2>Wybrane <strong>Realizacje</strong></h2>
         </div>
+        
         <div class="project-list">
             <div class="project-row">
                 <div class="project-image fade-left">
@@ -550,7 +573,31 @@
                 <div class="project-info fade-right">
                     <span class="project-category">Architektura Wnętrz</span>
                     <h3>Rezydencja Sosnowa</h3>
-                    <p>Minimalistyczny dom w otoczeniu stuletnich sosen. Główne założenie opierało się na maksymalnym wpuszczeniu światła dziennego do wnętrza.</p>
+                    <p>Minimalistyczny dom w otoczeniu stuletnich sosen. Główne założenie opierało się na maksymalnym wpuszczeniu światła dziennego do wnętrza i zastosowaniu surowych materiałów, takich jak beton, jasne drewno i naturalny kamień.</p>
+                    <a href="#" class="project-link">Poznaj detale</a>
+                </div>
+            </div>
+
+            <div class="project-row reverse">
+                <div class="project-image fade-right">
+                    <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Biuro Botanika">
+                </div>
+                <div class="project-info fade-left">
+                    <span class="project-category">Przestrzeń Komercyjna</span>
+                    <h3>Biuro Botanika</h3>
+                    <p>Miejsce pracy zaprojektowane w myśl idei biophilic design. Połączyliśmy ergonomię z prawdziwą dżunglą w centrum miasta. Roślinność poprawia akustykę, nawilża powietrze i obniża stres pracowników.</p>
+                    <a href="#" class="project-link">Poznaj detale</a>
+                </div>
+            </div>
+
+            <div class="project-row">
+                <div class="project-image fade-left">
+                    <img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Apartament z Ogrodem">
+                </div>
+                <div class="project-info fade-right">
+                    <span class="project-category">Architektura Krajobrazu</span>
+                    <h3>Apartament z Ogrodem</h3>
+                    <p>Zatarcie granicy między salonem a tarasem. Zastosowanie przesuwnych okien wielkogabarytowych sprawiło, że ogród stał się naturalnym przedłużeniem strefy dziennej tego apartamentu.</p>
                     <a href="#" class="project-link">Poznaj detale</a>
                 </div>
             </div>
@@ -560,7 +607,7 @@
     <section id="filozofia" class="philosophy">
         <div class="philosophy-content fade-up">
             <h2>Mniej betonu, więcej życia.</h2>
-            <p>Wierzymy, że otoczenie wpływa na nasze samopoczucie. Łączymy nowoczesny minimalizm z organicznymi formami.</p>
+            <p>Wierzymy, że otoczenie wpływa na nasze samopoczucie. Dlatego w każdym projekcie dążymy do balansu. Łączymy nowoczesny minimalizm z organicznymi formami, tworząc azyle spokoju w zgiełku miasta. Oddajemy naturze to, co zabiera urbanizacja.</p>
         </div>
     </section>
 
@@ -568,25 +615,36 @@
         <div class="contact-container">
             <div class="contact-info fade-up">
                 <h2>Zbudujmy coś <strong>razem</strong></h2>
+                <p>Masz pomysł na projekt? Szukasz kogoś, kto zrozumie Twoją wizję przestrzeni? Skontaktuj się z nami, wypijemy kawę i porozmawiamy o detalach.</p>
                 <p><strong>Email:</strong> hello@zielonabryla.pl<br>
                 <strong>Telefon:</strong> +48 123 456 789</p>
             </div>
             <form class="contact-form fade-up" style="transition-delay: 0.2s;">
-                <div class="form-group"><input type="text" placeholder="Twoje Imię" required></div>
-                <div class="form-group"><input type="email" placeholder="Twój Email" required></div>
-                <div class="form-group"><textarea placeholder="Opowiedz o projekcie..."></textarea></div>
+                <div class="form-group">
+                    <input type="text" placeholder="Twoje Imię i Nazwisko" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" placeholder="Twój adres Email" required>
+                </div>
+                <div class="form-group">
+                    <textarea placeholder="Opowiedz nam o swoim projekcie..." required></textarea>
+                </div>
                 <button type="submit" class="btn">Wyślij wiadomość</button>
             </form>
         </div>
     </section>
 
     <footer>
-        <p>&copy; 2026 Zielona Bryła Pracownia Projektowa.</p>
+        <p>&copy; 2026 Zielona Bryła Pracownia Projektowa. Zaprojektowane z myślą o naturze.</p>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const observerOptions = { threshold: 0.15, rootMargin: "0px 0px -50px 0px" };
+            const observerOptions = {
+                threshold: 0.15,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -596,15 +654,21 @@
                 });
             }, observerOptions);
 
-            document.querySelectorAll('.fade-up, .fade-left, .fade-right').forEach(el => observer.observe(el));
+            document.querySelectorAll('.fade-up, .fade-left, .fade-right').forEach((element) => {
+                observer.observe(element);
+            });
+
             setTimeout(() => {
                 document.querySelectorAll('.hero-text .fade-up').forEach(el => el.classList.add('visible'));
             }, 100);
 
             const navbar = document.getElementById('navbar');
             window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) navbar.classList.add('scrolled');
-                else navbar.classList.remove('scrolled');
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
             });
         });
     </script>
