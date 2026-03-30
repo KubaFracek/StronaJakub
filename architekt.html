@@ -176,17 +176,19 @@
             position: relative;
         }
 
+        /* --- BŁĄD NAPRAWIONY PONIŻEJ --- */
         .hero-image::before {
             content: '';
             position: absolute;
-            top: -50px;
-            left: -150px; 
-            width: 220px; 
-            height: calc(100% + 100px);
+            top: 0; /* Zmieniono z -50px na 0 */
+            left: -150px;
+            width: 220px;
+            height: 100%; /* Zmieniono z calc(100% + 100px) na 100% */
             background-color: var(--bg-color);
             transform: skewX(-6deg);
             z-index: 1;
         }
+        /* ------------------------------- */
 
         .scroll-down {
             position: absolute;
