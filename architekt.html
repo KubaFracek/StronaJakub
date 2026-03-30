@@ -75,7 +75,7 @@
 
         .nav-links a {
             text-decoration: none;
-            color: var(--text-light);
+            color: var(--text-light); /* BIAŁE NA START */
             font-weight: 500;
             font-size: 14px;
             text-transform: uppercase;
@@ -85,7 +85,7 @@
             transition: color 0.4s ease;
         }
         
-        /* Zmieniony kolor wyłącznie dla napisu Projekty */
+        /* Ciemny napis Projekty */
         .nav-links .projekty-link {
             color: var(--primary);
         }
@@ -136,7 +136,7 @@
             justify-content: center;
             padding: 0 5% 0 10%;
             background-color: var(--bg-color);
-            z-index: 2; /* Ważne: tekst jest zawsze na wierzchu */
+            z-index: 2;
         }
 
         .hero-text h1 {
@@ -189,14 +189,14 @@
             position: relative;
         }
 
-        /* TUTEJ JEST FIX - Przesunięto mocno w lewo i poszerzono */
+        /* TUTEJ JEST FIX - Skrócono pasek, żeby krył szparę, ale omijał menu */
         .hero-image::before {
             content: '';
             position: absolute;
-            top: -50px; /* Zapas na górze */
-            left: -300px; /* Wsunięte głęboko pod lewą stronę */
-            width: 450px; /* Szeroki pasek, który na 100% zablokuje szparę */
-            height: calc(100% + 100px); /* Zapas na dole */
+            top: -50px;
+            left: -150px; /* Przesunięte w lewo */
+            width: 220px; /* Węższy, idealnie docięty */
+            height: calc(100% + 100px);
             background-color: var(--bg-color);
             transform: skewX(-6deg);
             z-index: 1;
@@ -478,21 +478,6 @@
         /* --- RESPONSIVE --- */
         @media (max-width: 960px) {
             
-            nav, nav.scrolled {
-                background: var(--bg-color); 
-                backdrop-filter: none;
-                -webkit-backdrop-filter: none;
-                padding: 15px 5%;
-            }
-
-            nav .nav-links a, nav.scrolled .nav-links a {
-                color: var(--primary);
-            }
-            
-            nav .nav-links a::after, nav.scrolled .nav-links a::after {
-                background-color: var(--secondary);
-            }
-
             .hamburger {
                 display: none !important;
             }
@@ -517,8 +502,6 @@
                 font-size: 13px; 
             }
             
-            /* Usunąłem wymuszone stackowanie obrazka pod tekst dla sekcji Hero, 
-               żeby zachować układ obok siebie tak jak na Twoim screenie */
             .hero-text {
                 padding: 150px 5% 80px 5%;
             }
