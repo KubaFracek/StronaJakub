@@ -253,27 +253,31 @@
             
             .scroll-indicator { display: none; }
             
-            /* NOWY UKŁAD KONTAKTU NA TELEFONY: Obok siebie */
+            /* Twardy reset sekcji kontaktowej na telefonie */
             .contact-content { 
-                flex-direction: row; /* Wymusza układ kolumnowy poziomy */
-                align-items: center; 
-                justify-content: space-between;
-                gap: 4vw; /* Zmniejszona przerwa, żeby się zmieściło */
-            }
-            .contact-text {
-                flex: 1; /* Pozwala nagłówkowi zająć lewą część */
+                flex-direction: column !important; 
+                align-items: flex-start !important; 
+                justify-content: center !important;
+                gap: 0 !important;
             }
             .contact-text h2 {
-                font-size: 9vw; /* Dynamiczny font na podstawie szerokości ekranu telefonu */
+                font-size: 3.5rem; 
+                margin-bottom: 40px !important; 
                 line-height: 1.1;
-                margin-bottom: 0;
             }
-            .contact-details {
-                max-width: 50%; /* Prawa kolumna zajmie max pół ekranu */
+            .contact-details p { margin-bottom: 15px; }
+            .contact-details a { font-size: 1.5rem; }
+
+            /* NEW: Drastyczne powiększenie nagłówka na stronie głównej */
+            .panel-1 h1 {
+                font-size: clamp(4.5rem, 15vw, 15rem); /* Zwiększony min-font-size i max-font-size */
+                line-height: 1.1; /* Poprawiona interlinii dla zawijania tekstu */
+                margin-bottom: 25px; /* Lekko zwiększony odstęp pod spodem */
             }
-            .contact-details p { margin-bottom: 6px; font-size: 0.75rem; }
-            .contact-details p.media-contact { margin-top: 20px; }
-            .contact-details a { font-size: 4vw; word-break: break-word; } /* Mail ładnie się zeskaluje */
+
+            .panel-1 p {
+                font-size: clamp(1.2rem, 1.5vw, 2rem); /* Zwiększony minimalny rozmiar fontu */
+            }
         }
     </style>
 </head>
@@ -293,7 +297,7 @@
             
             <section class="panel panel-1">
                 <div class="reveal">
-                    <h1>Forma<br>Pusta</h1>
+                    <h1>Forma Pusta</h1>
                     <p>Nowa perspektywa przestrzeni w sztuce postindustrialnej. Kolekcja wiosna-lato.</p>
                 </div>
                 <div class="scroll-indicator">
